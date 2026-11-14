@@ -54,6 +54,8 @@ export async function POST(req: Request) {
   form.set("line_items[0][price_data][currency]", game.currency);
   form.set("line_items[0][price_data][unit_amount]", String(game.priceCents));
   form.set("line_items[0][price_data][product_data][name]", game.title);
+  // Software downloaded electronically — required by Stripe Managed Payments.
+  form.set("line_items[0][price_data][product_data][tax_code]", "txcd_10103000");
 
   const res = await fetch("https://api.stripe.com/v1/checkout/sessions", {
     method: "POST",
