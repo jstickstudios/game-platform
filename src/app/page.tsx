@@ -1,4 +1,4 @@
-import Image from "next/image";
+﻿import Image from "next/image";
 import Nav from "@/components/Nav";
 import GameActions from "@/components/GameActions";
 import { getUser, hasAccess } from "@/lib/auth";
@@ -23,19 +23,19 @@ export default async function Home({
 
       {sp.payment === "success" && (
         <div className="bg-emerald-500/15 px-5 py-3 text-center text-sm font-semibold text-emerald-200">
-          ✓ Payment complete — your game is unlocked. Download it below!
+          âœ“ Payment complete â€” your game is unlocked. Download it below!
         </div>
       )}
       {sp.payment === "failed" && (
         <div className="bg-red-500/15 px-5 py-3 text-center text-sm font-semibold text-red-200">
-          The payment could not be confirmed. You were not charged for an unlocked game — try again.
+          The payment could not be confirmed. You were not charged for an unlocked game â€” try again.
         </div>
       )}
 
       {/* HERO */}
       <section className="mx-auto max-w-6xl px-5 pb-10 pt-16 text-center">
         <div className="gore-badge rise mx-auto mb-6 inline-flex items-center gap-2 rounded-full border border-red-500/60 bg-red-500/10 px-4 py-1.5 text-xs font-black uppercase tracking-[0.25em] text-red-300">
-          ⚠ 18+ · Extreme gore
+          âš  18+ Â· Extreme gore
         </div>
         <h1 className="rise text-5xl font-black uppercase leading-[0.95] tracking-tight sm:text-7xl">
           <span className="neon-text">JStick</span> <span className="blood-text">Studios</span>
@@ -50,7 +50,7 @@ export default async function Home({
           ))}
         </div>
         <p className="rise mx-auto mt-2 max-w-2xl text-lg opacity-80">
-          We make fast, brutal stickman games. <b>Every stickman game we make is gory</b> — blood, dismemberment and nasty ways to die.
+          We make fast, brutal stickman games. <b>Every stickman game we make is gory</b> â€” blood, dismemberment and nasty ways to die.
         </p>
       </section>
 
@@ -58,17 +58,20 @@ export default async function Home({
       <section id="games" className="mx-auto max-w-6xl px-5 py-8">
         <h2 className="mb-5 text-sm font-black uppercase tracking-[0.3em] text-cyan-300">Our games</h2>
         <article className="glass overflow-hidden rounded-3xl lg:grid lg:grid-cols-2">
-          <div className="relative min-h-[280px] bg-black">
+          <div className="relative min-h-[280px]">
             <Image
               src="/images/neon-stickman-art.jpg"
-              alt="Neon Stickman — Rooftop Parkour key art"
+              alt="Neon Stickman â€” Rooftop Parkour key art"
               fill
               priority
               sizes="(min-width:1024px) 600px, 100vw"
-              className="object-contain"
+              className="object-cover"
             />
-            <span className="absolute left-4 top-4 rounded-md bg-red-600 px-2.5 py-1 text-xs font-black uppercase tracking-widest">
-              18+ Gore
+            <span className={`absolute left-4 top-4 rounded-md px-2.5 py-1 text-xs font-black uppercase tracking-widest ${game.rating === "E" ? "bg-emerald-600" : game.rating === "A" ? "bg-yellow-600" : "bg-red-600"}`}>
+              {game.rating === "E" ? "E · Everyone" : game.rating === "A" ? "A · Action" : "18+ · Gore"}
+            </span>
+            <span className="absolute bottom-4 left-4 rounded-md bg-black/70 px-3 py-1.5 text-lg font-black">
+              {formatPrice(game.priceCents)}
             </span>
           </div>
           <div className="space-y-5 p-7 sm:p-9">
@@ -78,7 +81,7 @@ export default async function Home({
             </div>
             <ul className="grid gap-2 text-sm sm:grid-cols-2">
               {[
-                "You run it yourself — full manual control",
+                "You run it yourself â€” full manual control",
                 "Slide, wall-jump, variable jump height",
                 "New random map every time you die",
                 "Day & night cycle with sun, moon & stars",
@@ -86,13 +89,13 @@ export default async function Home({
                 "Main menu, settings, controls & fullscreen",
               ].map((f) => (
                 <li key={f} className="flex gap-2">
-                  <span className="text-pink-400">▸</span>
+                  <span className="text-pink-400">â–¸</span>
                   {f}
                 </li>
               ))}
             </ul>
             <div className="rounded-xl border border-yellow-400/30 bg-yellow-400/5 p-3 text-sm text-yellow-100">
-              <b>Download required.</b> This game can&apos;t be played on the website — download it first, then open it in Chrome.
+              <b>Download required.</b> This game can&apos;t be played on the website â€” download it first, then open it in Chrome.
             </div>
             <GameActions
               slug={game.slug}
@@ -104,7 +107,7 @@ export default async function Home({
         </article>
 
         <div className="mt-5 rounded-2xl border border-dashed border-white/15 p-6 text-center opacity-70">
-          More gory stickman games are in the works. Stay tuned.
+          More games are in the works. Stay tuned.
         </div>
       </section>
 
@@ -116,7 +119,7 @@ export default async function Home({
             ["1", "Create an account", "Sign up with a username, email and password."],
             ["2", "Buy the game", `${formatPrice(game.priceCents)}. Approve the agreements and pay by card or connect your bank on a secure page.`],
             ["3", "Download it", "Games must be downloaded before you can play them."],
-            ["4", "Run it in Chrome", "Paste the PowerShell command we show you — and run, jump, slide, die."],
+            ["4", "Run it in Chrome", "Paste the PowerShell command we show you â€” and run, jump, slide, die."],
           ].map(([n, t, d]) => (
             <div key={n} className="glass rounded-2xl p-5">
               <div className="mb-3 grid h-9 w-9 place-items-center rounded-full bg-gradient-to-br from-cyan-400 to-pink-500 font-black text-black">{n}</div>
@@ -128,10 +131,11 @@ export default async function Home({
       </section>
 
       <footer className="border-t border-white/10 px-5 py-8 text-center text-xs opacity-60">
-        © {new Date().getFullYear()} JStick Studios · All stickman games contain graphic violence. 18+ only.
+        Â© {new Date().getFullYear()} JStick Studios Â· All stickman games contain graphic violence. 18+ only.
         <br />
-        Payments are handled by a secure payment provider — JStick Studios never sees or stores your card or bank details.
+        Payments are handled by a secure payment provider â€” JStick Studios never sees or stores your card or bank details.
       </footer>
     </div>
   );
 }
+

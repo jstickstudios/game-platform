@@ -7,6 +7,7 @@
   file: string; // file inside /private
   downloadName: string;
   gory: boolean;
+  rating: "E" | "A" | "18+";
 };
 
 export const GAMES: Game[] = [
@@ -20,6 +21,7 @@ export const GAMES: Game[] = [
     file: "neon-stickman-parkour.html",
     downloadName: "Neon-Stickman-Parkour.html",
     gory: true,
+    rating: "18+",
   },
 ];
 
@@ -29,3 +31,4 @@ export const formatPrice = (cents: number) => (cents === 0 ? "FREE" :
   new Intl.NumberFormat("nl-NL", { style: "currency", currency: "EUR" }).format(
     cents / 100,
   ));
+
