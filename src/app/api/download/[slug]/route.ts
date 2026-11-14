@@ -1,4 +1,4 @@
-import { readFile } from "node:fs/promises";
+﻿import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { getUser, hasAccess } from "@/lib/auth";
 import { getGame } from "@/lib/games";
@@ -15,7 +15,7 @@ export async function GET(
 
   const user = await getUser();
   if (!user) return Response.json({ error: "Log in to download." }, { status: 401 });
-  if (!(await hasAccess(user, slug)))
+  if (game.priceCents !== 0 && !(await hasAccess(user, slug)))
     return Response.json({ error: "Buy this game to download it." }, { status: 403 });
 
   const file = path.join(process.cwd(), "private", game.file);

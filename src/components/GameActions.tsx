@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { useState } from "react";
@@ -39,7 +39,7 @@ export default function GameActions({ slug, price, mode, downloadName }: Props) 
           href={`/login?next=${encodeURIComponent("/checkout/" + slug)}`}
           className="btn-primary rounded-xl px-6 py-3 font-extrabold uppercase tracking-wider text-white"
         >
-          Log in to buy · {price}
+          Log in to {price === "FREE" ? "play" : "buy"} · {price}
         </Link>
         <Link href={`/signup?next=${encodeURIComponent("/checkout/" + slug)}`} className="btn-ghost rounded-xl px-6 py-3 font-bold">
           Create account
@@ -51,10 +51,10 @@ export default function GameActions({ slug, price, mode, downloadName }: Props) 
   if (mode === "buyer") {
     return (
       <Link
-        href={`/checkout/${slug}`}
+        href={price === "FREE" ? `/api/download/${slug}` : `/checkout/${slug}`}
         className="btn-primary inline-block rounded-xl px-7 py-3 font-extrabold uppercase tracking-wider text-white"
       >
-        Buy now · {price}
+        {price === "FREE" ? "Play now" : "Buy now"} · {price}
       </Link>
     );
   }
