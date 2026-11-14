@@ -58,7 +58,7 @@ export default async function Home({
       <section id="games" className="mx-auto max-w-6xl px-5 py-8">
         <h2 className="mb-5 text-sm font-black uppercase tracking-[0.3em] text-cyan-300">Our games</h2>
         <article className="glass overflow-hidden rounded-3xl lg:grid lg:grid-cols-2">
-          <div className="relative min-h-[280px] bg-black">
+          <div className="relative min-h-[340px] bg-black">
             <Image
               src="/images/neon-stickman-poster.jpg"
               alt="Neon Stickman — Rooftop Parkour key art"
@@ -74,12 +74,12 @@ export default async function Home({
               {formatPrice(game.priceCents)}
             </span>
           </div>
-          <div className="space-y-5 p-7 sm:p-9">
+          <div className="space-y-7 p-8 sm:p-10">
             <div>
               <h3 className="text-3xl font-black leading-tight">{game.title}</h3>
-              <p className="mt-2 opacity-80">{game.tagline}</p>
+              <p className="mt-3 max-w-xl leading-relaxed opacity-80">{game.tagline}</p>
             </div>
-            <ul className="grid gap-2 text-sm sm:grid-cols-2">
+            <ul className="grid gap-x-4 gap-y-2.5 text-[13px] leading-relaxed sm:grid-cols-2">
               {[
                 "You run it yourself — full manual control",
                 "Slide, wall-jump, variable jump height",
@@ -94,7 +94,7 @@ export default async function Home({
                 </li>
               ))}
             </ul>
-            <div className="rounded-xl border border-yellow-400/30 bg-yellow-400/5 p-3 text-sm text-yellow-100">
+            <div className="rounded-xl border border-yellow-400/30 bg-yellow-400/5 p-3.5 text-[13px] leading-relaxed text-yellow-100">
               <b>Download required.</b> This game can&apos;t be played on the website — download it first, then open it in Chrome.
             </div>
             <GameActions
