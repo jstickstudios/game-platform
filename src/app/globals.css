@@ -1,0 +1,122 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #05050f;
+  --cyan: #00e5ff;
+  --pink: #ff2d6f;
+  --blood: #e0113d;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--bg);
+  color: #eaf6ff;
+  font-family: "Segoe UI", system-ui, -apple-system, Roboto, sans-serif;
+}
+
+.grid-bg {
+  background-image:
+    radial-gradient(ellipse at 20% 0%, rgba(0, 229, 255, 0.16), transparent 55%),
+    radial-gradient(ellipse at 90% 10%, rgba(255, 45, 111, 0.18), transparent 50%),
+    linear-gradient(rgba(120, 160, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(120, 160, 255, 0.05) 1px, transparent 1px);
+  background-size: auto, auto, 48px 48px, 48px 48px;
+}
+
+.neon-text {
+  background: linear-gradient(180deg, #fff 10%, #7cf3ff 55%, #00b8ff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 18px rgba(0, 229, 255, 0.45));
+}
+
+.blood-text {
+  background: linear-gradient(180deg, #ff6b8f, #d4002f);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 16px rgba(255, 0, 60, 0.5));
+}
+
+.glass {
+  background: rgba(12, 14, 34, 0.78);
+  border: 1px solid rgba(120, 160, 255, 0.2);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), inset 0 0 40px rgba(0, 229, 255, 0.04);
+}
+
+.btn-primary {
+  background: linear-gradient(90deg, #00b8ff, #ff2d6f);
+  box-shadow: 0 8px 30px rgba(255, 45, 111, 0.35);
+  transition: transform 0.15s, box-shadow 0.15s, filter 0.15s;
+}
+.btn-primary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  filter: brightness(1.1);
+  box-shadow: 0 12px 38px rgba(255, 45, 111, 0.5);
+}
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-ghost {
+  border: 1px solid rgba(140, 200, 255, 0.3);
+  background: rgba(0, 229, 255, 0.07);
+  transition: background 0.15s, border-color 0.15s;
+}
+.btn-ghost:hover {
+  background: rgba(0, 229, 255, 0.16);
+  border-color: var(--cyan);
+}
+
+.input {
+  width: 100%;
+  border-radius: 12px;
+  padding: 12px 14px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(140, 200, 255, 0.22);
+  outline: none;
+  color: #eaf6ff;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.input:focus {
+  border-color: var(--cyan);
+  box-shadow: 0 0 0 3px rgba(0, 229, 255, 0.18);
+}
+
+.drip {
+  position: absolute;
+  top: 0;
+  width: 6px;
+  border-radius: 0 0 6px 6px;
+  background: linear-gradient(#e0113d, #7a0018);
+  animation: drip var(--d) ease-in infinite;
+  box-shadow: 0 0 8px rgba(255, 0, 50, 0.55);
+}
+@keyframes drip {
+  0% { height: 0; opacity: 1; }
+  55% { height: var(--h); opacity: 1; }
+  100% { height: calc(var(--h) + 8px); opacity: 0; transform: translateY(14px); }
+}
+
+@keyframes floaty {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+.floaty { animation: floaty 5s ease-in-out infinite; }
+
+@keyframes pulseRed {
+  50% { box-shadow: 0 0 0 6px rgba(255, 30, 70, 0.0), 0 0 30px rgba(255, 30, 70, 0.55); }
+}
+.gore-badge { animation: pulseRed 2.2s ease-in-out infinite; }
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: none; }
+}
+.rise { animation: rise 0.7s ease both; }

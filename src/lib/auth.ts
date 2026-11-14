@@ -1,0 +1,123 @@
+import crypto from "node:crypto";
+import { cookies } from "next/headers";
+import { and, eq } from "drizzle-orm";
+import { db } from "@/db";
+import { purchases, users } from "@/db/schema";
+
+const COOKIE = "jstick_session";
+const MAX_AGE = 60 * 60 * 24 * 14; // 14 days
+
+// Founder account: only a salted scrypt hash lives in the code, never the password.
+const FOUNDER_USERNAME = "Jstickfounder";
+const FOUNDER_HASH =
+  "57e8d10277e1cdf403f4a8c5b20cf0d7:f7cde22c3763c4367babce46bbd55be1a5d393338d6569c3db7d016145689c69ed5fbc42212c2201533a410aa0c29bda7ab12a393614a494f4ba91577a6b67a1";
+
+function secret() {
+  return (
+    process.env.SESSION_SECRET ||
+    crypto
+      .createHash("sha256")
+      .update("jstick-session::" + (process.env.DATABASE_URL ?? ""))
+      .digest("hex")
+  );
+}
+
+export function hashPassword(password: string) {
+  const salt = crypto.randomBytes(16).toString("hex");
+  const hash = crypto.scryptSync(password, salt, 64).toString("hex");
+  return `${salt}:${hash}`;
+}
+
+export function verifyPassword(password: string, stored: string) {
+  const [salt, hash] = stored.split(":");
+  if (!salt || !hash) return false;
+  const test = crypto.scryptSync(password, salt, 64);
+  const real = Buffer.from(hash, "hex");
+  return real.length === test.length && crypto.timingSafeEqual(real, test);
+}
+
+function sign(payload: string) {
+  return crypto.createHmac("sha256", secret()).update(payload).digest("hex");
+}
+
+export async function createSession(userId: number) {
+  const exp = Math.floor(Date.now() / 1000) + MAX_AGE;
+  const payload = `${userId}.${exp}`;
+  const jar = await cookies();
+  jar.set(COOKIE, `${payload}.${sign(payload)}`, {
+    httpOnly: true,
+    sameSite: "lax",
+    secure: process.env.NODE_ENV === "production" && process.env.COOKIE_INSECURE !== "1",
+    path: "/",
+    maxAge: MAX_AGE,
+  });
+}
+
+export async function destroySession() {
+  const jar = await cookies();
+  jar.delete(COOKIE);
+}
+
+export type SessionUser = {
+  id: number;
+  username: string;
+  isFounder: boolean;
+};
+
+export async function getUser(): Promise<SessionUser | null> {
+  const jar = await cookies();
+  const raw = jar.get(COOKIE)?.value;
+  if (!raw) return null;
+  const parts = raw.split(".");
+  if (parts.length !== 3) return null;
+  const [id, exp, sig] = parts;
+  const expected = sign(`${id}.${exp}`);
+  const a = Buffer.from(sig);
+  const b = Buffer.from(expected);
+  if (a.length !== b.length || !crypto.timingSafeEqual(a, b)) return null;
+  if (Number(exp) < Date.now() / 1000) return null;
+  const rows = await db
+    .select({ id: users.id, username: users.username, isFounder: users.isFounder })
+    .from(users)
+    .where(eq(users.id, Number(id)))
+    .limit(1);
+  return rows[0] ?? null;
+}
+
+export async function ensureFounder() {
+  await db
+    .insert(users)
+    .values({
+      username: FOUNDER_USERNAME,
+      passwordHash: FOUNDER_HASH,
+      isFounder: true,
+    })
+    .onConflictDoNothing();
+}
+
+export async function hasAccess(user: SessionUser | null, slug: string) {
+  if (!user) return false;
+  if (user.isFounder) return true;
+  const rows = await db
+    .select({ id: purchases.id })
+    .from(purchases)
+    .where(and(eq(purchases.userId, user.id), eq(purchases.gameSlug, slug)))
+    .limit(1);
+  return rows.length > 0;
+}
+
+// very small in-memory brute-force guard for logins
+const attempts = new Map<string, { n: number; t: number }>();
+export function tooManyAttempts(key: string) {
+  const a = attempts.get(key);
+  if (!a || Date.now() - a.t > 10 * 60_000) return false;
+  return a.n >= 8;
+}
+export function recordFail(key: string) {
+  const a = attempts.get(key);
+  if (!a || Date.now() - a.t > 10 * 60_000) attempts.set(key, { n: 1, t: Date.now() });
+  else a.n++;
+}
+export function clearFails(key: string) {
+  attempts.delete(key);
+}
