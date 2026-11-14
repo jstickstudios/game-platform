@@ -60,7 +60,7 @@ export default async function Home({
         <article className="glass overflow-hidden rounded-3xl lg:grid lg:grid-cols-2">
           <div className="relative min-h-[280px] bg-black">
             <Image
-              src="/images/neon-stickman-art.jpg"
+              src="/images/neon-stickman-poster.jpg"
               alt="Neon Stickman — Rooftop Parkour key art"
               fill
               priority
