@@ -8,8 +8,21 @@ export default async function Nav() {
     <header className="sticky top-0 z-40 border-b border-white/10 bg-[#05050f]/80 backdrop-blur-md">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-3">
         <Link href="/" className="flex items-center gap-2 font-black tracking-tight">
-          <span className="grid h-9 w-9 place-items-center rounded-lg bg-gradient-to-br from-cyan-400 to-pink-500 text-lg text-black">
-            J
+          <span className="grid h-9 w-9 place-items-center rounded-lg border border-cyan-400/60 bg-[#0b0f1e]">
+            <svg width="22" height="22" viewBox="0 0 64 64" fill="none" stroke="url(#navneon)" strokeWidth="5" strokeLinecap="round">
+              <defs>
+                <linearGradient id="navneon" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stopColor="#22d3ee" />
+                  <stop offset="1" stopColor="#ec4899" />
+                </linearGradient>
+              </defs>
+              <circle cx="32" cy="18" r="7" />
+              <line x1="32" y1="25" x2="32" y2="42" />
+              <line x1="32" y1="42" x2="22" y2="54" />
+              <line x1="32" y1="42" x2="42" y2="54" />
+              <line x1="18" y1="31" x2="32" y2="34" />
+              <line x1="46" y1="26" x2="33" y2="32" stroke="#22d3ee" />
+            </svg>
           </span>
           <span className="text-lg">
             JStick <span className="blood-text">Studios</span>
