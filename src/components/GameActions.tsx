@@ -61,9 +61,9 @@ export default function GameActions({ slug, price, mode, downloadName }: Props) 
           How to play
         </h4>
         <ol className="mt-2 list-inside list-decimal space-y-1 text-sm opacity-75">
-          <li>Click <b>Download</b> - the game saves to your Downloads folder.</li>
-          <li>Double-click the downloaded file - the game opens in your browser.</li>
-          <li>Press <b>F</b> in the game for fullscreen. Have fun!</li>
+          <li>Click <b>Download</b> - a ZIP file saves to your Downloads folder.</li>
+          <li>Right-click the ZIP and choose <b>Extract All</b>.</li>
+          <li>Open the game folder and double-click <b>Play.bat</b> - the game opens in your browser. Press <b>F</b> for fullscreen.</li>
         </ol>
       </div>
     </div>
