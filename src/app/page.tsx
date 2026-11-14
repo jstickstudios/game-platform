@@ -58,20 +58,17 @@ export default async function Home({
       <section id="games" className="mx-auto max-w-6xl px-5 py-8">
         <h2 className="mb-5 text-sm font-black uppercase tracking-[0.3em] text-cyan-300">Our games</h2>
         <article className="glass overflow-hidden rounded-3xl lg:grid lg:grid-cols-2">
-          <div className="relative min-h-[280px]">
+          <div className="relative min-h-[280px] bg-black">
             <Image
               src="/images/neon-stickman-art.jpg"
               alt="Neon Stickman — Rooftop Parkour key art"
               fill
               priority
               sizes="(min-width:1024px) 600px, 100vw"
-              className="object-cover"
+              className="object-contain"
             />
             <span className="absolute left-4 top-4 rounded-md bg-red-600 px-2.5 py-1 text-xs font-black uppercase tracking-widest">
               18+ Gore
-            </span>
-            <span className="absolute bottom-4 left-4 rounded-md bg-black/70 px-3 py-1.5 text-lg font-black">
-              {formatPrice(game.priceCents)}
             </span>
           </div>
           <div className="space-y-5 p-7 sm:p-9">
