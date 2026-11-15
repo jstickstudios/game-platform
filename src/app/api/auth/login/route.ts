@@ -51,15 +51,23 @@ export async function POST(req: Request) {
   const code = await startLoginChallenge(user.id);
   const sent = await sendLoginCode(user.email as string, code, user.username);
 
-  if (!sent) {
+  if (!sent.ok) {
     // Local testing without RESEND_API_KEY: show the code instead of emailing it.
     if (process.env.NODE_ENV !== "production") {
       return Response.json({ ok: true, challenge: "email", devCode: code });
     }
-    return Response.json(
-      { error: "Could not send the email right now. Try again in a minute." },
-      { status: 502 },
-    );
+    // Explain exactly why the email bounced, so it's fixable in one step.
+    let error = "Could not send the email right now. Try again in a minute.";
+    if (sent.status === 401) {
+      error =
+        "Email service rejected the API key — check RESEND_API_KEY in Vercel (Settings → Environment Variables), save, and Redeploy.";
+    } else if (sent.status === 403) {
+      error =
+        "The free test sender can only email the address you signed up to Resend with. Change your account's email to match it, or verify jstickstudios.com in Resend (Phase 2) to email any player.";
+    } else if (sent.status === 429) {
+      error = "The email service hit its daily limit. Try again tomorrow or upgrade the free plan.";
+    }
+    return Response.json({ error }, { status: 502 });
   }
 
   return Response.json({ ok: true, challenge: "email" });

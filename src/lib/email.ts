@@ -1,10 +1,12 @@
+export type SendResult = { ok: boolean; status: number; detail?: string };
+
 export async function sendLoginCode(
   email: string,
   code: string,
   username: string,
-): Promise<boolean> {
+): Promise<SendResult> {
   const key = process.env.RESEND_API_KEY;
-  if (!key) return false;
+  if (!key) return { ok: false, status: 0, detail: "RESEND_API_KEY is not set" };
   try {
     const res = await fetch("https://api.resend.com/emails", {
       method: "POST",
@@ -26,8 +28,14 @@ export async function sendLoginCode(
 </div>`,
       }),
     });
-    return res.ok;
+    if (res.ok) return { ok: true, status: res.status };
+    let detail = `HTTP ${res.status}`;
+    try {
+      const data = await res.json();
+      if (data?.message) detail = String(data.message);
+    } catch {}
+    return { ok: false, status: res.status, detail };
   } catch {
-    return false;
+    return { ok: false, status: 0, detail: "network error reaching Resend" };
   }
 }
