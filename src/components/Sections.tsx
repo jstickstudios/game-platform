@@ -65,46 +65,35 @@ export function Promo() {
               </a>
             </div>
 
-            {/* Animated scene: a greeter waves from a rooftop ledge while a runner
-                sprints along the floor, vaults the box at the peak of his jump,
-                and lands with dust puffs. */}
-            <div className="relative mx-auto h-60 w-full max-w-md overflow-hidden sm:h-72">
-              {/* greeter waving from a floating ledge — safely out of the runner's lane */}
-              <div className="absolute left-[3%] top-[2%] flex flex-col items-center">
-                <Stickman
-                  pose="wave"
-                  className="promo-greeter h-16 w-14 text-white/85 sm:h-20 sm:w-16"
-                  stroke={6}
-                />
-                <div className="-mt-0.5 h-1.5 w-16 rounded-full bg-white/60 sm:w-20" />
+            {/* Mini action sequence: sprint → vault → slide → sword-swipe → wall flip. */}
+            <div className="promo-arena relative mx-auto h-60 w-full max-w-md overflow-hidden rounded-2xl sm:h-72">
+              <div className="promo-sun absolute right-[12%] top-[12%] h-24 w-24 rounded-full bg-white/20 blur-2xl" />
+              <div className="promo-speedlines absolute inset-0" />
+              <div className="promo-roof absolute inset-x-0 bottom-6 h-[3px] rounded-full bg-white/70" />
+              <div className="promo-floor-glow absolute inset-x-0 bottom-5 h-12" />
+              <div className="promo-obstacle promo-crate absolute bottom-7 left-[29%] h-10 w-12 rounded-md border-2 border-white/70 bg-slate-950/35 sm:h-12 sm:w-14">
+                <span className="absolute inset-1 border border-white/30" />
               </div>
-              {/* scrolling floor dashes */}
-              <div className="absolute inset-x-0 bottom-6 h-[3px] overflow-hidden rounded-full">
-                <div className="promo-floor h-full w-full" />
+              <div className="promo-obstacle promo-wall absolute bottom-7 right-[7%] h-28 w-5 rounded-t-md border border-white/60 bg-slate-950/30 sm:h-36" />
+              <div className="promo-dummy absolute bottom-7 right-[22%]">
+                <Stickman pose="idle" className="h-24 w-20 text-white/50 sm:h-28 sm:w-24" stroke={5} />
               </div>
-              {/* parkour vault box — solid shape that reads clearly as an obstacle,
-                  placed at ~41% so it sits exactly under the peak of the jump arc
-                  (runner center peaks at ~47%) — he vaults over it, never through it */}
-              {/* the runner: ground pose + air pose cross-faded mid-jump */}
-              <div className="promo-track z-10">
-                <div className="promo-runner">
-                  <div className="promo-jump">
-                    <Stickman
-                      pose="run"
-                      className="promo-pose-ground absolute bottom-0 left-0 h-36 w-28 text-white sm:h-44 sm:w-36"
-                      stroke={5}
-                    />
-                    <Stickman
-                      pose="jump"
-                      className="promo-pose-air absolute bottom-0 left-0 h-36 w-28 text-white sm:h-44 sm:w-36"
-                      stroke={5}
-                    />
-                  </div>
+              <div className="promo-ninja absolute bottom-7 left-0 z-10">
+                <div className="promo-ninja-motion relative h-36 w-28 sm:h-44 sm:w-36">
+                  <Stickman pose="run" className="promo-run-pose absolute inset-0 h-full w-full text-white" stroke={5} />
+                  <Stickman pose="jump" className="promo-jump-pose absolute inset-0 h-full w-full text-white" stroke={5} />
+                  <Stickman pose="run" className="promo-slide-pose absolute inset-0 h-full w-full text-white" stroke={5} />
+                  <div className="promo-blade absolute left-[58%] top-[37%] h-1 w-20 origin-left rounded-full bg-white shadow-[0_0_12px_3px_rgba(255,255,255,.9)]" />
+                  <div className="promo-slash absolute left-[42%] top-[8%] h-24 w-24 rounded-full border-[3px] border-transparent border-r-white border-t-white" />
+                  <div className="promo-spark absolute left-[76%] top-[36%] h-2 w-2 rounded-full bg-white" />
                 </div>
               </div>
-              {/* landing dust puffs — at the true landing spot (~64% across), just past the box */}
-              <div className="promo-dust absolute bottom-7 left-[62%] h-3 w-3 rounded-full bg-white/50 blur-[2px]" />
-              <div className="promo-dust promo-dust-2 absolute bottom-6 left-[57%] h-2 w-2 rounded-full bg-white/35 blur-[2px]" />
+              <div className="promo-impact absolute bottom-8 right-[19%] h-12 w-12 rounded-full border-2 border-white/80" />
+              <div className="promo-dust absolute bottom-7 left-[40%] h-3 w-3 rounded-full bg-white/70 blur-[2px]" />
+              <div className="promo-dust promo-dust-2 absolute bottom-6 left-[46%] h-2 w-2 rounded-full bg-white/50 blur-[2px]" />
+              <div className="absolute left-4 top-4 rounded-full border border-white/25 bg-black/20 px-3 py-1 text-[9px] font-black uppercase tracking-[0.22em] text-white/75 backdrop-blur">
+                Action in motion
+              </div>
             </div>
           </div>
         </div>

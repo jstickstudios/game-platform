@@ -618,3 +618,37 @@ body {
     display: none;
   }
 }
+
+/* Cinematic ninja action sequence */
+.promo-arena{isolation:isolate;background:radial-gradient(ellipse at 78% 18%,rgba(255,255,255,.2),transparent 35%),linear-gradient(160deg,rgba(4,20,58,.24),rgba(2,8,28,.42))}
+.promo-arena:before{content:"";position:absolute;inset:0;opacity:.22;background-image:linear-gradient(rgba(255,255,255,.18) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.18) 1px,transparent 1px);background-size:34px 34px;mask-image:linear-gradient(to bottom,black,transparent 85%)}
+.promo-sun{animation:promo-sun-pulse 4s ease-in-out infinite}
+.promo-speedlines{opacity:.32;background:repeating-linear-gradient(168deg,transparent 0 26px,rgba(255,255,255,.5) 27px 28px,transparent 29px 58px);animation:promo-speed-dash .7s linear infinite}
+.promo-roof{z-index:2;box-shadow:0 0 18px rgba(255,255,255,.65)}.promo-floor-glow{background:linear-gradient(to top,rgba(255,255,255,.18),transparent)}
+.promo-obstacle{z-index:3;box-shadow:0 8px 20px rgba(0,0,0,.18)}.promo-crate{animation:promo-crate-bump 8s ease-in-out infinite}
+.promo-dummy{z-index:4;animation:promo-dummy-react 8s ease-in-out infinite}
+.promo-ninja{animation:promo-ninja-traverse 8s cubic-bezier(.45,0,.35,1) infinite}
+.promo-ninja-motion{animation:promo-ninja-action 8s ease-in-out infinite;transform-origin:50% 100%}
+.promo-run-pose{animation:promo-run-show 8s linear infinite}.promo-jump-pose{opacity:0;animation:promo-jump-show 8s linear infinite}
+.promo-slide-pose{opacity:0;animation:promo-slide-show 8s linear infinite;transform-origin:50% 75%}
+.promo-blade{opacity:0;animation:promo-blade-swing 8s ease-in-out infinite;transform:rotate(-45deg)}
+.promo-slash{opacity:0;animation:promo-slash-flash 8s ease-out infinite;transform:rotate(-28deg);filter:drop-shadow(0 0 8px rgba(255,255,255,.9))}
+.promo-spark{opacity:0;animation:promo-spark-pop 8s ease-out infinite;box-shadow:0 0 16px 5px rgba(255,255,255,.8)}
+.promo-impact{opacity:0;animation:promo-impact-ring 8s ease-out infinite;z-index:5}
+.promo-dust{animation:promo-action-dust 8s ease-out infinite}.promo-dust-2{animation-delay:-.12s}
+@keyframes promo-sun-pulse{0%,100%{transform:scale(.9);opacity:.55}50%{transform:scale(1.2);opacity:.95}}
+@keyframes promo-speed-dash{from{background-position:0 0}to{background-position:0 58px}}
+@keyframes promo-ninja-traverse{0%,4%{transform:translateX(-10px)}20%{transform:translateX(72px)}38%{transform:translateX(130px)}57%{transform:translateX(178px)}76%{transform:translateX(220px)}94%,100%{transform:translateX(248px)}}
+@keyframes promo-ninja-action{0%,17%{transform:translateY(0) rotate(0)}22%{transform:translateY(-4px) rotate(-8deg)}32%{transform:translateY(-66px) rotate(12deg)}39%{transform:translateY(0) rotate(0)}44%{transform:translateY(7px) scaleY(.72) rotate(-12deg)}51%{transform:translateY(5px) scaleY(.72) rotate(8deg)}57%{transform:translateY(0) scaleY(1)}64%{transform:translateY(-5px) rotate(-20deg)}70%{transform:translateY(0)}78%{transform:translateY(-54px) rotate(32deg)}86%{transform:translateY(-18px) rotate(165deg)}94%,100%{transform:translateY(0) rotate(360deg)}}
+@keyframes promo-run-show{0%,20%,38%,57%,100%{opacity:1}21%,37%,45%,56%,65%,69%,79%,93%{opacity:0}}
+@keyframes promo-jump-show{0%,20%,38%,100%{opacity:0}22%,37%{opacity:1}}
+@keyframes promo-slide-show{0%,42%,56%,100%{opacity:0}45%,54%{opacity:1}}
+@keyframes promo-blade-swing{0%,57%,73%,100%{opacity:0;transform:rotate(-45deg) scaleX(.3)}62%{opacity:1;transform:rotate(22deg) scaleX(1)}68%{opacity:0;transform:rotate(75deg) scaleX(.7)}}
+@keyframes promo-slash-flash{0%,58%,73%,100%{opacity:0;transform:rotate(-55deg) scale(.35)}63%{opacity:.95;transform:rotate(12deg) scale(1.15)}69%{opacity:0;transform:rotate(45deg) scale(1.4)}}
+@keyframes promo-spark-pop{0%,60%,100%{opacity:0;transform:translate(0,0) scale(.2)}64%{opacity:1;transform:translate(15px,-14px) scale(1.5)}70%{opacity:0;transform:translate(28px,-26px) scale(.2)}}
+@keyframes promo-impact-ring{0%,76%,100%{opacity:0;transform:scale(.25)}84%{opacity:.9;transform:scale(1.5)}92%{opacity:0;transform:scale(2.3)}}
+@keyframes promo-dummy-react{0%,60%,100%{transform:translateX(0) rotate(0);opacity:1}66%{transform:translateX(8px) rotate(12deg);opacity:.75}74%{transform:translateX(12px);opacity:1}}
+@keyframes promo-crate-bump{0%,18%,100%{transform:translateY(0)}27%{transform:translateY(-5px)}35%{transform:translateY(0)}}
+@keyframes promo-action-dust{0%,36%,100%{opacity:0;transform:translateX(0) scale(.3)}42%{opacity:.8;transform:translateX(-12px) scale(1.2)}52%{opacity:0;transform:translateX(-25px) scale(1.6)}}
+@media(prefers-reduced-motion:reduce){.promo-ninja,.promo-ninja-motion,.promo-speedlines,.promo-slash,.promo-blade,.promo-spark,.promo-impact,.promo-dummy,.promo-crate{animation:none!important}.promo-jump-pose,.promo-slide-pose,.promo-blade,.promo-slash,.promo-spark,.promo-impact{display:none}}
+
