@@ -13,6 +13,9 @@ export async function POST(req: Request) {
   const agree = body?.agree === true;
   const adult = body?.adult === true;
 
+  if (username.toLowerCase() === "friendchi")
+    return Response.json({ error: "That username is reserved." }, { status: 409 });
+
   if (!/^[A-Za-z0-9_]{3,20}$/.test(username))
     return Response.json(
       { error: "Username must be 3–20 characters: letters, numbers or underscore." },
