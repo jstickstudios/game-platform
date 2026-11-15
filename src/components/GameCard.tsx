@@ -24,7 +24,7 @@ export default async function GameCard({ game }: { game: Game }) {
           alt={`${game.title} key art`}
           fill
           sizes="300px"
-          className="object-cover transition-transform duration-700 group-hover:scale-105"
+          className="object-contain transition-transform duration-700 group-hover:scale-105"
         />
         <span className={`absolute left-3 top-3 rounded-md px-2 py-1 text-[10px] font-black uppercase tracking-widest ${ratingClass(game.rating)}`}>
           {ratingLabel(game.rating)}
