@@ -2,6 +2,8 @@
   slug: string;
   title: string;
   tagline: string;
+  image: string;
+  imageAspect: "portrait" | "landscape";
   priceCents: number;
   currency: "eur";
   file: string; // file inside /private
@@ -16,6 +18,8 @@ export const GAMES: Game[] = [
     title: "Neon Stickman — Rooftop Parkour",
     tagline:
       "Run it yourself. Slide, wall-jump and sprint across endless rooftops — and die in new, bloody ways on a brand-new map every time.",
+    image: "neon-stickman-poster.jpg",
+    imageAspect: "portrait",
     priceCents: 0,
     currency: "eur",
     file: "neon-stickman-parkour.html",
@@ -27,6 +31,8 @@ export const GAMES: Game[] = [
     slug: "neon-stickman-ninja",
     title: "Neon Stickman Ninja: Neon Blade",
     tagline: "Master the neon blade, unlock skins and survive endless waves of enemies.",
+    image: "neon-stickman-ninja-poster.jpg",
+    imageAspect: "landscape",
     priceCents: 0,
     currency: "eur",
     file: "neon-stickman-ninja.html",
