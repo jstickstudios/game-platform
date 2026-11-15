@@ -76,5 +76,5 @@ export async function POST(req: Request) {
     return Response.json({ error }, { status: 502 });
   }
 
-  return Response.json({ ok: true, challenge: "email" });
+  return Response.json({ ok: true, challenge: "email", email: user.email });
 }

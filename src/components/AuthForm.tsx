@@ -16,6 +16,7 @@ export default function AuthForm({
   const [notice, setNotice] = useState("");
   const [busy, setBusy] = useState(false);
   const [stage, setStage] = useState<"creds" | "code">("creds");
+  const [sentToEmail, setSentToEmail] = useState("");
   const creds = useRef<{ username: string; password: string }>({
     username: "",
     password: "",
@@ -40,6 +41,7 @@ export default function AuthForm({
         return;
       }
       creds.current = { username, password };
+      setSentToEmail(typeof data.email === "string" ? data.email : "");
       setStage("code");
       setNotice(
         typeof data.devCode === "string" && data.devCode
@@ -137,7 +139,7 @@ export default function AuthForm({
         <div>
           <h1 className="text-3xl font-black">Check your email 📬</h1>
           <p className="mt-1 text-sm opacity-70">
-            We sent a 6-digit code to your email. It expires in 10 minutes.
+            We sent a 6-digit code to {sentToEmail || "your email"}. It expires in 10 minutes.
           </p>
         </div>
 
