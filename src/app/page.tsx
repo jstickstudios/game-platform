@@ -4,7 +4,6 @@ import GameCard from "@/components/GameCard";
 import Reveal from "@/components/Reveal";
 import Stickman from "@/components/Stickman";
 import { Marquee, Promo, Features, HowItWorks, Footer } from "@/components/Sections";
-import { getUser, hasAccess } from "@/lib/auth";
 import { GAMES, formatPrice } from "@/lib/games";
 
 export const dynamic = "force-dynamic";
@@ -15,10 +14,6 @@ export default async function Home({
   searchParams: Promise<{ payment?: string }>;
 }) {
   const sp = await searchParams;
-  const user = await getUser();
-  const game = GAMES[0];
-  const owned = await hasAccess(user, game.slug);
-  const mode = !user ? "guest" : user.isFounder ? "founder" : owned ? "owner" : "buyer";
 
   return (
     <div className="min-h-screen">
@@ -64,7 +59,7 @@ export default async function Home({
 
       <Features />
 
-      <HowItWorks price={formatPrice(game.priceCents)} />
+      <HowItWorks price={formatPrice(GAMES[0].priceCents)} />
 
       <Footer />
     </div>
