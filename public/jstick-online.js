@@ -44,6 +44,31 @@ panel.innerHTML = `
     <button id="jso-leave" disabled>Leave</button>
   </div>
   <p id="jso-room-label" class="muted">No room joined</p>
+  <div id="jso-lobby" style="display:none;border:1px solid #ff315d55;border-radius:12px;padding:11px;margin:10px 0">
+    <h3 style="font-size:13px;margin:0 0 9px">HOST RULES</h3>
+    <label style="display:block;margin:7px 0">Difficulty
+      <select id="jso-difficulty" style="display:block;width:100%;margin-top:4px;background:#171321;color:white;border:1px solid #ffffff33;border-radius:7px;padding:8px">
+        <option value="easy">Easy</option><option value="normal" selected>Normal</option><option value="hard">Hard</option>
+      </select>
+    </label>
+    <label id="jso-start-label" style="display:block;margin:7px 0">Starting wave
+      <select id="jso-start" style="display:block;width:100%;margin-top:4px;background:#171321;color:white;border:1px solid #ffffff33;border-radius:7px;padding:8px">
+        <option value="1">Wave 1</option><option value="5">Wave 5</option><option value="10">Wave 10</option>
+      </select>
+    </label>
+    <label id="jso-strength-label" style="display:block;margin:7px 0">Enemy strength
+      <select id="jso-strength" style="display:block;width:100%;margin-top:4px;background:#171321;color:white;border:1px solid #ffffff33;border-radius:7px;padding:8px">
+        <option value="0.8">Reduced</option><option value="1" selected>Normal</option><option value="1.3">Increased</option>
+      </select>
+    </label>
+    <label id="jso-map-label" style="display:block;margin:7px 0">Map progression
+      <select id="jso-map" style="display:block;width:100%;margin-top:4px;background:#171321;color:white;border:1px solid #ffffff33;border-radius:7px">
+        <option value="10" selected>Every 10 waves</option><option value="5">Every 5 waves</option>
+      </select>
+    </label>
+    <button id="jso-start-match" class="primary" style="width:100%;margin-top:8px">Start match</button>
+    <p id="jso-rule-note" class="muted">Only the host can change rules. Rules apply when the match starts.</p>
+  </div>
   <p><b>Players in room</b></p>
   <ul id="jso-players"><li class="muted">No room yet</li></ul>
   <div style="display:flex;align-items:center;justify-content:space-between;margin-top:14px">
@@ -63,6 +88,17 @@ const roomInput = panel.querySelector("#jso-room");
 const playersEl = panel.querySelector("#jso-players");
 const ranksEl = panel.querySelector("#jso-ranks");
 const roomLabel = panel.querySelector("#jso-room-label");
+const lobbyEl = panel.querySelector("#jso-lobby");
+const difficultyEl = panel.querySelector("#jso-difficulty");
+const startEl = panel.querySelector("#jso-start");
+const strengthEl = panel.querySelector("#jso-strength");
+const mapEl = panel.querySelector("#jso-map");
+const startMatchBtn = panel.querySelector("#jso-start-match");
+const ruleNote = panel.querySelector("#jso-rule-note");
+let isHost = false;
+let roomSettings = null;
+let matchStarted = false;
+let matchSeed = 0;
 const createBtn = panel.querySelector("#jso-create");
 const joinBtn = panel.querySelector("#jso-join");
 const leaveBtn = panel.querySelector("#jso-leave");
@@ -75,24 +111,185 @@ let channelReady = false;
 let lastSubmittedScore = -1;
 let lastSubmitAt = 0;
 const remotePlayers = new Map();
+const combatHitTimes = new Map();
+let hostClientId = null;
 
 launch.addEventListener("click", () => panel.classList.toggle("open"));
 panel.querySelector("#jso-refresh").addEventListener("click", loadLeaderboard);
-createBtn.addEventListener("click", () => connectRoom(makeCode()));
+createBtn.addEventListener("click", () => connectRoom(makeCode(), true));
 joinBtn.addEventListener("click", () => {
   const code = roomInput.value.trim().toUpperCase();
   if (!/^[A-Z0-9]{4,6}$/.test(code)) {
     statusEl.textContent = "Enter a valid 4–6 character room code.";
     return;
   }
-  connectRoom(code);
+  connectRoom(code, false);
 });
 leaveBtn.addEventListener("click", leaveRoom);
+startMatchBtn.addEventListener("click", startMatch);
+for (const control of [difficultyEl, startEl, strengthEl, mapEl]) {
+  control.addEventListener("change", publishRoomSettings);
+}
+if (game === "neon-stickman-parkour") {
+  panel.querySelector("#jso-start-label").firstChild.textContent = "Starting map";
+  startEl.innerHTML = '<option value="1">Map 1</option><option value="2">Map 2</option><option value="3">Map 3</option><option value="5">Map 5</option>';
+  panel.querySelector("#jso-strength-label").style.display = "none";
+  panel.querySelector("#jso-map-label").style.display = "none";
+}
 
 function makeCode() {
   const alphabet = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
   const bytes = crypto.getRandomValues(new Uint8Array(6));
   return [...bytes].map((n) => alphabet[n % alphabet.length]).join("");
+}
+
+window.addEventListener("jstick-room-start", (event) => {
+  if (game !== "neon-stickman-ninja") return;
+  const g = window.__JSTICK_NINJA;
+  const settings = event.detail?.settings;
+  if (!g || !settings) return;
+  g.startRun();
+  g.wave = Number(settings.startingWave) || 1;
+  g.roomMapEvery = Number(settings.mapEvery) || 10;
+  g.__jstickDifficulty = settings.difficulty === "easy" ? 0.8 : settings.difficulty === "hard" ? 1.25 : 1;
+  g.__jstickEnemyStrength = Number(settings.enemyStrength) || 1;
+  if (!g.__jstickScaledMakeEnemy) {
+    const original = g.makeEnemy.bind(g);
+    g.makeEnemy = function(type, x) {
+      const enemy = original(type, x);
+      const scale = (g.__jstickDifficulty || 1) * (g.__jstickEnemyStrength || 1);
+      enemy.hp = Math.max(1, Math.round(enemy.hp * scale));
+      enemy.maxHp = Math.max(1, Math.round(enemy.maxHp * scale));
+      enemy.dmg *= scale;
+      enemy.spd *= g.__jstickDifficulty || 1;
+      enemy.reach *= g.__jstickDifficulty || 1;
+      return enemy;
+    };
+    g.__jstickScaledMakeEnemy = true;
+  }
+  g.startWave();
+  setupNinjaCoop(g);
+});
+
+function setupNinjaCoop(g) {
+  if (g.__jstickCoopReady || !channelReady || !channel) return;
+  g.__jstickCoopReady = true;
+  const originalHitMethod = g.hitEnemy;
+  const originalUpdateEnemiesMethod = g.updateEnemies;
+  const originalUpdateWavesMethod = g.updateWaves;
+  const originalAiMethod = g.ai;
+  g.__jstickCoopOriginals = { hitEnemy: originalHitMethod, updateEnemies: originalUpdateEnemiesMethod, updateWaves: originalUpdateWavesMethod, ai: originalAiMethod };
+  const originalHit = originalHitMethod.bind(g);
+  const originalUpdateEnemies = originalUpdateEnemiesMethod.bind(g);
+  const originalUpdateWaves = originalUpdateWavesMethod.bind(g);
+  const originalAi = originalAiMethod.bind(g);
+  const remoteCombatPlayers = new Map();
+  if (isHost) {
+    g.ai = function(enemy, dt) {
+      const now = Date.now();
+      const candidates = [...remotePlayers.entries()].filter(([, player]) => now - player.seenAt < 1200 && player.phase === "playing" && !player.dead && Number.isFinite(player.x) && Number.isFinite(player.y));
+      const nearest = candidates.sort((a,b) => Math.hypot(enemy.x-a[1].x, enemy.y-a[1].y) - Math.hypot(enemy.x-b[1].x, enemy.y-b[1].y))[0];
+      if (!nearest || Math.hypot(enemy.x-nearest[1].x, enemy.y-nearest[1].y) >= Math.hypot(enemy.x-this.p.x, enemy.y-this.p.y)) return originalAi(enemy, dt);
+      const [playerId, state] = nearest;
+      let proxy = remoteCombatPlayers.get(playerId);
+      if (!proxy) { proxy = g.newPlayer(); remoteCombatPlayers.set(playerId, proxy); }
+      proxy.x = state.x; proxy.y = state.y;
+      proxy.hp = Number.isFinite(state.hp) ? state.hp : proxy.hp;
+      proxy.dead = Boolean(state.dead);
+      proxy.invuln = Number.isFinite(state.invuln) ? state.invuln : proxy.invuln;
+      const localPlayer = g.p;
+      const beforeHp = proxy.hp;
+      g.p = proxy;
+      try { return originalAi(enemy, dt); }
+      finally {
+        g.p = localPlayer;
+        state.hp = proxy.hp; state.dead = proxy.dead; state.invuln = proxy.invuln;
+        if (proxy.hp < beforeHp) channel?.send({ type: "broadcast", event: "player-damage", payload: { targetId: playerId, damage: beforeHp - proxy.hp, sourceX: enemy.x } }).catch(() => {});
+      }
+    };
+  }
+
+  g.hitEnemy = function(enemy, damage, vx, vy, color, heavy) {
+    if (!isHost && matchStarted && channelReady && enemy) {
+      channel.send({ type: "broadcast", event: "combat-hit", payload: {
+        id: clientId, enemyId: enemy.id, x: g.p.x, y: g.p.y,
+        damage: Math.max(0, Math.min(30, Number(damage) || 0)),
+        vx: Math.max(-900, Math.min(900, Number(vx) || 0)),
+        vy: Math.max(-600, Math.min(200, Number(vy) || 0)),
+        color: /^#[0-9a-f]{3,8}$/i.test(color) ? color : "#ff6685",
+        heavy: Boolean(heavy), sentAt: Date.now(),
+      } }).catch(() => {});
+      return;
+    }
+    return originalHit(enemy, damage, vx, vy, color, heavy);
+  };
+
+  if (!isHost) {
+    g.updateEnemies = function() {};
+    g.updateWaves = function() {};
+  }
+
+  g.__jstickApplyCombatSnapshot = (snapshot) => {
+    if (isHost || !snapshot || !Array.isArray(snapshot.enemies)) return;
+    const incoming = new Set();
+    for (const data of snapshot.enemies) {
+      if (!data || !Number.isInteger(data.id) || typeof data.type !== "string") continue;
+      incoming.add(data.id);
+      let enemy = g.enemies.find((item) => item.id === data.id);
+      if (!enemy) {
+        enemy = g.makeEnemy(data.type, Number(data.x) || 0);
+        Object.assign(enemy, data);
+        g.enemies.push(enemy);
+      } else {
+        for (const key of ["x","y","vx","vy","hp","maxHp","state","stateT","stateDur","cd","spawnT","flash","stun","facing","onGround","runPhase","speed","aim","draw","volley","summonCd","hitDone","alpha"]) {
+          if (data[key] !== undefined) enemy[key] = data[key];
+        enemy.type = data.type;
+        if (data.color) enemy.color = data.color;
+        if (data.s !== undefined) enemy.s = data.s;
+        }
+      }
+    }
+    const removed = g.enemies.filter((enemy) => !incoming.has(enemy.id));
+    if (removed.length) {
+      g.kills += removed.length;
+      g.enemies = g.enemies.filter((enemy) => incoming.has(enemy.id));
+    }
+    g.bossRef = g.enemies.find((enemy) => enemy.type === "boss") || null;
+    const nextMapIdx = Number(snapshot.mapIdx) || 0;
+    if (nextMapIdx !== g.mapIdx && g.bg?.constructor) g.bg = new g.bg.constructor(nextMapIdx);
+    g.mapIdx = nextMapIdx;
+    g.wave = Number(snapshot.wave) || 1;
+    g.waveState = snapshot.waveState || g.waveState;
+    g.waveT = Number(snapshot.waveT) || 0;
+    g.spawnT = Number(snapshot.spawnT) || 0;
+    g.queue = Array.isArray(snapshot.queue) ? snapshot.queue.slice(0, 100) : [];
+    g.banner = snapshot.banner && typeof snapshot.banner === "object" ? { ...snapshot.banner } : null;
+    const hostArrows = Array.isArray(snapshot.arrows) ? snapshot.arrows.filter((a) => a && a.owner === 0).slice(0, 100) : [];
+    g.arrows = [...g.arrows.filter((a) => a.owner === 1), ...hostArrows.map((a) => ({ ...a }))];
+  };
+
+  g.__jstickBuildCombatSnapshot = () => ({
+    mapIdx: g.mapIdx, wave: g.wave, waveState: g.waveState,
+    waveT: g.waveT, spawnT: g.spawnT, queue: g.queue.slice(0, 100),
+    banner: g.banner ? { ...g.banner } : null,
+    enemies: g.enemies.slice(0, 40).map((e) => ({
+      id:e.id,type:e.type,x:e.x,y:e.y,vx:e.vx,vy:e.vy,hp:e.hp,maxHp:e.maxHp,color:e.color,s:e.s,spd:e.spd,reach:e.reach,dmg:e.dmg,
+      state:e.state,stateT:e.stateT,stateDur:e.stateDur,cd:e.cd,spawnT:e.spawnT,
+      flash:e.flash,stun:e.stun,facing:e.facing,onGround:e.onGround,
+      runPhase:e.runPhase,speed:e.speed,aim:e.aim,draw:e.draw,volley:e.volley,
+      summonCd:e.summonCd,hitDone:e.hitDone,alpha:e.alpha,
+    })),
+    arrows: g.arrows.filter((a) => a.owner === 0).slice(0, 100).map((a) => ({
+      x:a.x,y:a.y,vx:a.vx,vy:a.vy,g:a.g,life:a.life,owner:0,dmg:a.dmg,tt:a.tt,
+    })),
+  });
+  if (!isHost) {
+    g.updateEnemies = function() {};
+    g.updateWaves = function() {};
+  } else {
+    g.updateEnemies = originalUpdateEnemies;
+    g.updateWaves = originalUpdateWaves;
+  }
 }
 
 function readGameState() {
@@ -107,7 +304,7 @@ function readGameState() {
     try { save = JSON.parse(localStorage.getItem("jstickstudios-ninja-save-v1") || "{}"); } catch {}
     const rect = g.canvas.getBoundingClientRect();
     return {
-      phase: g.state, x: g.p.x, y: g.p.y, scale: g.scale,
+      phase: g.state, x: g.p.x, y: g.p.y, hp: g.p.hp, dead: g.p.dead, invuln: g.p.invuln, scale: g.scale,
       rect: { left: rect.left, top: rect.top },
       map: g.mapIdx + 1, wave: g.wave, kills: g.kills,
       bestMap: Number.isSafeInteger(save.bestMap) ? save.bestMap : 1,
@@ -174,13 +371,92 @@ async function submitScore(s) {
   } catch {}
 }
 
-async function connectRoom(code) {
+function defaultRoomSettings() {
+  return game === "neon-stickman-parkour"
+    ? { version: 1, difficulty: "normal", startingMap: 1 }
+    : { version: 1, difficulty: "normal", startingWave: 1, enemyStrength: 1, mapEvery: 10 };
+}
+
+function validRoomSettings(s) {
+  if (!s || s.version !== 1 || !["easy", "normal", "hard"].includes(s.difficulty)) return false;
+  if (game === "neon-stickman-parkour") return [1, 2, 3, 5].includes(Number(s.startingMap));
+  return [1, 5, 10].includes(Number(s.startingWave)) &&
+    [0.8, 1, 1.3].includes(Number(s.enemyStrength)) && [5, 10].includes(Number(s.mapEvery));
+}
+
+function readRoomSettings() {
+  return game === "neon-stickman-parkour"
+    ? { version: 1, difficulty: difficultyEl.value, startingMap: Number(startEl.value) }
+    : { version: 1, difficulty: difficultyEl.value, startingWave: Number(startEl.value), enemyStrength: Number(strengthEl.value), mapEvery: Number(mapEl.value) };
+}
+
+function applyRoomSettings(settings) {
+  if (!validRoomSettings(settings)) return;
+  roomSettings = { ...settings };
+  difficultyEl.value = settings.difficulty;
+  if (game === "neon-stickman-parkour") startEl.value = String(settings.startingMap);
+  else {
+    startEl.value = String(settings.startingWave);
+    strengthEl.value = String(settings.enemyStrength);
+    mapEl.value = String(settings.mapEvery);
+  }
+  updateLobbyControls();
+}
+
+function updateLobbyControls() {
+  for (const control of [difficultyEl, startEl, strengthEl, mapEl]) control.disabled = !isHost;
+  startMatchBtn.disabled = !isHost || !channelReady;
+  ruleNote.textContent = isHost
+    ? "You are host. Changes are shared with everyone in this room."
+    : "Host controls the rules. Ninja enemy health, damage, waves and enemy projectiles are host-synced.";
+}
+
+async function publishRoomSettings() {
+  if (!isHost || !channelReady || !channel) return;
+  roomSettings = readRoomSettings();
+  await channel.track({ id: clientId, username, game, role: "host", settings: roomSettings, matchStarted });
+  await channel.send({ type: "broadcast", event: "room-settings", payload: { settings: roomSettings } });
+}
+
+function syncHostSettingsFromPresence() {
+  if (isHost || !channel) return;
+  const all = Object.values(channel.presenceState()).flat();
+  const host = all.find((p) => p?.role === "host" && validRoomSettings(p.settings));
+  if (host) {
+    hostClientId = host.id || null;
+    applyRoomSettings(host.settings);
+    if (host.matchStarted && !matchStarted) {
+      matchStarted = true;
+      matchSeed = Number(host.seed) || 0;
+      window.dispatchEvent(new CustomEvent("jstick-room-start", { detail: { game, settings: roomSettings, seed: matchSeed } }));
+    }
+    statusEl.textContent = matchStarted ? "Host started the room · settings synced." : "Host rules received · waiting for match start.";
+  }
+}
+
+async function startMatch() {
+  if (!isHost || !channelReady || !channel) return;
+  await publishRoomSettings();
+  matchStarted = true;
+  matchSeed = crypto.getRandomValues(new Uint32Array(1))[0];
+  await channel.track({ id: clientId, username, game, role: "host", settings: roomSettings, matchStarted: true, seed: matchSeed });
+  startMatchBtn.disabled = true;
+  statusEl.textContent = "Match start signal sent to the room.";
+  await channel.send({ type: "broadcast", event: "match-start", payload: { settings: roomSettings, seed: matchSeed } });
+  window.dispatchEvent(new CustomEvent("jstick-room-start", { detail: { game, settings: roomSettings, seed: matchSeed } }));
+}
+
+async function connectRoom(code, host = false) {
   if (!supabase) {
     statusEl.textContent = "Online services are not ready yet.";
     return;
   }
   await leaveRoom();
   roomCode = code;
+  isHost = host;
+  roomSettings = host ? defaultRoomSettings() : null;
+  matchStarted = false;
+  lobbyEl.style.display = "block";
   roomInput.value = code;
   roomLabel.textContent = `Room code: ${code} · Share this with a friend`;
   statusEl.textContent = "Connecting to room…";
@@ -194,12 +470,51 @@ async function connectRoom(code) {
       remotePlayers.set(payload.id, { ...payload, seenAt: Date.now() });
       renderPlayers();
     })
-    .on("presence", { event: "sync" }, renderPlayers);
+    .on("broadcast", { event: "combat-hit" }, ({ payload }) => {
+      if (!isHost || game !== "neon-stickman-ninja" || !matchStarted || !payload) return;
+      const g = window.__JSTICK_NINJA;
+      const attacker = remotePlayers.get(payload.id);
+      const enemy = g?.enemies?.find((item) => item.id === payload.enemyId);
+      if (!g || !attacker || !enemy || Date.now() - attacker.seenAt > 1200) return;
+      const last = combatHitTimes.get(payload.id) || 0;
+      if (Date.now() - last < 75) return;
+      if (Math.hypot(enemy.x - attacker.x, (enemy.y - 45) - attacker.y) > 330) return;
+      combatHitTimes.set(payload.id, Date.now());
+      g.hitEnemy(enemy, Math.max(0, Math.min(30, Number(payload.damage) || 0)), Math.max(-900, Math.min(900, Number(payload.vx) || 0)), Math.max(-600, Math.min(200, Number(payload.vy) || 0)), /^#[0-9a-f]{3,8}$/i.test(payload.color) ? payload.color : "#ff6685", Boolean(payload.heavy));
+    })
+    .on("broadcast", { event: "player-damage" }, ({ payload }) => {
+      if (isHost || game !== "neon-stickman-ninja" || payload?.targetId !== clientId) return;
+      const g = window.__JSTICK_NINJA;
+      if (g?.state === "playing" && Number(payload.damage) > 0) g.hurtPlayer(Math.min(40, Number(payload.damage)), Number(payload.sourceX) || g.p.x);
+    })
+    .on("broadcast", { event: "combat-snapshot" }, ({ payload }) => {
+      if (isHost || game !== "neon-stickman-ninja" || !matchStarted || payload?.hostId !== hostClientId) return;
+      window.__JSTICK_NINJA?.__jstickApplyCombatSnapshot?.(payload.snapshot);
+    })
+    .on("presence", { event: "sync" }, () => {
+      renderPlayers();
+      syncHostSettingsFromPresence();
+    })
+    .on("broadcast", { event: "room-settings" }, ({ payload }) => {
+      if (!isHost && validRoomSettings(payload?.settings)) applyRoomSettings(payload.settings);
+    })
+    .on("broadcast", { event: "match-start" }, ({ payload }) => {
+      if (!isHost && validRoomSettings(payload?.settings)) {
+        applyRoomSettings(payload.settings);
+        matchStarted = true;
+        matchSeed = Number(payload.seed) || 0;
+        statusEl.textContent = "Host started the match. Shared rules received.";
+        window.dispatchEvent(new CustomEvent("jstick-room-start", { detail: { game, settings: roomSettings, seed: matchSeed } }));
+      }
+    });
   channel.subscribe(async (state) => {
     if (state === "SUBSCRIBED") {
       channelReady = true;
-      await channel.track({ id: clientId, username, game });
-      statusEl.textContent = "Connected · live player positions enabled";
+      await channel.track({ id: clientId, username, game, role: isHost ? "host" : "player", settings: isHost ? roomSettings : null });
+      statusEl.textContent = isHost ? "Room created · configure rules and invite friends." : "Connected · waiting for host rules.";
+      if (isHost) publishRoomSettings();
+      else syncHostSettingsFromPresence();
+      updateLobbyControls();
       leaveBtn.disabled = false;
       createBtn.disabled = joinBtn.disabled = false;
       renderPlayers();
@@ -212,6 +527,17 @@ async function connectRoom(code) {
 }
 
 async function leaveRoom() {
+  const ninja = window.__JSTICK_NINJA;
+  if (ninja?.__jstickCoopOriginals) {
+    ninja.hitEnemy = ninja.__jstickCoopOriginals.hitEnemy;
+    ninja.updateEnemies = ninja.__jstickCoopOriginals.updateEnemies;
+    ninja.updateWaves = ninja.__jstickCoopOriginals.updateWaves;
+    ninja.ai = ninja.__jstickCoopOriginals.ai;
+    delete ninja.__jstickCoopOriginals;
+    delete ninja.__jstickCoopReady;
+    delete ninja.__jstickApplyCombatSnapshot;
+    delete ninja.__jstickBuildCombatSnapshot;
+  }
   channelReady = false;
   if (channel && supabase) {
     const old = channel;
@@ -219,6 +545,10 @@ async function leaveRoom() {
     try { await supabase.removeChannel(old); } catch {}
   }
   roomCode = "";
+  isHost = false;
+  roomSettings = null;
+  matchStarted = false;
+  lobbyEl.style.display = "none";
   remotePlayers.clear();
   roomLabel.textContent = "No room joined";
   leaveBtn.disabled = true;
@@ -313,9 +643,14 @@ setInterval(async () => {
         event: "player-state",
         payload: {
           id: clientId, username, x: s.x, y: s.y,
-          phase: s.phase, score: scoreFor(s), sentAt: Date.now(),
+          phase: s.phase, hp: s.hp, dead: s.dead, invuln: s.invuln, score: scoreFor(s), sentAt: Date.now(),
         },
       });
+      if (isHost && matchStarted && game === "neon-stickman-ninja") {
+        const ninja = window.__JSTICK_NINJA;
+        const snapshot = ninja?.__jstickBuildCombatSnapshot?.();
+        if (snapshot) await channel.send({ type: "broadcast", event: "combat-snapshot", payload: { hostId: clientId, snapshot } });
+      }
     } catch {}
   }
 }, 150);
@@ -332,7 +667,7 @@ async function boot() {
     if (!response.ok) throw new Error(config.error || "Online mode is not available.");
     username = config.username;
     supabase = createClient(config.url, config.publishableKey, {
-      realtime: { params: { eventsPerSecond: 12 } },
+      realtime: { params: { eventsPerSecond: 20 } },
     });
     statusEl.textContent = `Ready, ${username}. Create a room or join with a code.`;
     createBtn.disabled = joinBtn.disabled = false;

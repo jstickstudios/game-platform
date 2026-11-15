@@ -341,6 +341,7 @@ let parts=[],decals=[],pools=[],rag=[],bleeders=[];
 let camX=0,camY=0,shakeAmp=0,flash=0,timeScale=1,slowT=0,fpsAcc=0,fpsN=0,fps=60;
 let pose=null,scarf=[];
 let deathType='';
+let roomDifficulty={speed:1,gravity:1};
 
 /* =====================================================================
    LEVEL GENERATION  (new random map every time)
@@ -512,7 +513,7 @@ function stepPlayer(dt){
   }
   if(!p.sliding){
     if(p.lock<=0){
-      const maxS=p.crouched?130:RUN;
+      const maxS=p.crouched?130:RUN*roomDifficulty.speed;
       if(ix!==0){
         const rev=ix*p.vx<0;
         const acc=(p.onGround?(rev?5200:2800):1900)*dt;
@@ -536,7 +537,7 @@ function stepPlayer(dt){
   }
 
   // --- gravity ---
-  let g=GRAV;
+  let g=GRAV*roomDifficulty.gravity;
   if(p.vy<0&&!jumpHeld)g*=2.5;else if(p.vy>0)g*=1.12;
   p.vy+=g*dt;
   p.wallSliding=false;
@@ -774,9 +775,10 @@ function updateRagdoll(dt,solids){
    GAME FLOW
    ===================================================================== */
 function resetFx(){parts=[];decals=[];pools=[];rag=[];bleeders=[];shakeAmp=0;flash=0;timeScale=1;slowT=0}
-function startRun(nextLevel){
-  if(nextLevel)levelNum++;
-  const seed=(Math.random()*0xffffffff)>>>0;
+function startRun(nextLevel,options={}){
+  if(Number.isInteger(options.startingMap))levelNum=Math.max(1,Math.min(5,options.startingMap));
+  else if(nextLevel)levelNum++;
+  const seed=Number.isInteger(options.seed)?options.seed>>>0:(Math.random()*0xffffffff)>>>0;
   L=genLevel(seed,levelNum);
   P=newPlayer();pose=newPose();scarf=[];
   resetFx();runTime=0;hintT=levelNum===1&&deaths===0?9:0;
@@ -1361,6 +1363,14 @@ function frame(now){
     if(fpsAcc>.5){fps=Math.round(fpsN/fpsAcc);fpsAcc=0;fpsN=0;$('fps').textContent=cfg.fps?fps+' FPS':''}
   }
 }
+
+/* ---------------- online lobby integration ---------------- */
+window.addEventListener('jstick-room-start',event=>{
+  const settings=event.detail?.settings;
+  if(!settings||event.detail?.game!=='neon-stickman-parkour')return;
+  roomDifficulty=settings.difficulty==='easy'?{speed:1.12,gravity:.92}:settings.difficulty==='hard'?{speed:.9,gravity:1.12}:{speed:1,gravity:1};
+  startRun(false,{startingMap:Number(settings.startingMap)||1,seed:event.detail.seed});
+});
 
 /* ---------------- boot ---------------- */
 syncSettings();updateBest();updateFsLabel();
