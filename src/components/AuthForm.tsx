@@ -40,6 +40,14 @@ export default function AuthForm({
         setBusy(false);
         return;
       }
+      // The server creates a session immediately for the verified founder account.
+      // Only accounts that actually need email verification should see the code screen.
+      if (data.challenge !== "email") {
+        router.push(next && next.startsWith("/") ? next : "/");
+        router.refresh();
+        setBusy(false);
+        return;
+      }
       creds.current = { username, password };
       setSentToEmail(typeof data.email === "string" ? data.email : "");
       setStage("code");
