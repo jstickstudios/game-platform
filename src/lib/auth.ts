@@ -121,3 +121,52 @@ export function recordFail(key: string) {
 export function clearFails(key: string) {
   attempts.delete(key);
 }
+
+// ---- Email login code (2FA) ----
+// The challenge lives in a signed, httpOnly cookie: userId.hash(code).exp.signature
+// No database table needed, and it works on serverless.
+const CHALLENGE_COOKIE = "jstick_2fa";
+const CHALLENGE_MAX_AGE = 10 * 60; // 10 minutes
+
+function codeHash(code: string) {
+  return crypto
+    .createHash("sha256")
+    .update("jstick-2fa-code::" + code)
+    .digest("hex");
+}
+
+export async function startLoginChallenge(userId: number) {
+  const code = String(crypto.randomInt(100000, 1000000)); // 6 digits
+  const exp = Math.floor(Date.now() / 1000) + CHALLENGE_MAX_AGE;
+  const payload = `${userId}.${codeHash(code)}.${exp}`;
+  const jar = await cookies();
+  jar.set(CHALLENGE_COOKIE, `${payload}.${sign(payload)}`, {
+    httpOnly: true,
+    sameSite: "lax",
+    secure: process.env.NODE_ENV === "production" && process.env.COOKIE_INSECURE !== "1",
+    path: "/",
+    maxAge: CHALLENGE_MAX_AGE,
+  });
+  return code;
+}
+
+export async function verifyLoginChallenge(code: string): Promise<number | null> {
+  const jar = await cookies();
+  const raw = jar.get(CHALLENGE_COOKIE)?.value;
+  if (!raw) return null;
+  const parts = raw.split(".");
+  if (parts.length !== 4) return null;
+  const [id, hash, exp, sig] = parts;
+  const payload = `${id}.${hash}.${exp}`;
+  const a = Buffer.from(sig);
+  const b = Buffer.from(sign(payload));
+  if (a.length !== b.length || !crypto.timingSafeEqual(a, b)) return null;
+  if (Number(exp) < Date.now() / 1000) return null;
+  if (codeHash(String(code).trim()) !== hash) return null;
+  return Number(id);
+}
+
+export async function clearLoginChallenge() {
+  const jar = await cookies();
+  jar.delete(CHALLENGE_COOKIE);
+}

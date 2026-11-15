@@ -3,12 +3,13 @@ import { db } from "@/db";
 import { users } from "@/db/schema";
 import {
   clearFails,
-  createSession,
   ensureFounder,
   recordFail,
+  startLoginChallenge,
   tooManyAttempts,
   verifyPassword,
 } from "@/lib/auth";
+import { sendLoginCode } from "@/lib/email";
 
 export const dynamic = "force-dynamic";
 
@@ -35,6 +36,31 @@ export async function POST(req: Request) {
     return Response.json({ error: "Wrong username or password." }, { status: 401 });
   }
   clearFails(key);
-  await createSession(user.id);
-  return Response.json({ ok: true, username: user.username, isFounder: user.isFounder });
+
+  // Password is correct — now send the 6-digit email code.
+  if (!user.email) {
+    return Response.json(
+      {
+        error:
+          "This account has no email on file, so we can't send a login code. Contact JStick Studios support.",
+      },
+      { status: 400 },
+    );
+  }
+
+  const code = await startLoginChallenge(user.id);
+  const sent = await sendLoginCode(user.email, code, user.username);
+
+  if (!sent) {
+    // Local testing without RESEND_API_KEY: show the code instead of emailing it.
+    if (process.env.NODE_ENV !== "production") {
+      return Response.json({ ok: true, challenge: "email", devCode: code });
+    }
+    return Response.json(
+      { error: "Could not send the email right now. Try again in a minute." },
+      { status: 502 },
+    );
+  }
+
+  return Response.json({ ok: true, challenge: "email" });
 }
