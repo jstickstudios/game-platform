@@ -23,12 +23,23 @@ export const GAMES: Game[] = [
     gory: true,
     rating: "18+",
   },
+  {
+    slug: "neon-stickman-ninja",
+    title: "Neon Stickman Ninja: Neon Blade",
+    tagline: "Master the neon blade, unlock skins and survive endless waves of enemies.",
+    priceCents: 0,
+    currency: "eur",
+    file: "neon-stickman-ninja.html",
+    downloadName: "Neon-Stickman-Ninja.html",
+    gory: false,
+    rating: "A",
+  },
 ];
-
 export const getGame = (slug: string) => GAMES.find((g) => g.slug === slug);
 
 export const formatPrice = (cents: number) => (cents === 0 ? "FREE" :
   new Intl.NumberFormat("nl-NL", { style: "currency", currency: "EUR" }).format(
     cents / 100,
   ));
+
 
