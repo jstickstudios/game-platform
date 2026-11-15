@@ -1,3 +1,5 @@
+"use client";
+
 import { useRef, useEffect, type ReactNode } from "react";
 
 export default function Reveal({
