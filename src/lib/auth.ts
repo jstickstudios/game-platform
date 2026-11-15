@@ -13,6 +13,8 @@ const FOUNDER_HASH =
   "57e8d10277e1cdf403f4a8c5b20cf0d7:f7cde22c3763c4367babce46bbd55be1a5d393338d6569c3db7d016145689c69ed5fbc42212c2201533a410aa0c29bda7ab12a393614a494f4ba91577a6b67a1";
 
 const FRIEND_USERNAME = "friendchi";
+// Shared friend login; visible to anyone who can read this source.
+const FRIEND_PASSWORD = "imafriend";
 
 function secret() {
   return (
@@ -97,25 +99,30 @@ export async function ensureFounder() {
     .onConflictDoNothing();
 }
 
-// Creates the shared friend account once. Its password is read only from the
-// deployment environment and stored in the database as a salted scrypt hash.
+// Creates or repairs the shared friend account using a salted database hash.
 export async function ensureFriend() {
-  const password = process.env.FRIEND_ACCOUNT_PASSWORD;
-  if (!password) return;
-
   const existing = await db
-    .select({ id: users.id })
+    .select({ id: users.id, passwordHash: users.passwordHash })
     .from(users)
     .where(eq(users.username, FRIEND_USERNAME))
     .limit(1);
 
-  if (existing.length) return;
+  if (existing.length) {
+    if (!verifyPassword(FRIEND_PASSWORD, existing[0].passwordHash)) {
+      await db
+        .update(users)
+        .set({ passwordHash: hashPassword(FRIEND_PASSWORD), email: null, isFounder: false })
+        .where(eq(users.id, existing[0].id));
+    }
+    return;
+  }
 
   await db
     .insert(users)
     .values({
       username: FRIEND_USERNAME,
-      passwordHash: hashPassword(password),
+      passwordHash: hashPassword(FRIEND_PASSWORD),
+      email: null,
       isFounder: false,
     })
     .onConflictDoNothing();
