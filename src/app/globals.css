@@ -192,28 +192,12 @@ body {
     transform: translate(-70px, 30px) scale(1.2);
   }
 }
-@keyframes shimmer {
-  from {
-    transform: translateX(-100%);
-  }
-  to {
-    transform: translateX(100%);
-  }
-}
 @keyframes marquee {
   from {
     transform: translateX(0);
   }
   to {
     transform: translateX(-50%);
-  }
-}
-@keyframes progress {
-  from {
-    transform: scaleX(0);
-  }
-  to {
-    transform: scaleX(1);
   }
 }
 @keyframes fade-up {
@@ -362,6 +346,15 @@ body {
 }
 
 /* ───────── Legacy classes (login / signup / checkout / game actions) ───────── */
+.grid-bg {
+  background-image:
+    radial-gradient(ellipse at 20% 0%, rgba(38, 187, 255, 0.14), transparent 55%),
+    radial-gradient(ellipse at 90% 10%, rgba(0, 120, 242, 0.16), transparent 50%),
+    linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: auto, auto, 48px 48px, 48px 48px;
+}
+
 .glass {
   background: rgba(26, 26, 31, 0.78);
   border: 1px solid rgba(255, 255, 255, 0.08);
