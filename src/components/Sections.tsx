@@ -66,7 +66,8 @@ export function Promo() {
             </div>
 
             {/* Animated scene: a greeter waves from a rooftop ledge while a runner
-                sprints along the floor, leaps the hurdle, lands with dust. */}
+                sprints along the floor, vaults the box at the peak of his jump,
+                and lands with dust puffs. */}
             <div className="relative mx-auto h-60 w-full max-w-md overflow-hidden sm:h-72">
               {/* greeter waving from a floating ledge — safely out of the runner's lane */}
               <div className="absolute left-[3%] top-[2%] flex flex-col items-center">
@@ -81,12 +82,10 @@ export function Promo() {
               <div className="absolute inset-x-0 bottom-6 h-[3px] overflow-hidden rounded-full">
                 <div className="promo-floor h-full w-full" />
               </div>
-              {/* the hurdle — T-shaped so it reads as a hurdle, placed exactly in
-                  the middle of the runner's jump arc so he clears it, not phases through it */}
-              <div className="absolute bottom-6 left-[32%] flex flex-col items-center">
-                <div className="h-1.5 w-12 rounded-full bg-white/80 shadow-[0_0_14px_rgba(255,255,255,.6)]" />
-                <div className="h-9 w-1.5 rounded-full bg-white/70" />
-              </div>
+              {/* parkour vault box — solid shape that reads clearly as an obstacle,
+                  placed at ~41% so it sits exactly under the peak of the jump arc
+                  (runner center peaks at ~47%) — he vaults over it, never through it */}
+              <div className="absolute bottom-6 left-[41%] h-7 w-12 rounded-md bg-white/20 ring-1 ring-white/45 shadow-[0_0_18px_rgba(255,255,255,.2)]" />
               {/* the runner: ground pose + air pose cross-faded mid-jump */}
               <div className="promo-track z-10">
                 <div className="promo-runner">
@@ -104,9 +103,9 @@ export function Promo() {
                   </div>
                 </div>
               </div>
-              {/* landing dust puffs — at the landing spot, just past the hurdle */}
-              <div className="promo-dust absolute bottom-7 left-[45%] h-3 w-3 rounded-full bg-white/50 blur-[2px]" />
-              <div className="promo-dust promo-dust-2 absolute bottom-6 left-[50%] h-2 w-2 rounded-full bg-white/35 blur-[2px]" />
+              {/* landing dust puffs — at the true landing spot (~64% across), just past the box */}
+              <div className="promo-dust absolute bottom-7 left-[62%] h-3 w-3 rounded-full bg-white/50 blur-[2px]" />
+              <div className="promo-dust promo-dust-2 absolute bottom-6 left-[57%] h-2 w-2 rounded-full bg-white/35 blur-[2px]" />
             </div>
           </div>
         </div>
