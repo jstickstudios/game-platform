@@ -6,23 +6,18 @@ import { formatPrice } from "@/lib/games";
 import Stickman from "./Stickman";
 
 const ratingClass = (rating: Game["rating"]) =>
-  rating === "E"
-    ? "bg-emerald-600"
-    : rating === "A"
-      ? "bg-yellow-600"
-      : "bg-red-600";
+  rating === "E" ? "bg-emerald-600" : rating === "A" ? "bg-yellow-600" : "bg-red-600";
 
 const ratingLabel = (rating: Game["rating"]) =>
   rating === "E" ? "E · Everyone" : rating === "A" ? "A · Action" : "18+ · Gore";
 
-export default async function GameCard({ game, index = 0 }: { game: Game; index?: number }) {
+export default async function GameCard({ game }: { game: Game }) {
   const user = await getUser();
   const owned = await hasAccess(user, game.slug);
   const mode = !user ? "guest" : user.isFounder ? "founder" : owned ? "owner" : "buyer";
 
   return (
     <div className="group relative overflow-hidden rounded-3xl bg-panel ring-1 ring-white/10 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_60px_rgba(0,0,0,.6)]">
-      {/* Cover */}
       <div className="relative aspect-[3/4] bg-black">
         <Image
           src="/images/neon-stickman-poster.jpg"
@@ -40,7 +35,6 @@ export default async function GameCard({ game, index = 0 }: { game: Game; index?
         </span>
       </div>
 
-      {/* Info */}
       <div className="p-4">
         <div className="flex items-center gap-2">
           <Stickman pose="run" className="h-4 w-3 text-brand-2" stroke={10} />
@@ -56,7 +50,8 @@ export default async function GameCard({ game, index = 0 }: { game: Game; index?
             downloadName={game.downloadName}
             username={user ? user.username : "guest"}
           />
-        </div>\      </div>
+        </div>
+      </div>
     </div>
   );
 }

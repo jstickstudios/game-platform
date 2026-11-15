@@ -3,7 +3,7 @@ import Stickman from "./Stickman";
 
 /* ───────── Marquee ───────── */
 export function Marquee() {
-  const words = ["Stickman", "Parkour", "Action", "Runner", "Gore", "Free to play", "Browser games"];
+  const words = ["Stickman", "Parkour", "Action", "Runner", "Free to play", "Browser games"];
   const row = [...words, ...words];
   return (
     <div className="relative mt-14 overflow-hidden border-y border-white/5 bg-white/[0.02] py-5">
@@ -58,14 +58,13 @@ export function Promo() {
                 Every JStick game runs in your browser. Download, open it in Chrome, and start playing in seconds.
               </p>
               <a
-                href="#new"
+                href="#games"
                 className="btn-shine mt-8 inline-flex h-12 items-center rounded-full bg-white px-8 text-sm font-extrabold uppercase tracking-wider text-black transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_14px_40px_rgba(0,0,0,.3)] active:scale-95"
               >
                 Browse games
               </a>
             </div>
 
-            {/* Two stickmen high-five scene */}
             <div className="relative mx-auto flex h-60 w-full max-w-md items-end justify-center sm:h-72">
               <div className="absolute bottom-6 h-[3px] w-full rounded-full bg-white/70" />
               <Stickman
@@ -91,7 +90,6 @@ export function Features() {
     { icon: "🌐", title: "Play anywhere", text: "Desktop, tablet or phone — it just works." },
     { icon: "✨", title: "Fresh drops", text: "New stickman games added all the time." },
     { icon: "🎁", title: "Free forever", text: "No paywalls, no subscriptions, no catch." },
-    },
   ];
   return (
     <div className="mx-auto mt-16 w-full max-w-[1400px] px-4 sm:px-6 lg:px-10">
@@ -103,7 +101,6 @@ export function Features() {
                 {it.icon}
               </div>
               <h3 className="mt-5 text-lg font-bold">{it.title}</h3>
-              
               <p className="mt-1.5 text-sm leading-relaxed text-white/50">{it.text}</p>
             </div>
           </Reveal>
@@ -120,7 +117,7 @@ export function HowItWorks({ price }: { price: string }) {
     ["2", "Buy the game", `${price}. Approve the agreements and pay by card or connect your bank on a secure page.`],
     ["3", "Download it", "Games must be downloaded before you can play them."],
     ["4", "Run it in Chrome", "Double-click the downloaded file and open it in Chrome — run, jump, slide, die."],
-  ] as const;
+  ];
   return (
     <div id="how" className="mx-auto mt-20 w-full max-w-[1400px] scroll-mt-24 px-4 sm:px-6 lg:px-10">
       <Reveal>
@@ -164,12 +161,12 @@ export function Footer() {
             </p>
           </div>
           {[
-            { h: "Store", l: ["Discover", "Trending", "New releases", "Top charts"] },
-            { h: "Genres", l: ["Action", "Fighting", "Parkour", "Puzzle"] },
+            { h: "Store", l: ["Discover", "New releases", "Top charts"] },
+            { h: "Genres", l: ["Action", "Parkour", "Runner"] },
             { h: "Support", l: ["Help center", "Contact", "Privacy", "Terms"] },
           ].map((c) => (
             <div key={c.h}>
-              <h4 className="text-xs font-bold uppercase tracking-[0.2em] text-white/70">{c.h}</\h4>
+              <h4 className="text-xs font-bold uppercase tracking-[0.2em] text-white/70">{c.h}</h4>
               <ul className="mt-4 space-y-2.5">
                 {c.l.map((x) => (
                   <li key={x}>
@@ -181,7 +178,8 @@ export function Footer() {
               </ul>
             </div>
           ))}
-        </div>\n        <div className="mt-12 flex items-center justify-between border-t border-white/5 pt-6 text-xs text-white/35">
+        </div>
+        <div className="mt-12 flex flex-col gap-2 border-t border-white/5 pt-6 text-xs text-white/35 sm:flex-row sm:items-center sm:justify-between">
           <span>© {new Date().getFullYear()} JStick Studios. All rights reserved.</span>
           <span>Payments are handled by a secure payment provider — JStick Studios never sees or stores your card or bank details.</span>
         </div>

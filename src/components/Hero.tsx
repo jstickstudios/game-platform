@@ -4,15 +4,13 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import type { Game } from "@/lib/games";
 import { formatPrice } from "@/lib/games";
+import { cn } from "@/utils/cn";
 import Stickman from "./Stickman";
-
-const hues = [190, 262, 340, 300, 160];
 
 export default function Hero({ games }: { games: Game[] }) {
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
 
-  // Advance slides automatically; pause on hover.
   useEffect(() => {
     if (paused) return;
     const id = setInterval(() => setActive((a) => (a + 1) % Math.max(games.length, 1)), 7000);
@@ -20,18 +18,16 @@ export default function Hero({ games }: { games: Game[] }) {
   }, [paused, games.length]);
 
   const current = games[active] ?? null;
-  const hue = hues[active % hues.length];
 
   return (
     <section id="discover" className="relative scroll-mt-20 pt-20">
-      {/* ambient background */}
       <div className="pointer-events-none absolute inset-x-0 top-0 h-[900px] overflow-hidden">
         <div
-          className="absolute -left-40 -top-40 h-[620px] w-[620px] rounded-full opacity-40 blur-[120px] transition-colors duration-1000"
+          className="absolute -left-40 -top-40 h-[620px] w-[620px] rounded-full opacity-40 blur-[120px]"
           style={{ background: "hsl(190 100% 50%)", animation: "blob-a 14s ease-in-out infinite" }}
         />
         <div
-          className="absolute -right-40 top-20 h-[560px] w-[560px] rounded-full opacity-30 blur-[120px] transition-colors duration-1000"
+          className="absolute -right-40 top-20 h-[560px] w-[560px] rounded-full opacity-30 blur-[120px]"
           style={{ background: "hsl(340 100% 55%)", animation: "blob-b 17s ease-in-out infinite" }}
         />
         <div className="absolute inset-x-0 bottom-0 h-72 bg-gradient-to-t from-ink to-transparent" />
@@ -39,7 +35,7 @@ export default function Hero({ games }: { games: Game[] }) {
 
       <div className="relative mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-10">
         <div className="grid gap-5 lg:grid-cols-[1fr_310px]">
-          {/* ───── Featured stage ───── */}
+          {/* Featured stage */}
           <div
             className="group/stage relative h-[470px] overflow-hidden rounded-3xl bg-panel ring-1 ring-white/10 shadow-[0_30px_80px_rgba(0,0,0,.55)] sm:h-[540px] lg:h-[600px]"
             onMouseEnter={() => setPaused(true)}
@@ -58,11 +54,9 @@ export default function Hero({ games }: { games: Game[] }) {
               )}
             </div>
 
-            {/* overlays */}
             <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-black/10" />
             <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-black/60 via-transparent to-transparent" />
 
-            {/* content */}
             <div key={`t-${active}`} className="absolute inset-x-0 bottom-0 p-6 sm:p-10">
               <div className="anim-fade-up flex items-center gap-3" style={{ animationDelay: "60ms" }}>
                 <span className="relative flex h-2.5 w-2.5">
@@ -75,15 +69,12 @@ export default function Hero({ games }: { games: Game[] }) {
               <h1
                 className="anim-fade-up mt-3 max-w-2xl text-[40px] font-black leading-[0.95] tracking-tight sm:text-6xl lg:text-7xl"
                 style={{ animationDelay: "140ms" }}
-              }
               >
                 {current ? current.title : "JStick Studios"}
               </h1>
 
               <p className="anim-fade-up mt-4 max-w-lg text-[15px] leading-relaxed text-white/75 sm:text-base" style={{ animationDelay: "220ms" }}>
-                {current
-                  ? current.tagline
-                  : "Fast, stylish stickman games — from chill parkour to intense action."}
+                {current ? current.tagline : "Fast, stylish stickman games — from chill parkour to intense action."}
               </p>
 
               <div className="anim-fade-up mt-6 flex flex-wrap items-center gap-3" style={{ animationDelay: "300ms" }}>
@@ -101,7 +92,6 @@ export default function Hero({ games }: { games: Game[] }) {
               </div>
             </div>
 
-            {/* mobile dots */}
             <div className="absolute right-5 top-5 flex gap-1.5 lg:hidden">
               {games.map((_, i) => (
                 <button
@@ -117,7 +107,7 @@ export default function Hero({ games }: { games: Game[] }) {
             </div>
           </div>
 
-          {/* ───── Slide list ───── */}
+          {/* Slide list */}
           <div className="hidden flex-col gap-2 lg:flex">
             {games.map((g, i) => (
               <button
@@ -138,7 +128,9 @@ export default function Hero({ games }: { games: Game[] }) {
                   <p className={cn("truncate text-sm font-bold transition-colors", i === active ? "text-white" : "text-white/70")}>
                     {g.title}
                   </p>
-                  <p className="mt-0.5 text-xs text-white/40">{g.rating === "18+" ? "Action · 18+ Gore" : g.rating === "A" ? "Action rated" : "Everyone"}</p>
+                  <p className="mt-0.5 text-xs text-white/40">
+                    {g.rating === "18+" ? "Action · 18+ Gore" : g.rating === "A" ? "Action rated" : "Everyone"}
+                  </p>
                 </div>
               </button>
             ))}
