@@ -38,6 +38,12 @@ export async function POST(req: Request) {
   }
   clearFails(key);
 
+  // Founder accounts skip the email code — password is enough (VIP fast lane).
+  if (user.isFounder) {
+    await createSession(user.id);
+    return Response.json({ ok: true, username: user.username, isFounder: user.isFounder });
+  }
+
   // Email login codes only activate when RESEND_API_KEY is set AND the account
   // has an email. Until then: normal password login (feature sleeps, site never breaks).
   const emailReady = Boolean(process.env.RESEND_API_KEY) && Boolean(user.email);
