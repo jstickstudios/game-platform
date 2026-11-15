@@ -535,11 +535,14 @@ body {
   }
 }
 
-/* Ground (running) and air (tucked jump) poses cross-fade at the leap. */
+/* Ground (running) and air (tucked jump) poses cross-fade at the leap.
+   The air pose is hidden by default and only shown by its animation, so a
+   stale/partial stylesheet can never render both poses stacked. */
 .promo-pose-ground {
   animation: promo-pose-ground 5.2s linear infinite;
 }
 .promo-pose-air {
+  opacity: 0;
   animation: promo-pose-air 5.2s linear infinite;
 }
 @keyframes promo-pose-ground {
@@ -573,6 +576,7 @@ body {
 
 /* Landing dust: pops at touchdown, drifts back and fades. */
 .promo-dust {
+  opacity: 0;
   animation: promo-dust 5.2s linear infinite;
   will-change: transform, opacity;
 }
@@ -607,5 +611,10 @@ body {
     opacity: 1;
     transform: none;
     filter: none;
+  }
+  /* Keep the scene readable when motion is reduced: one stickman, posed. */
+  .promo-track,
+  .promo-dust {
+    display: none;
   }
 }
