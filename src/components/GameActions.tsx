@@ -8,21 +8,24 @@ type Props = {
   price: string;
   mode: "guest" | "founder" | "owner" | "buyer";
   downloadName: string;
+  username: string;
 };
 
-export default function GameActions({ slug, price, mode, downloadName }: Props) {
+export default function GameActions({ slug, price, mode, downloadName, username }: Props) {
   const [downloaded, setDownloaded] = useState(false);
+  // Memory is per-account: each username gets its own download history.
+  const key = `downloaded-${username}-${slug}`;
 
   useEffect(() => {
     try {
-      setDownloaded(localStorage.getItem("downloaded-" + slug) === "1");
+      setDownloaded(localStorage.getItem(key) === "1");
     } catch {}
-  }, [slug]);
+  }, [key]);
 
   function markDownloaded() {
     setDownloaded(true);
     try {
-      localStorage.setItem("downloaded-" + slug, "1");
+      localStorage.setItem(key, "1");
     } catch {}
   }
 
