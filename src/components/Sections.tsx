@@ -1,7 +1,7 @@
 import Reveal from "./Reveal";
 import Stickman from "./Stickman";
 
-/* â”€â”€â”€â”€â”€â”€â”€â”€â”€ Marquee â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ───────── Marquee ───────── */
 export function Marquee() {
   const words = ["Stickman", "Parkour", "Action", "Runner", "Free to play", "Browser games"];
   const row = [...words, ...words];
@@ -30,7 +30,7 @@ export function Marquee() {
   );
 }
 
-/* â”€â”€â”€â”€â”€â”€â”€â”€â”€ Promo banner â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ───────── Promo banner ───────── */
 export function Promo() {
   return (
     <div className="mx-auto mt-16 w-full max-w-[1400px] px-4 sm:px-6 lg:px-10">
@@ -47,7 +47,7 @@ export function Promo() {
           <div className="relative grid items-center gap-8 p-8 sm:p-12 lg:grid-cols-2 lg:p-16">
             <div>
               <span className="inline-flex items-center gap-2 rounded-full bg-black/25 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.2em] backdrop-blur">
-                ðŸŽ Always free
+                🎁 Always free
               </span>
               <h2 className="mt-5 text-4xl font-black leading-[0.98] tracking-tight sm:text-6xl">
                 Jump in.
@@ -69,7 +69,7 @@ export function Promo() {
                 sprints along the floor, vaults the box at the peak of his jump,
                 and lands with dust puffs. */}
             <div className="relative mx-auto h-60 w-full max-w-md overflow-hidden sm:h-72">
-              {/* greeter waving from a floating ledge â€” safely out of the runner's lane */}
+              {/* greeter waving from a floating ledge — safely out of the runner's lane */}
               <div className="absolute left-[3%] top-[2%] flex flex-col items-center">
                 <Stickman
                   pose="wave"
@@ -82,9 +82,9 @@ export function Promo() {
               <div className="absolute inset-x-0 bottom-6 h-[3px] overflow-hidden rounded-full">
                 <div className="promo-floor h-full w-full" />
               </div>
-              {/* parkour vault box â€” solid shape that reads clearly as an obstacle,
+              {/* parkour vault box — solid shape that reads clearly as an obstacle,
                   placed at ~41% so it sits exactly under the peak of the jump arc
-                  (runner center peaks at ~47%) â€” he vaults over it, never through it */}
+                  (runner center peaks at ~47%) — he vaults over it, never through it */}
               {/* the runner: ground pose + air pose cross-faded mid-jump */}
               <div className="promo-track z-10">
                 <div className="promo-runner">
@@ -102,7 +102,7 @@ export function Promo() {
                   </div>
                 </div>
               </div>
-              {/* landing dust puffs â€” at the true landing spot (~64% across), just past the box */}
+              {/* landing dust puffs — at the true landing spot (~64% across), just past the box */}
               <div className="promo-dust absolute bottom-7 left-[62%] h-3 w-3 rounded-full bg-white/50 blur-[2px]" />
               <div className="promo-dust promo-dust-2 absolute bottom-6 left-[57%] h-2 w-2 rounded-full bg-white/35 blur-[2px]" />
             </div>
@@ -113,13 +113,13 @@ export function Promo() {
   );
 }
 
-/* â”€â”€â”€â”€â”€â”€â”€â”€â”€ Feature tiles â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ───────── Feature tiles ───────── */
 export function Features() {
   const items = [
-    { icon: "âš¡", title: "Instant play", text: "Download and you're in. Zero waiting around." },
-    { icon: "ðŸŒ", title: "Play anywhere", text: "Desktop, tablet or phone â€” it just works." },
-    { icon: "âœ¨", title: "Fresh drops", text: "New stickman games added all the time." },
-    { icon: "ðŸŽ", title: "Free forever", text: "No paywalls, no subscriptions, no catch." },
+    { icon: "⚡", title: "Instant play", text: "Download and you're in. Zero waiting around." },
+    { icon: "🌐", title: "Play anywhere", text: "Desktop, tablet or phone — it just works." },
+    { icon: "✨", title: "Fresh drops", text: "New stickman games added all the time." },
+    { icon: "🎁", title: "Free forever", text: "No paywalls, no subscriptions, no catch." },
   ];
   return (
     <div className="mx-auto mt-16 w-full max-w-[1400px] px-4 sm:px-6 lg:px-10">
@@ -140,13 +140,13 @@ export function Features() {
   );
 }
 
-/* â”€â”€â”€â”€â”€â”€â”€â”€â”€ How it works â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ───────── How it works ───────── */
 export function HowItWorks({ price }: { price: string }) {
   const items = [
     ["1", "Create an account", "Sign up with a username, email and password."],
     ["2", "Buy the game", `${price}. Approve the agreements and pay by card or connect your bank on a secure page.`],
     ["3", "Download it", "Games must be downloaded before you can play them."],
-    ["4", "Run it in Chrome", "Double-click the downloaded file and open it in Chrome â€” run, jump, slide, die."],
+    ["4", "Run it in Chrome", "Double-click the downloaded file and open it in Chrome — run, jump, slide, die."],
   ];
   return (
     <div id="how" className="mx-auto mt-20 w-full max-w-[1400px] scroll-mt-24 px-4 sm:px-6 lg:px-10">
@@ -168,7 +168,7 @@ export function HowItWorks({ price }: { price: string }) {
   );
 }
 
-/* â”€â”€â”€â”€â”€â”€â”€â”€â”€ Footer â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ───────── Footer ───────── */
 export function Footer() {
   return (
     <footer className="relative mt-28 overflow-hidden border-t border-white/5 bg-[#0b0b0e]">
@@ -210,8 +210,8 @@ export function Footer() {
           ))}
         </div>
         <div className="mt-12 flex flex-col gap-2 border-t border-white/5 pt-6 text-xs text-white/35 sm:flex-row sm:items-center sm:justify-between">
-          <span>Â© {new Date().getFullYear()} JStick Studios. All rights reserved.</span>
-          <span>Payments are handled by a secure payment provider â€” JStick Studios never sees or stores your card or bank details.</span>
+          <span>© {new Date().getFullYear()} JStick Studios. All rights reserved.</span>
+          <span>Payments are handled by a secure payment provider — JStick Studios never sees or stores your card or bank details.</span>
         </div>
       </div>
     </footer>
