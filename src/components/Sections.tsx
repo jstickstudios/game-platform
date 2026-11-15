@@ -73,29 +73,50 @@ export function Promo() {
               <div className="promo-floor-glow absolute inset-x-0 bottom-5 h-12" />
 
               <div className="promo-scene promo-scene-parkour absolute inset-0">
-                <div className="absolute bottom-7 left-[32%] h-12 w-14 rounded-md border-2 border-white/70 bg-slate-950/35"><span className="absolute inset-1 border border-white/30" /></div>
-                <div className="promo-parkour-runner absolute bottom-7 left-[8%]">
-                  <Stickman pose="run" className="h-36 w-28 text-white sm:h-44 sm:w-36" stroke={5} />
-                </div>
-                <div className="promo-parkour-dust absolute bottom-8 left-[15%] h-3 w-3 rounded-full bg-white/70 blur-[2px]" />
-                <div className="absolute bottom-12 right-5 rounded-full bg-black/25 px-3 py-1 text-[10px] font-black uppercase tracking-widest text-white/80">Parkour</div>
+                <div className="promo-parkour-horizon absolute inset-x-0 top-0 h-32" />
+                <div className="promo-parkour-moon absolute right-[16%] top-[17%] h-12 w-12 rounded-full bg-white/70 shadow-[0_0_45px_18px_rgba(255,255,255,.22)]" />
+                <div className="promo-parkour-city absolute inset-x-0 bottom-7 h-24" />
+                <div className="promo-parkour-platform absolute bottom-7 left-[35%] h-14 w-20 rounded-t-md border-t-2 border-white/80 bg-slate-950/70 shadow-[0_0_24px_rgba(255,255,255,.2)]"><span className="absolute inset-x-2 top-2 h-px bg-white/30" /></div>
+                <div className="promo-parkour-shadow absolute bottom-5 left-[7%] h-3 w-16 rounded-full bg-black/60 blur-md" />
+                <div className="promo-parkour-ghost absolute bottom-7 left-[8%]"><Stickman pose="run" className="h-36 w-28 text-white/20 sm:h-44 sm:w-36" stroke={5} /></div>
+                <div className="promo-parkour-runner absolute bottom-7 left-[8%]"><Stickman pose="run" className="h-36 w-28 text-white sm:h-44 sm:w-36" stroke={5} /></div>
+                <div className="promo-parkour-dust absolute bottom-8 left-[15%] h-3 w-3 rounded-full bg-white blur-[2px]" />
+                <div className="promo-parkour-ring absolute bottom-8 left-[35%] h-10 w-10 rounded-full border border-white/70" />
+                <div className="promo-scene-label absolute bottom-12 right-5 rounded-full px-3 py-1 text-[10px] font-black uppercase tracking-widest text-white">01 / Parkour</div>
               </div>
 
               <div className="promo-scene promo-scene-slice absolute inset-0">
-                <div className="absolute bottom-7 left-[17%]"><Stickman pose="idle" className="h-36 w-28 text-white sm:h-44 sm:w-36" stroke={5} /></div>
-                <div className="absolute bottom-7 right-[15%]"><Stickman pose="idle" className="h-36 w-28 text-white/65 sm:h-44 sm:w-36" stroke={5} /></div>
+                <div className="promo-slice-backlight absolute left-[38%] top-[18%] h-36 w-36 rounded-full" />
+                <div className="promo-slice-grid absolute inset-0" />
+                <div className="promo-slice-shadow absolute bottom-5 left-[14%] h-3 w-20 rounded-full bg-black/50 blur-md" />
+                <div className="promo-slice-shadow absolute bottom-5 right-[12%] h-3 w-20 rounded-full bg-black/50 blur-md" />
+                <div className="promo-slice-target absolute bottom-7 right-[15%]"><Stickman pose="idle" className="h-36 w-28 text-white/70 sm:h-44 sm:w-36" stroke={5} /></div>
+                <div className="promo-slice-attacker absolute bottom-7 left-[17%]"><Stickman pose="run" className="h-36 w-28 text-white sm:h-44 sm:w-36" stroke={5} /></div>
+                <div className="promo-slice-ghost absolute bottom-7 left-[17%]"><Stickman pose="run" className="h-36 w-28 text-white/25 sm:h-44 sm:w-36" stroke={5} /></div>
                 <div className="promo-slice-blade absolute left-[43%] top-[43%] h-1 w-28 origin-left rounded-full bg-white shadow-[0_0_16px_4px_rgba(255,255,255,.9)]" />
                 <div className="promo-slice-arc absolute left-[36%] top-[15%] h-28 w-28 rounded-full border-[4px] border-transparent border-r-white border-t-white" />
                 <div className="promo-slice-sparks absolute left-[65%] top-[42%] h-3 w-3 rounded-full bg-white" />
-                <div className="absolute bottom-12 right-5 rounded-full bg-black/25 px-3 py-1 text-[10px] font-black uppercase tracking-widest text-white/80">Sword combo</div>
+                <div className="promo-slice-spark-two absolute left-[61%] top-[47%] h-2 w-2 rounded-full bg-white" />
+                <div className="promo-slice-spark-three absolute left-[69%] top-[37%] h-2 w-2 rounded-full bg-white" />
+                <div className="promo-slice-slash absolute left-[38%] top-[34%] h-1 w-40 rounded-full bg-white" />
+                <div className="promo-scene-label absolute bottom-12 right-5 rounded-full px-3 py-1 text-[10px] font-black uppercase tracking-widest text-white">02 / Sword combo</div>
               </div>
 
               <div className="promo-scene promo-scene-action absolute inset-0">
-                <div className="absolute bottom-7 right-[15%]"><Stickman pose="idle" className="h-36 w-28 text-white/55 sm:h-44 sm:w-36" stroke={5} /></div>
+                <div className="promo-action-backlight absolute right-[15%] top-[18%] h-40 w-40 rounded-full" />
+                <div className="promo-action-floor absolute inset-x-0 bottom-7 h-px" />
+                <div className="promo-action-shadow absolute bottom-5 left-[10%] h-3 w-20 rounded-full bg-black/60 blur-md" />
+                <div className="promo-action-shadow absolute bottom-5 right-[12%] h-3 w-20 rounded-full bg-black/60 blur-md" />
+                <div className="promo-action-target absolute bottom-7 right-[15%]"><Stickman pose="idle" className="h-36 w-28 text-white/60 sm:h-44 sm:w-36" stroke={5} /></div>
                 <div className="promo-action-fighter absolute bottom-7 left-[12%]"><Stickman pose="jump" className="h-36 w-28 text-white sm:h-44 sm:w-36" stroke={5} /></div>
+                <div className="promo-action-afterimage absolute bottom-7 left-[12%]"><Stickman pose="jump" className="h-36 w-28 text-white/25 sm:h-44 sm:w-36" stroke={5} /></div>
                 <div className="promo-action-impact absolute bottom-16 right-[24%] h-14 w-14 rounded-full border-[3px] border-white shadow-[0_0_20px_4px_rgba(255,255,255,.7)]" />
                 <div className="promo-action-flash absolute bottom-[42%] right-[30%] h-2 w-20 rotate-[-28deg] rounded-full bg-white shadow-[0_0_18px_5px_rgba(255,255,255,.8)]" />
-                <div className="absolute bottom-12 right-5 rounded-full bg-black/25 px-3 py-1 text-[10px] font-black uppercase tracking-widest text-white/80">Combat</div>
+                <div className="promo-action-shockwave absolute bottom-12 right-[20%] h-20 w-20 rounded-full border-2 border-white/80" />
+                <div className="promo-action-debris absolute bottom-[40%] right-[27%] h-2 w-2 rounded-full bg-white" />
+                <div className="promo-action-debris-two absolute bottom-[48%] right-[34%] h-2 w-2 rounded-full bg-white" />
+                <div className="promo-action-debris-three absolute bottom-[35%] right-[19%] h-1.5 w-1.5 rounded-full bg-white" />
+                <div className="promo-scene-label absolute bottom-12 right-5 rounded-full px-3 py-1 text-[10px] font-black uppercase tracking-widest text-white">03 / Combat</div>
               </div>
 
               <div className="absolute left-4 top-4 rounded-full border border-white/25 bg-black/20 px-3 py-1 text-[9px] font-black uppercase tracking-[0.22em] text-white/75 backdrop-blur">JStick action showcase</div>
