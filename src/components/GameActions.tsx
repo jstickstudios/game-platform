@@ -31,11 +31,11 @@ export default function GameActions({ slug, price, mode, downloadName, username 
 
   // Notice box: warning before download, green confirmation after.
   const notice = downloaded ? (
-    <div className="rounded-xl border border-emerald-400/30 bg-emerald-400/5 p-3.5 text-[13px] leading-relaxed text-emerald-100">
+    <div className="min-h-[76px] rounded-xl border border-emerald-400/30 bg-emerald-400/5 p-3.5 text-[13px] leading-relaxed text-emerald-100">
       <b>✓ Downloaded.</b> Open the file from your Downloads folder in Chrome and press <b>F</b> for fullscreen. Grab it again anytime.
     </div>
   ) : (
-    <div className="rounded-xl border border-yellow-400/30 bg-yellow-400/5 p-3.5 text-[13px] leading-relaxed text-yellow-100">
+    <div className="min-h-[76px] rounded-xl border border-yellow-400/30 bg-yellow-400/5 p-3.5 text-[13px] leading-relaxed text-yellow-100">
       <b>Download required.</b> This game can&apos;t be played on the website — download it first, then open it in Chrome.
     </div>
   );

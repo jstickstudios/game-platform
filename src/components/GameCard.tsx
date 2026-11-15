@@ -17,14 +17,14 @@ export default async function GameCard({ game }: { game: Game }) {
   const mode = !user ? "guest" : user.isFounder ? "founder" : owned ? "owner" : "buyer";
 
   return (
-    <div className="group relative overflow-hidden rounded-3xl bg-panel ring-1 ring-white/10 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_60px_rgba(0,0,0,.6)]">
-      <div className={`relative bg-black ${game.imageAspect === "landscape" ? "aspect-[16/9]" : "aspect-[3/4]"}`}>
+    <div className="group relative flex h-full flex-col overflow-hidden rounded-3xl bg-panel ring-1 ring-white/10 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_60px_rgba(0,0,0,.6)]">
+      <div className="relative aspect-[3/4] bg-black">
         <Image
           src={`/images/${game.image}`}
           alt={`${game.title} key art`}
           fill
           sizes="(max-width: 768px) 100vw, 300px"
-          className={`${game.imageAspect === "landscape" ? "object-cover" : "object-contain"} transition-transform duration-700 group-hover:scale-105`}
+          className="object-contain transition-transform duration-700 group-hover:scale-105"
         />
         <span className={`absolute left-3 top-3 rounded-md px-2 py-1 text-[10px] font-black uppercase tracking-widest ${ratingClass(game.rating)}`}>
           {ratingLabel(game.rating)}
@@ -35,14 +35,14 @@ export default async function GameCard({ game }: { game: Game }) {
         </span>
       </div>
 
-      <div className="p-4">
+      <div className="flex flex-1 flex-col p-4">
         <div className="flex items-center gap-2">
           <Stickman pose="run" className="h-4 w-3 text-brand-2" stroke={10} />
           <h3 className="text-[15px] font-extrabold tracking-tight">{game.title}</h3>
         </div>
         <p className="mt-2 line-clamp-2 text-xs leading-relaxed text-white/50">{game.tagline}</p>
 
-        <div className="mt-4">
+        <div className="mt-auto pt-4">
           <GameActions
             slug={game.slug}
             price={formatPrice(game.priceCents)}
