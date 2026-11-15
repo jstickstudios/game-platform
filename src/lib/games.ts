@@ -1,4 +1,4 @@
-﻿export type Game = {
+export type Game = {
   slug: string;
   title: string;
   tagline: string;
@@ -33,7 +33,7 @@ export const GAMES: Game[] = [
     tagline: "Master the neon blade, unlock skins and survive endless waves of enemies.",
     image: "neon-stickman-ninja-poster.jpg",
     imageAspect: "landscape",
-    priceCents: 0,
+    priceCents: 200,
     currency: "eur",
     file: "neon-stickman-ninja.html",
     downloadName: "Neon-Stickman-Ninja.html",
