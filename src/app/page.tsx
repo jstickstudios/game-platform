@@ -94,9 +94,6 @@ export default async function Home({
                 </li>
               ))}
             </ul>
-            <div className="rounded-xl border border-yellow-400/30 bg-yellow-400/5 p-3.5 text-[13px] leading-relaxed text-yellow-100">
-              <b>Download required.</b> This game can&apos;t be played on the website — download it first, then open it in Chrome.
-            </div>
             <GameActions
               slug={game.slug}
               price={formatPrice(game.priceCents)}
@@ -119,7 +116,7 @@ export default async function Home({
             ["1", "Create an account", "Sign up with a username, email and password."],
             ["2", "Buy the game", `${formatPrice(game.priceCents)}. Approve the agreements and pay by card or connect your bank on a secure page.`],
             ["3", "Download it", "Games must be downloaded before you can play them."],
-            ["4", "Run it in Chrome", "Paste the PowerShell command we show you — and run, jump, slide, die."],
+            ["4", "Run it in Chrome", "Double-click the downloaded file and open it in Chrome — run, jump, slide, die."],
           ].map(([n, t, d]) => (
             <div key={n} className="glass rounded-2xl p-5">
               <div className="mb-3 grid h-9 w-9 place-items-center rounded-full bg-gradient-to-br from-cyan-400 to-pink-500 font-black text-black">{n}</div>

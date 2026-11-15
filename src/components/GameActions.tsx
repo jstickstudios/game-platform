@@ -26,38 +26,55 @@ export default function GameActions({ slug, price, mode, downloadName }: Props) 
     } catch {}
   }
 
+  // Notice box: warning before download, green confirmation after.
+  const notice = downloaded ? (
+    <div className="rounded-xl border border-emerald-400/30 bg-emerald-400/5 p-3.5 text-[13px] leading-relaxed text-emerald-100">
+      <b>✓ Downloaded.</b> Open the file from your Downloads folder in Chrome and press <b>F</b> for fullscreen. Grab it again anytime.
+    </div>
+  ) : (
+    <div className="rounded-xl border border-yellow-400/30 bg-yellow-400/5 p-3.5 text-[13px] leading-relaxed text-yellow-100">
+      <b>Download required.</b> This game can&apos;t be played on the website — download it first, then open it in Chrome.
+    </div>
+  );
+
   if (mode === "guest") {
     return (
-      <div className="flex flex-wrap items-center gap-3">
-        <Link
-          href={`/login?next=${encodeURIComponent("/checkout/" + slug)}`}
-          className="btn-primary rounded-xl px-6 py-3 font-extrabold uppercase tracking-wider text-white"
-        >
-          Log in to {price === "FREE" ? "play" : "buy"} - {price}
-        </Link>
-        <Link href={`/signup?next=${encodeURIComponent("/checkout/" + slug)}`} className="btn-ghost rounded-xl px-6 py-3 font-bold">
-          Create account
-        </Link>
+      <div className="space-y-4">
+        <div className="flex flex-wrap items-center gap-3">
+          <Link
+            href={`/login?next=${encodeURIComponent("/checkout/" + slug)}`}
+            className="btn-primary rounded-xl px-6 py-3 font-extrabold uppercase tracking-wider text-white"
+          >
+            Log in to {price === "FREE" ? "play" : "buy"} - {price}
+          </Link>
+          <Link href={`/signup?next=${encodeURIComponent("/checkout/" + slug)}`} className="btn-ghost rounded-xl px-6 py-3 font-bold">
+            Create account
+          </Link>
+        </div>
+        {notice}
       </div>
     );
   }
 
   if (mode === "buyer") {
     return (
-      <div className="flex flex-wrap items-center gap-3">
-        <a
-          href={`/api/download/${slug}`}
-          download={downloadName}
-          onClick={markDownloaded}
-          className="btn-primary inline-block rounded-xl px-7 py-3 font-extrabold uppercase tracking-wider text-white"
-        >
-          {price === "FREE" ? "Play now" : "Buy now"} - {price}
-        </a>
-        {downloaded && (
-          <span className="text-sm font-bold text-emerald-400">
-            Already downloaded
-          </span>
-        )}
+      <div className="space-y-4">
+        <div className="flex flex-wrap items-center gap-3">
+          <a
+            href={`/api/download/${slug}`}
+            download={downloadName}
+            onClick={markDownloaded}
+            className="btn-primary inline-block rounded-xl px-7 py-3 font-extrabold uppercase tracking-wider text-white"
+          >
+            {price === "FREE" ? "Play now" : "Buy now"} - {price}
+          </a>
+          {downloaded && (
+            <span className="text-sm font-bold text-emerald-400">
+              Already downloaded
+            </span>
+          )}
+        </div>
+        {notice}
       </div>
     );
   }
@@ -82,6 +99,8 @@ export default function GameActions({ slug, price, mode, downloadName }: Props) 
               : "You own this game."}
         </span>
       </div>
+
+      {notice}
 
       <div className={`glass rounded-2xl p-5 transition ${downloaded ? "ring-2 ring-cyan-400/60" : ""}`}>
         <h4 className="text-sm font-black uppercase tracking-widest text-cyan-300">
