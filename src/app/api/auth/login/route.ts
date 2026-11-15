@@ -3,6 +3,7 @@ import { db } from "@/db";
 import { users } from "@/db/schema";
 import {
   clearFails,
+  createSession,
   ensureFounder,
   recordFail,
   startLoginChallenge,
@@ -37,19 +38,18 @@ export async function POST(req: Request) {
   }
   clearFails(key);
 
-  // Password is correct — now send the 6-digit email code.
-  if (!user.email) {
-    return Response.json(
-      {
-        error:
-          "This account has no email on file, so we can't send a login code. Contact JStick Studios support.",
-      },
-      { status: 400 },
-    );
+  // Email login codes only activate when RESEND_API_KEY is set AND the account
+  // has an email. Until then: normal password login (feature sleeps, site never breaks).
+  const emailReady = Boolean(process.env.RESEND_API_KEY) && Boolean(user.email);
+
+  if (!emailReady) {
+    await createSession(user.id);
+    return Response.json({ ok: true, username: user.username, isFounder: user.isFounder });
   }
 
+  // Password is correct — send the 6-digit email code.
   const code = await startLoginChallenge(user.id);
-  const sent = await sendLoginCode(user.email, code, user.username);
+  const sent = await sendLoginCode(user.email as string, code, user.username);
 
   if (!sent) {
     // Local testing without RESEND_API_KEY: show the code instead of emailing it.
