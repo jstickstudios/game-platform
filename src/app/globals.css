@@ -652,3 +652,28 @@ body {
 @keyframes promo-action-dust{0%,36%,100%{opacity:0;transform:translateX(0) scale(.3)}42%{opacity:.8;transform:translateX(-12px) scale(1.2)}52%{opacity:0;transform:translateX(-25px) scale(1.6)}}
 @media(prefers-reduced-motion:reduce){.promo-ninja,.promo-ninja-motion,.promo-speedlines,.promo-slash,.promo-blade,.promo-spark,.promo-impact,.promo-dummy,.promo-crate{animation:none!important}.promo-jump-pose,.promo-slide-pose,.promo-blade,.promo-slash,.promo-spark,.promo-impact{display:none}}
 
+/* Separate promo scenes: each scene gets its own turn, then hands off to the next. */
+.promo-sequence .promo-scene{opacity:0;pointer-events:none;animation-duration:15s;animation-iteration-count:infinite;animation-timing-function:linear}
+.promo-sequence .promo-scene-parkour{animation-name:promo-scene-parkour}
+.promo-sequence .promo-scene-slice{animation-name:promo-scene-slice}
+.promo-sequence .promo-scene-action{animation-name:promo-scene-action}
+@keyframes promo-scene-parkour{0%,29%{opacity:1}33%,100%{opacity:0}}
+@keyframes promo-scene-slice{0%,32%{opacity:0}36%,62%{opacity:1}66%,100%{opacity:0}}
+@keyframes promo-scene-action{0%,65%{opacity:0}69%,96%{opacity:1}100%{opacity:0}}
+.promo-parkour-runner{animation:promo-parkour-leap 5s ease-in-out infinite}
+@keyframes promo-parkour-leap{0%,20%{transform:translate(0,0)}35%{transform:translate(68px,-58px)}52%{transform:translate(112px,0)}70%,100%{transform:translate(160px,0)}}
+.promo-parkour-dust{animation:promo-parkour-puff 5s ease-out infinite}
+@keyframes promo-parkour-puff{0%,48%,100%{opacity:0;transform:translateX(0) scale(.3)}55%{opacity:.8;transform:translateX(-14px) scale(1.4)}68%{opacity:0;transform:translateX(-28px) scale(1.8)}}
+.promo-slice-blade{animation:promo-slice-swing 2.4s ease-in-out infinite;opacity:0}
+@keyframes promo-slice-swing{0%,20%,100%{opacity:0;transform:rotate(-65deg) scaleX(.2)}38%{opacity:1;transform:rotate(28deg) scaleX(1)}53%{opacity:0;transform:rotate(80deg) scaleX(.7)}}
+.promo-slice-arc{animation:promo-slice-arc 2.4s ease-out infinite;opacity:0}
+@keyframes promo-slice-arc{0%,25%,100%{opacity:0;transform:rotate(-50deg) scale(.45)}42%{opacity:1;transform:rotate(20deg) scale(1.15)}62%{opacity:0;transform:rotate(65deg) scale(1.4)}}
+.promo-slice-sparks{animation:promo-slice-sparks 2.4s ease-out infinite;opacity:0;box-shadow:0 0 18px 6px white}
+@keyframes promo-slice-sparks{0%,35%,100%{opacity:0;transform:scale(.2)}45%{opacity:1;transform:scale(1.7)}65%{opacity:0;transform:translate(20px,-15px) scale(.2)}}
+.promo-action-fighter{animation:promo-action-kick 2.8s ease-in-out infinite;transform-origin:50% 90%}
+@keyframes promo-action-kick{0%,22%,100%{transform:translate(0,0) rotate(0)}42%{transform:translate(45px,-25px) rotate(35deg)}52%{transform:translate(65px,-8px) rotate(65deg)}68%{transform:translate(35px,0) rotate(0)}}
+.promo-action-impact{animation:promo-action-burst 2.8s ease-out infinite;opacity:0}
+@keyframes promo-action-burst{0%,40%,100%{opacity:0;transform:scale(.2)}53%{opacity:1;transform:scale(1.5)}72%{opacity:0;transform:scale(2.2)}}
+.promo-action-flash{animation:promo-action-flash 2.8s ease-out infinite;opacity:0}
+@keyframes promo-action-flash{0%,43%,100%{opacity:0;transform:scaleX(.2) rotate(-28deg)}52%{opacity:1;transform:scaleX(1.3) rotate(-28deg)}65%{opacity:0;transform:scaleX(.5) rotate(-28deg)}}
+@media(prefers-reduced-motion:reduce){.promo-sequence .promo-scene{animation:none!important}.promo-sequence .promo-scene-parkour{opacity:1}.promo-sequence .promo-scene-slice,.promo-sequence .promo-scene-action{display:none}.promo-parkour-runner,.promo-slice-blade,.promo-slice-arc,.promo-slice-sparks,.promo-action-fighter,.promo-action-impact,.promo-action-flash{animation:none!important}}
