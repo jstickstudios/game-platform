@@ -99,6 +99,7 @@ export default async function Home({
               price={formatPrice(game.priceCents)}
               mode={mode}
               downloadName={game.downloadName}
+              username={user ? user.username : "guest"}
             />
           </div>
         </article>
