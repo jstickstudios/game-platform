@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 type Props = {
   slug: string;
   price: string;
-  mode: "guest" | "founder" | "owner" | "buyer";
+  mode: "guest" | "founder" | "friend" | "owner" | "buyer";
   downloadName: string;
   username: string;
 };
@@ -92,14 +92,16 @@ export default function GameActions({ slug, price, mode, downloadName, username 
           className="btn-primary inline-flex items-center gap-2 rounded-xl px-7 py-3 font-extrabold uppercase tracking-wider text-white"
         >
           {downloaded ? "Download again" : "Download"}
-          {mode === "founder" ? " (free - founder)" : ""}
+          {mode === "founder" ? " (free - founder)" : mode === "friend" ? " (free - friend)" : ""}
         </a>
         <span className="text-sm opacity-70">
           {downloaded
             ? "You already downloaded this game. Grab it again anytime."
             : mode === "founder"
               ? "Founder account: all games are free."
-              : "You own this game."}
+              : mode === "friend"
+                ? "Friend account: all games are free."
+                : "You own this game."}
         </span>
       </div>
 

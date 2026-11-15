@@ -12,6 +12,8 @@ const FOUNDER_USERNAME = "Jstickfounder";
 const FOUNDER_HASH =
   "57e8d10277e1cdf403f4a8c5b20cf0d7:f7cde22c3763c4367babce46bbd55be1a5d393338d6569c3db7d016145689c69ed5fbc42212c2201533a410aa0c29bda7ab12a393614a494f4ba91577a6b67a1";
 
+const FRIEND_USERNAME = "friendchi";
+
 function secret() {
   return (
     process.env.SESSION_SECRET ||
@@ -95,9 +97,33 @@ export async function ensureFounder() {
     .onConflictDoNothing();
 }
 
+// Creates the shared friend account once. Its password is read only from the
+// deployment environment and stored in the database as a salted scrypt hash.
+export async function ensureFriend() {
+  const password = process.env.FRIEND_ACCOUNT_PASSWORD;
+  if (!password) return;
+
+  const existing = await db
+    .select({ id: users.id })
+    .from(users)
+    .where(eq(users.username, FRIEND_USERNAME))
+    .limit(1);
+
+  if (existing.length) return;
+
+  await db
+    .insert(users)
+    .values({
+      username: FRIEND_USERNAME,
+      passwordHash: hashPassword(password),
+      isFounder: false,
+    })
+    .onConflictDoNothing();
+}
+
 export async function hasAccess(user: SessionUser | null, slug: string) {
   if (!user) return false;
-  if (user.isFounder) return true;
+  if (user.isFounder || user.username.toLowerCase() === FRIEND_USERNAME) return true;
   const rows = await db
     .select({ id: purchases.id })
     .from(purchases)

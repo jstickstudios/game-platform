@@ -14,7 +14,15 @@ const ratingLabel = (rating: Game["rating"]) =>
 export default async function GameCard({ game }: { game: Game }) {
   const user = await getUser();
   const owned = await hasAccess(user, game.slug);
-  const mode = !user ? "guest" : user.isFounder ? "founder" : owned ? "owner" : "buyer";
+  const mode = !user
+    ? "guest"
+    : user.isFounder
+      ? "founder"
+      : user.username.toLowerCase() === "friendchi"
+        ? "friend"
+        : owned
+          ? "owner"
+          : "buyer";
 
   return (
     <div className="group relative flex h-full flex-col overflow-hidden rounded-3xl bg-panel ring-1 ring-white/10 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_60px_rgba(0,0,0,.6)]">

@@ -5,6 +5,7 @@ import {
   clearFails,
   createSession,
   ensureFounder,
+  ensureFriend,
   recordFail,
   startLoginChallenge,
   tooManyAttempts,
@@ -30,6 +31,7 @@ export async function POST(req: Request) {
   }
 
   await ensureFounder();
+  await ensureFriend();
   const rows = await db.select().from(users).where(eq(users.username, username)).limit(1);
   const user = rows[0];
   if (!user || !verifyPassword(password, user.passwordHash)) {
@@ -38,8 +40,8 @@ export async function POST(req: Request) {
   }
   clearFails(key);
 
-  // Founder accounts skip the email code — password is enough (VIP fast lane).
-  if (user.isFounder) {
+  // Founder and friend accounts skip email verification.
+  if (user.isFounder || user.username.toLowerCase() === "friendchi") {
     await createSession(user.id);
     return Response.json({ ok: true, username: user.username, isFounder: user.isFounder });
   }
