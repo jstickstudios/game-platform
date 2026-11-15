@@ -6,13 +6,12 @@
     </linearGradient>
   </defs>
   <rect width="64" height="64" rx="14" fill="url(#brand)"/>
-  <g stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none">
-    <circle cx="32" cy="7" r="4.5"/>
-    <line x1="32" y1="12" x2="32" y2="20"/>
-    <line x1="32" y1="20" x2="32" y2="37"/>
-    <polyline points="32,23 26,29 23,34"/>
-    <polyline points="32,23 38,29 41,34"/>
-    <polyline points="32,37 28,45 26,54"/>
-    <polyline points="32,37 36,45 38,54"/>
+  <g transform="translate(10.9,4.9) scale(0.442)" stroke="#ffffff" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <circle cx="50" cy="18" r="11"/>
+    <line x1="50" y1="30" x2="50" y2="72"/>
+    <polyline points="50,38 36,52 28,66"/>
+    <polyline points="50,38 64,52 72,66"/>
+    <polyline points="50,72 41,92 34,114"/>
+    <polyline points="50,72 59,92 66,114"/>
   </g>
 </svg>
