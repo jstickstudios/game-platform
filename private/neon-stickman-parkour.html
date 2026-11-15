@@ -227,9 +227,9 @@ const SKEY='jstick_neon_stickman_v1';
 const DEF={master:80,sfx:100,music:45,gore:2,shake:true,persist:true,fps:false,quality:1,day:1};
 let cfg=Object.assign({},DEF);
 let best={dist:0,maps:0};
-try{Object.assign(cfg,JSON.parse(localStorage.getItem(SKEY+'_cfg')||'{}'));Object.assign(best,JSON.parse(localStorage.getItem(SKEY+'_best')||'{}'))}catch(e){}
+try{Object.assign(cfg,JSON.parse(localStorage.getItem(SKEY+'_cfg')||'{}'));Object.assign(best,JSON.parse(localStorage.getItem(SKEY+'_best')||'{}'))}catch(e){};for(const k of ['dist','maps'])if(!Number.isSafeInteger(best[k])||best[k]<0||best[k]>100000000)best[k]=0;
 const saveCfg=()=>{try{localStorage.setItem(SKEY+'_cfg',JSON.stringify(cfg))}catch(e){}};
-const saveBest=()=>{try{localStorage.setItem(SKEY+'_best',JSON.stringify(best))}catch(e){}};
+const saveBest=()=>{for(const k of ['dist','maps'])if(!Number.isSafeInteger(best[k])||best[k]<0||best[k]>100000000)best[k]=0;try{localStorage.setItem(SKEY+'_best',JSON.stringify(best))}catch(e){}};
 const DAYLEN=[60,150,300,0];
 
 /* ---------------- canvas ---------------- */
