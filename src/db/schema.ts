@@ -6,6 +6,9 @@ import {
   text,
   timestamp,
   uniqueIndex,
+  index,
+  bigint,
+  jsonb,
 } from "drizzle-orm/pg-core";
 
 export const users = pgTable(
@@ -38,4 +41,22 @@ export const purchases = pgTable(
     createdAt: timestamp("created_at").notNull().defaultNow(),
   },
   (t) => [uniqueIndex("purchases_user_game_idx").on(t.userId, t.gameSlug)],
+);
+
+export const gameScores = pgTable(
+  "game_scores",
+  {
+    id: serial("id").primaryKey(),
+    userId: integer("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    gameSlug: text("game_slug").notNull(),
+    score: bigint("score", { mode: "number" }).notNull(),
+    details: jsonb("details").notNull().default({}),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (t) => [
+    uniqueIndex("game_scores_user_game_idx").on(t.userId, t.gameSlug),
+    index("game_scores_leaderboard_idx").on(t.gameSlug, t.score),
+  ],
 );
