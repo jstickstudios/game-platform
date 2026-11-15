@@ -1,7 +1,7 @@
 import { cn } from "@/utils/cn";
 
 type Props = {
-  pose?: "run" | "idle" | "wave";
+  pose?: "run" | "idle" | "wave" | "jump";
   className?: string;
   stroke?: number;
 };

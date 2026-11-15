@@ -99,6 +99,22 @@ body {
   animation: sm-swing 1.4s ease-in-out infinite alternate;
   --a: 6deg;
 }
+/* Jump pose: arms up, legs tucked, body leaning into the leap — held static in flight. */
+.stick.jump .sm-body {
+  transform: rotate(-8deg);
+}
+.stick.jump .sm-arm-l {
+  transform: rotate(-118deg);
+}
+.stick.jump .sm-arm-r {
+  transform: rotate(-140deg);
+}
+.stick.jump .sm-leg-l {
+  transform: rotate(-52deg);
+}
+.stick.jump .sm-leg-r {
+  transform: rotate(38deg);
+}
 
 @keyframes sm-swing {
   from {
@@ -420,6 +436,163 @@ body {
   background-clip: text;
   color: transparent;
   filter: drop-shadow(0 0 16px rgba(255, 0, 60, 0.5));
+}
+
+/* ───────── Promo "Jump in. No limits." scene ─────────
+   A runner sprints across the scene, crouches, leaps the hurdle in a tucked
+   jump pose, lands with a squash + dust puff, and exits. All scene animations
+   share the same 5.2s cycle so every beat lines up. */
+.promo-floor {
+  background: repeating-linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.75) 0 24px,
+    transparent 24px 46px
+  );
+  animation: promo-floor-dash 0.45s linear infinite;
+}
+@keyframes promo-floor-dash {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: -46px 0;
+  }
+}
+
+.promo-greeter {
+  animation: promo-greeter-sway 2.4s ease-in-out infinite;
+  transform-origin: 50% 100%;
+}
+@keyframes promo-greeter-sway {
+  0%,
+  100% {
+    transform: rotate(-2.5deg);
+  }
+  50% {
+    transform: rotate(2.5deg);
+  }
+}
+
+.promo-track {
+  position: absolute;
+  inset: 0;
+  animation: promo-track-run 5.2s linear infinite;
+  will-change: transform;
+}
+@keyframes promo-track-run {
+  0% {
+    transform: translateX(-130px);
+  }
+  100% {
+    transform: translateX(calc(100% + 130px));
+  }
+}
+
+.promo-runner {
+  position: absolute;
+  bottom: 24px;
+  left: 0;
+}
+
+/* Jump arc: run → anticipation crouch → rise → fall → landing squash → recover.
+   Height is responsive so the head never leaves the box on small screens. */
+.promo-jump {
+  --promo-jump: 62px;
+  animation: promo-arc 5.2s linear infinite;
+  transform-origin: 50% 100%;
+  will-change: transform;
+}
+@media (min-width: 640px) {
+  .promo-jump {
+    --promo-jump: 76px;
+  }
+}
+@keyframes promo-arc {
+  0%,
+  26% {
+    transform: translateY(0) scale(1, 1);
+    animation-timing-function: ease-in;
+  }
+  29% {
+    transform: translateY(0) scale(1.07, 0.86);
+    animation-timing-function: cubic-bezier(0.3, 0.5, 0.5, 1);
+  }
+  39% {
+    transform: translateY(calc(-1 * var(--promo-jump))) scale(1, 1);
+    animation-timing-function: cubic-bezier(0.5, 0, 0.8, 0.45);
+  }
+  49% {
+    transform: translateY(0) scale(1, 1);
+    animation-timing-function: ease-out;
+  }
+  52% {
+    transform: translateY(0) scale(1.08, 0.82);
+    animation-timing-function: cubic-bezier(0.2, 0.8, 0.4, 1);
+  }
+  56%,
+  100% {
+    transform: translateY(0) scale(1, 1);
+  }
+}
+
+/* Ground (running) and air (tucked jump) poses cross-fade at the leap. */
+.promo-pose-ground {
+  animation: promo-pose-ground 5.2s linear infinite;
+}
+.promo-pose-air {
+  animation: promo-pose-air 5.2s linear infinite;
+}
+@keyframes promo-pose-ground {
+  0%,
+  29% {
+    opacity: 1;
+  }
+  31%,
+  47% {
+    opacity: 0;
+  }
+  49%,
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes promo-pose-air {
+  0%,
+  29% {
+    opacity: 0;
+  }
+  31%,
+  47% {
+    opacity: 1;
+  }
+  49%,
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Landing dust: pops at touchdown, drifts back and fades. */
+.promo-dust {
+  animation: promo-dust 5.2s linear infinite;
+  will-change: transform, opacity;
+}
+.promo-dust-2 {
+  animation-delay: -0.07s;
+}
+@keyframes promo-dust {
+  0%,
+  47% {
+    opacity: 0;
+    transform: translateX(0) scale(0.3);
+  }
+  51% {
+    opacity: 0.8;
+  }
+  62%,
+  100% {
+    opacity: 0;
+    transform: translateX(-30px) scale(1.6);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

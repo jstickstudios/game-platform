@@ -65,16 +65,40 @@ export function Promo() {
               </a>
             </div>
 
-            <div className="relative mx-auto flex h-60 w-full max-w-md items-end justify-center sm:h-72">
-              <div className="absolute bottom-6 h-[3px] w-full rounded-full bg-white/70" />
+            {/* Animated scene: floor scrolls, greeter sways, runner sprints in, leaps the hurdle, lands with dust. */}
+            <div className="relative mx-auto h-60 w-full max-w-md overflow-hidden sm:h-72">
+              {/* scrolling floor dashes */}
+              <div className="absolute inset-x-0 bottom-6 h-[3px] overflow-hidden rounded-full">
+                <div className="promo-floor h-full w-full" />
+              </div>
+              {/* the hurdle he jumps over */}
+              <div className="absolute bottom-6 left-1/2 h-10 w-1.5 -translate-x-1/2 rounded-full bg-white/80 shadow-[0_0_14px_rgba(255,255,255,.6)]" />
+              {/* waving greeter on the left */}
               <Stickman
                 pose="wave"
-                className="mr-6 h-44 w-36 text-white transition-transform duration-500 group-hover:-translate-x-3 sm:h-52 sm:w-44"
+                className="promo-greeter absolute bottom-6 left-[10%] h-44 w-36 text-white sm:h-52 sm:w-44"
                 stroke={5}
               />
-              <div className="mb-6" style={{ animation: "jump-hops 5s infinite" }}>
-                <Stickman pose="run" className="-ml-2 h-36 w-28 text-white/90 sm:h-44 sm:w-36" stroke={5} />
+              {/* the runner: ground pose + air pose cross-faded mid-jump */}
+              <div className="promo-track z-10">
+                <div className="promo-runner">
+                  <div className="promo-jump">
+                    <Stickman
+                      pose="run"
+                      className="promo-pose-ground absolute bottom-0 left-0 h-36 w-28 text-white sm:h-44 sm:w-36"
+                      stroke={5}
+                    />
+                    <Stickman
+                      pose="jump"
+                      className="promo-pose-air absolute bottom-0 left-0 h-36 w-28 text-white sm:h-44 sm:w-36"
+                      stroke={5}
+                    />
+                  </div>
+                </div>
               </div>
+              {/* landing dust puffs */}
+              <div className="promo-dust absolute bottom-7 left-[56%] h-3 w-3 rounded-full bg-white/50 blur-[2px]" />
+              <div className="promo-dust promo-dust-2 absolute bottom-6 left-[50%] h-2 w-2 rounded-full bg-white/35 blur-[2px]" />
             </div>
           </div>
         </div>
