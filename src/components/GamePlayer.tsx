@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 
 export default function GamePlayer({ slug, title }: { slug: string; title: string }) {
   const shell = useRef<HTMLDivElement>(null);
+  const frame = useRef<HTMLIFrameElement>(null);
   const [fullscreen, setFullscreen] = useState(false);
 
   useEffect(() => {
@@ -17,11 +18,32 @@ export default function GamePlayer({ slug, title }: { slug: string; title: strin
     try {
       if (document.fullscreenElement) {
         await document.exitFullscreen();
-      } else {
-        await shell.current?.requestFullscreen?.();
+        return;
       }
-    } catch {
-      // Some mobile browsers do not allow an embedded page to enter fullscreen.
+
+      // Try the player shell first so the game controls remain available.
+      if (shell.current?.requestFullscreen) {
+        try {
+          await shell.current.requestFullscreen();
+          return;
+        } catch {
+          // Some mobile browsers reject fullscreen on a regular page element.
+        }
+      }
+
+      // Some browsers allow fullscreen on the embedded game even when the
+      // surrounding page cannot enter fullscreen.
+      if (frame.current?.requestFullscreen) {
+        await frame.current.requestFullscreen();
+        return;
+      }
+
+      // Last standards-based attempt for browsers with limited element support.
+      if (document.documentElement.requestFullscreen) {
+        await document.documentElement.requestFullscreen();
+      }
+    } catch (error) {
+      console.warn("Fullscreen is not supported by this browser:", error);
     }
   }
 
@@ -47,6 +69,7 @@ export default function GamePlayer({ slug, title }: { slug: string; title: strin
         </button>
       </header>
       <iframe
+        ref={frame}
         title={title}
         src={`/api/play/${slug}`}
         className="game-player-frame min-h-0 w-full flex-1 border-0 bg-black"
