@@ -9,7 +9,11 @@ export default function GamePlayer({ slug, title }: { slug: string; title: strin
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setFullscreen(false);
+      if (event.key === "Escape" && !document.fullscreenElement) setFullscreen(false);
+    };
+    const onFullscreenChange = () => {
+      if (document.fullscreenElement) setFullscreen(document.fullscreenElement === shell.current);
+      else setFullscreen(false);
     };
     const updateViewport = () => {
       if (!shell.current) return;
@@ -18,11 +22,13 @@ export default function GamePlayer({ slug, title }: { slug: string; title: strin
     };
     updateViewport();
     window.addEventListener("keydown", onKeyDown);
+    document.addEventListener("fullscreenchange", onFullscreenChange);
     window.addEventListener("resize", updateViewport);
     window.visualViewport?.addEventListener("resize", updateViewport);
     window.visualViewport?.addEventListener("scroll", updateViewport);
     return () => {
       window.removeEventListener("keydown", onKeyDown);
+      document.removeEventListener("fullscreenchange", onFullscreenChange);
       window.removeEventListener("resize", updateViewport);
       window.visualViewport?.removeEventListener("resize", updateViewport);
       window.visualViewport?.removeEventListener("scroll", updateViewport);
@@ -31,19 +37,24 @@ export default function GamePlayer({ slug, title }: { slug: string; title: strin
 
   async function toggleFullscreen() {
     if (fullscreen) {
-      setFullscreen(false);
       if (document.fullscreenElement) {
         try { await document.exitFullscreen(); } catch {}
       }
+      setFullscreen(false);
       return;
     }
 
-    setFullscreen(true);
-    try {
-      if (shell.current?.requestFullscreen) await shell.current.requestFullscreen();
-    } catch {
-      // CSS immersive mode remains available on mobile browsers.
+    // Call Fullscreen API directly inside the tap so Android Chrome can hide
+    // its browser controls. CSS immersive mode remains as a fallback.
+    const element = shell.current;
+    if (element?.requestFullscreen) {
+      try {
+        await element.requestFullscreen({ navigationUI: "hide" });
+      } catch {
+        // Some mobile browsers block element fullscreen; use the in-page mode.
+      }
     }
+    setFullscreen(true);
   }
 
   return (
