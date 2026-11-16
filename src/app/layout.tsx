@@ -6,6 +6,11 @@ export const viewport: Viewport = { width: "device-width", initialScale: 1, view
 
 export const metadata: Metadata = {
   title: "JStick Studios — Gory Stickman Games",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "JStick Studios",
+  },
   description:
     "JStick Studios makes gory stickman games. Download Neon Stickman — Rooftop Parkour. 18+.",
   icons: {
