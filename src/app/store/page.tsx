@@ -32,20 +32,20 @@ export default async function Store({
       <Hero games={GAMES} />
       <Marquee />
 
-      <section id="games" className="mx-auto mt-20 w-full max-w-[1180px] scroll-mt-24 px-4 sm:px-6 lg:px-10">
+      <section id="games" className="mx-auto mt-12 w-full max-w-[1180px] scroll-mt-24 px-4 sm:px-6 lg:px-10">
         <Reveal>
-          <div className="mb-8 flex flex-col justify-between gap-5 border-b border-white/[0.08] pb-6 sm:flex-row sm:items-end">
-            <div>
-              <div className="mb-3 flex items-center gap-3">
-                <span className="h-px w-8 bg-brand-2 shadow-[0_0_12px_#26bbff]" />
-                <span className="text-[10px] font-black uppercase tracking-[0.3em] text-brand-2">The collection</span>
+          <div className="mb-5 flex items-center justify-between gap-3 border-b border-white/[0.08] pb-4">
+            <div className="flex min-w-0 items-center gap-3">
+              <span className="h-px w-6 shrink-0 bg-brand-2 shadow-[0_0_12px_#26bbff]" />
+              <div className="min-w-0">
+                <span className="block text-[9px] font-black uppercase tracking-[0.25em] text-brand-2">The collection</span>
+                <h2 className="text-xl font-black tracking-tight sm:text-2xl">Find your next game.</h2>
+                <p className="mt-1 hidden text-xs text-white/45 sm:block">Original games made by JStick Studios. Pick one and jump in.</p>
               </div>
-              <h2 className="text-3xl font-black tracking-tight sm:text-4xl">Find your next game.</h2>
-              <p className="mt-2 text-sm text-white/45">Original games made by JStick Studios. Pick one and jump in.</p>
             </div>
-            <span className="inline-flex w-fit items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-xs font-bold text-white/65">
-              <span className="h-2 w-2 rounded-full bg-brand-2 shadow-[0_0_10px_#26bbff]" />
-              {GAMES.length} {GAMES.length === 1 ? "game" : "games"} available
+            <span className="inline-flex shrink-0 items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-[10px] font-bold text-white/65">
+              <span className="h-1.5 w-1.5 rounded-full bg-brand-2 shadow-[0_0_10px_#26bbff]" />
+              {GAMES.length} {GAMES.length === 1 ? "game" : "games"}
             </span>
           </div>
         </Reveal>
