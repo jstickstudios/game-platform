@@ -91,6 +91,8 @@ export default function OurStudio() {
           <p className="enter mx-auto mt-8 max-w-xl text-lg leading-relaxed text-slate-300 sm:text-xl" style={{ "--d": "1.1s" } as CSSProperties}>
             I am an independent game developer focused on making games that are fun, polished, and made with care.
           </p>
+          <p className="enter mt-4 text-xs font-semibold uppercase tracking-[0.3em] text-blue-300/80" style={{ "--d": "1.2s" } as CSSProperties}>Created by JVO</p>
+          <p className="hidden" />
           <div className="enter mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row" style={{ "--d": "1.3s" } as CSSProperties}>
             <button type="button" className="btn btn-primary" onClick={() => scrollTo("who-we-are")}>
               Who I Am <Arrow />
