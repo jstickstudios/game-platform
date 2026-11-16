@@ -56,7 +56,7 @@ export default function Hero({ games }: { games: Game[] }) {
                     fill
                     priority
                     sizes="(min-width:1024px) 850px, 100vw"
-                    className="object-contain object-center opacity-90 transition-transform duration-[1200ms] group-hover/stage:scale-[1.025] sm:object-right"
+                    className="object-cover object-center opacity-90 transition-transform duration-[1200ms] group-hover/stage:scale-[1.025] sm:object-[70%_center]"
                   />
                 </div>
                 <div className="absolute inset-0 bg-gradient-to-t from-[#05070d] via-[#05070d]/45 to-transparent sm:bg-gradient-to-r sm:from-[#05070d] sm:via-[#05070d]/75 sm:to-transparent" />
@@ -103,7 +103,7 @@ export default function Hero({ games }: { games: Game[] }) {
                 className={cn("group/item relative flex min-h-[112px] flex-1 items-center gap-4 overflow-hidden rounded-2xl border p-3 text-left transition-all duration-300",
                   index === active ? "border-brand-2/55 bg-brand/15 shadow-[0_12px_35px_rgba(0,120,242,.16)]" : "border-white/[0.08] bg-white/[0.035] hover:border-white/20 hover:bg-white/[0.07]")}>
                 <span className="relative h-[82px] w-[68px] shrink-0 overflow-hidden rounded-xl bg-black/50">
-                  <Image src={`/images/${game.image}`} alt="" fill sizes="68px" className="object-contain transition-transform duration-500 group-hover/item:scale-110" />
+                  <Image src={`/images/${game.image}`} alt="" fill sizes="68px" className="object-cover object-center transition-transform duration-500 group-hover/item:scale-110" />
                 </span>
                 <span className="min-w-0 flex-1">
                   <span className="block text-[10px] font-bold uppercase tracking-[0.18em] text-brand-2">{index === active ? "Now featured" : "Discover"}</span>
