@@ -17,7 +17,7 @@ export const GAMES: Game[] = [
     slug: "neon-stickman-parkour",
     title: "Neon Stickman - Rooftop Parkour",
     tagline:
-      "Sprint, slide, wall-jump and race across five neon worlds. Master 50 levels, endless runs and real-time multiplayer.",
+      "Sprint, slide and wall-jump across five neon worlds. Master 50 levels and endless runs.",
     image: "neon-stickman-poster.jpg",
     imageAspect: "portrait",
     priceCents: 0,

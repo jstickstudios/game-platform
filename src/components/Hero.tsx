@@ -82,7 +82,7 @@ export default function Hero({ games }: { games: Game[] }) {
                   href="#games"
                   className="btn-shine flex h-12 items-center gap-2 rounded-full bg-white px-7 text-sm font-extrabold uppercase tracking-wider text-black shadow-[0_10px_40px_rgba(255,255,255,.2)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_14px_50px_rgba(38,187,255,.45)] active:scale-95"
                 >
-                  Play now
+                  Browse downloads
                 </a>
                 {current && (
                   <span className="flex h-12 items-center rounded-full bg-white/15 px-6 text-sm font-bold backdrop-blur-md">
