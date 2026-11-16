@@ -29,7 +29,7 @@ export const GAMES: Game[] = [
   },
   {
     slug: "stick-fury",
-    title: "Stick Fury",
+    title: "Stick Fight",
     tagline: "Battle through Arcade, Versus, Survival and Training modes. Master combos, weapons and boss fights.",
     image: "stick-fury-poster.jpg",
     imageAspect: "landscape",
