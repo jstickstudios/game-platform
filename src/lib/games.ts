@@ -19,7 +19,7 @@ export const GAMES: Game[] = [
     tagline:
       "Sprint, slide and wall-jump across five neon worlds. Master 50 levels and endless runs.",
     image: "neon-stickman-poster.jpg",
-    imageAspect: "portrait",
+    imageAspect: "landscape",
     priceCents: 0,
     currency: "eur",
     file: "neon-stickman-parkour.html",

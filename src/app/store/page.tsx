@@ -52,7 +52,7 @@ export default async function Store({
         </Reveal>
         <GameCarousel>
           {GAMES.map((g, i) => (
-            <div key={g.slug} className="w-[min(84vw,360px)] shrink-0 snap-start">
+            <div key={g.slug} className="w-[min(82vw,380px)] shrink-0">
               <Reveal delay={i * 100}>
                 <GameCard game={g} />
               </Reveal>

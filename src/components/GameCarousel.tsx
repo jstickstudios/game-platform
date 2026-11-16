@@ -3,47 +3,41 @@
 import { useRef } from "react";
 
 export default function GameCarousel({ children }: { children: React.ReactNode }) {
-  const rail = useRef<HTMLDivElement>(null);
+  const railRef = useRef<HTMLDivElement>(null);
 
-  const move = (direction: -1 | 1) => {
-    if (!rail.current) return;
-    rail.current.scrollBy({
-      left: direction * Math.max(rail.current.clientWidth * 0.82, 320),
+  function move(direction: -1 | 1) {
+    const rail = railRef.current;
+    if (!rail) return;
+    rail.scrollBy({
+      left: direction * Math.round(rail.clientWidth * 0.82),
       behavior: "smooth",
     });
-  };
+  }
 
   return (
     <div className="relative">
-      <div className="mb-3 flex justify-end gap-2">
+      <div className="mb-3 flex items-center justify-end gap-2">
         <button
           type="button"
-          aria-label="Scroll games left"
           onClick={() => move(-1)}
-          className="grid h-9 w-9 place-items-center rounded-full border border-white/15 bg-white/[0.04] text-lg text-white/75 transition hover:border-brand-2/60 hover:bg-brand-2/10 hover:text-white"
+          aria-label="Previous games"
+          className="grid h-10 w-10 place-items-center rounded-full border border-white/15 bg-white/[0.06] text-lg text-white transition hover:border-brand-2/60 hover:bg-brand-2/15 focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-2"
         >
           ←
         </button>
         <button
           type="button"
-          aria-label="Scroll games right"
           onClick={() => move(1)}
-          className="grid h-9 w-9 place-items-center rounded-full border border-white/15 bg-white/[0.04] text-lg text-white/75 transition hover:border-brand-2/60 hover:bg-brand-2/10 hover:text-white"
+          aria-label="Next games"
+          className="grid h-10 w-10 place-items-center rounded-full border border-white/15 bg-white/[0.06] text-lg text-white transition hover:border-brand-2/60 hover:bg-brand-2/15 focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-2"
         >
           →
         </button>
       </div>
       <div
-        ref={rail}
-        onWheel={(event) => {
-          const el = rail.current;
-          if (!el || el.scrollWidth <= el.clientWidth) return;
-          if (Math.abs(event.deltaY) > Math.abs(event.deltaX)) {
-            event.preventDefault();
-            el.scrollBy({ left: event.deltaY, behavior: "auto" });
-          }
-        }}
-        className="flex snap-x snap-mandatory gap-5 overflow-x-auto overscroll-x-contain pb-5 [scrollbar-color:rgba(38,187,255,.45)_rgba(255,255,255,.06)] [scrollbar-width:thin]"
+        ref={railRef}
+        className="flex gap-5 overflow-x-hidden scroll-smooth"
+        aria-label="Game collection"
       >
         {children}
       </div>

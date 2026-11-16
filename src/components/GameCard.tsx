@@ -22,13 +22,13 @@ export default async function GameCard({ game }: { game: Game }) {
   return (
     <article className="store-game-card group relative flex h-full flex-col overflow-hidden rounded-2xl border border-white/[0.09] bg-[#111722] shadow-[0_12px_38px_rgba(0,0,0,.24)] transition-all duration-500 hover:-translate-y-2 hover:border-brand-2/45 hover:shadow-[0_28px_75px_rgba(0,120,242,.17)]">
       <div className="pointer-events-none absolute inset-0 z-10 rounded-2xl opacity-0 transition-opacity duration-500 group-hover:opacity-100" style={{ background: "radial-gradient(420px circle at var(--mx,50%) var(--my,50%),rgba(38,187,255,.10),transparent 58%)" }} />
-      <div className="relative aspect-[4/5] overflow-hidden bg-[#080d17]">
+      <div className="relative aspect-video overflow-hidden bg-[#080d17]">
         <Image
           src={`/images/${game.image}`}
           alt={`${game.title} key art`}
           fill
           sizes="(max-width: 768px) 100vw, 560px"
-          className="object-cover transition-transform duration-700 group-hover:scale-[1.045]"
+          className="object-cover object-center transition-transform duration-700 group-hover:scale-[1.045]"
         />
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#111722] via-transparent to-black/15" />
         <span className={`absolute left-3 top-3 rounded-md border px-2.5 py-1 text-[8px] font-black uppercase tracking-[0.17em] backdrop-blur-xl ${ratingClass(game.rating)}`}>
