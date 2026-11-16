@@ -48,18 +48,18 @@ export default function Hero({ games }: { games: Game[] }) {
                 <div key={current.slug + "-backdrop"} className="absolute inset-0 animate-[fade-in_.7s_ease_both]">
                   <Image src={`/images/${current.image}`} alt="" fill priority sizes="(min-width:1024px) 1000px, 100vw" className="scale-110 object-cover opacity-25 blur-2xl" />
                 </div>
-                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_72%_35%,rgba(38,187,255,.18),transparent_42%),linear-gradient(90deg,#05070d_0%,rgba(5,7,13,.88)_34%,rgba(5,7,13,.25)_100%)]" />
-                <div key={current.slug + "-art"} className="absolute inset-y-0 right-0 w-full animate-[fade-in_.7s_ease_both] sm:w-[74%]">
+                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_72%_35%,rgba(38,187,255,.12),transparent_48%),linear-gradient(90deg,rgba(5,7,13,.72)_0%,rgba(5,7,13,.42)_38%,rgba(5,7,13,.08)_78%,transparent_100%)]" />
+                <div key={current.slug + "-art"} className="absolute inset-0 w-full animate-[fade-in_.7s_ease_both]">
                   <Image
                     src={`/images/${current.image}`}
                     alt={`${current.title} artwork`}
                     fill
                     priority
                     sizes="(min-width:1024px) 850px, 100vw"
-                    className="object-cover object-center opacity-90 transition-transform duration-[1200ms] group-hover/stage:scale-[1.025] sm:object-[70%_center]"
+                    className="object-cover object-center opacity-100 transition-transform duration-[1200ms] group-hover/stage:scale-[1.025]"
                   />
                 </div>
-                <div className="absolute inset-0 bg-gradient-to-t from-[#05070d] via-[#05070d]/45 to-transparent sm:bg-gradient-to-r sm:from-[#05070d] sm:via-[#05070d]/75 sm:to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#05070d] via-[#05070d]/45 to-transparent sm:bg-gradient-to-r sm:from-[#05070d]/55 sm:via-[#05070d]/25 sm:to-transparent" />
                 <div className="absolute inset-x-0 bottom-0 p-6 sm:p-10 lg:max-w-[66%]">
                   <div className="flex items-center gap-3">
                     <span className="relative flex h-2.5 w-2.5">
