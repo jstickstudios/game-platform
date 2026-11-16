@@ -15,17 +15,17 @@ export type Game = {
 export const GAMES: Game[] = [
   {
     slug: "neon-stickman-parkour",
-    title: "Neon Stickman — Rooftop Parkour",
+    title: "Neon Stickman - Rooftop Parkour",
     tagline:
-      "Run it yourself. Slide, wall-jump and sprint across endless rooftops — and die in new, bloody ways on a brand-new map every time.",
+      "Sprint, slide, wall-jump and race across five neon worlds. Master 50 levels, endless runs and real-time multiplayer.",
     image: "neon-stickman-poster.jpg",
     imageAspect: "portrait",
     priceCents: 0,
     currency: "eur",
     file: "neon-stickman-parkour.html",
     downloadName: "Neon-Stickman-Parkour.html",
-    gory: true,
-    rating: "18+",
+    gory: false,
+    rating: "A",
   },
   {
     slug: "neon-stickman-ninja",
@@ -47,5 +47,3 @@ export const formatPrice = (cents: number) => (cents === 0 ? "FREE" :
   new Intl.NumberFormat("nl-NL", { style: "currency", currency: "EUR" }).format(
     cents / 100,
   ));
-
-
