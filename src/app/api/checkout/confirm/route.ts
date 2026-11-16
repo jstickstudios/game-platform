@@ -13,18 +13,18 @@ export async function GET(req: Request) {
   const proto = req.headers.get("x-forwarded-proto") ?? url.protocol.replace(":", "");
   const host = req.headers.get("x-forwarded-host") ?? req.headers.get("host") ?? url.host;
   const origin = `${proto}://${host}`;
-  const back = (q: string) => NextResponse.redirect(`${origin}/${q}`);
+  const back = (path: string) => NextResponse.redirect(`${origin}${path}`);
 
   const user = await getUser();
   const sessionId = url.searchParams.get("session_id");
   const key = process.env.STRIPE_SECRET_KEY;
-  if (!user || !sessionId || !key) return back("login");
+  if (!user || !sessionId || !key) return back("/login");
 
   const res = await fetch(
     `https://api.stripe.com/v1/checkout/sessions/${encodeURIComponent(sessionId)}`,
     { headers: { Authorization: `Bearer ${key}` } },
   );
-  if (!res.ok) return back("?payment=failed");
+  if (!res.ok) return back("/store?payment=failed");
   const s = (await res.json()) as {
     payment_status?: string;
     amount_total?: number;
@@ -33,7 +33,7 @@ export async function GET(req: Request) {
   };
   const game = getGame(s.metadata?.slug ?? "");
   if (s.payment_status !== "paid" || !game || s.metadata?.userId !== String(user.id)) {
-    return back("?payment=failed");
+    return back("/store?payment=failed");
   }
   await db
     .insert(purchases)
@@ -46,5 +46,5 @@ export async function GET(req: Request) {
       currency: s.currency ?? game.currency,
     })
     .onConflictDoNothing();
-  return back(`?payment=success&game=${game.slug}`);
+  return back(`/store?payment=success&game=${game.slug}`);
 }

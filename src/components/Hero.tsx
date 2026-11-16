@@ -79,7 +79,7 @@ export default function Hero({ games }: { games: Game[] }) {
 
               <div className="anim-fade-up mt-6 flex flex-wrap items-center gap-3" style={{ animationDelay: "300ms" }}>
                 <a
-                  href="#games"
+                  href="/store#games"
                   className="btn-shine flex h-12 items-center gap-2 rounded-full bg-white px-7 text-sm font-extrabold uppercase tracking-wider text-black shadow-[0_10px_40px_rgba(255,255,255,.2)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_14px_50px_rgba(38,187,255,.45)] active:scale-95"
                 >
                   Browse downloads

@@ -17,11 +17,11 @@ export default async function Nav() {
           </span>
         </Link>
         <nav className="flex items-center gap-2 text-sm font-semibold">
-          <Link href="/#games" className="hidden rounded-full px-3 py-2 text-white/70 transition-colors hover:text-white sm:block">
-            Games
+          <Link href="/store" className="rounded-full px-3 py-2 text-white/70 transition-colors hover:text-white">
+            Store
           </Link>
-          <Link href="/#how" className="hidden rounded-full px-3 py-2 text-white/70 transition-colors hover:text-white sm:block">
-            How to play
+          <Link href="/studio" className="hidden rounded-full px-3 py-2 text-white/70 transition-colors hover:text-white sm:block">
+            Our Studio
           </Link>
           {user ? (
             <>
@@ -38,7 +38,7 @@ export default async function Nav() {
             <>
               <Link href="/login" className="rounded-full bg-white/[0.07] px-4 py-2 text-white/75 transition-all hover:bg-white/15 hover:text-white">
                 Log in
-  </Link>
+              </Link>
               <Link href="/signup" className="btn-shine rounded-full bg-white px-4 py-2 font-extrabold text-black transition-all hover:-translate-y-0.5 hover:shadow-[0_10px_30px_rgba(38,187,255,.4)]">
                 Sign up
               </Link>

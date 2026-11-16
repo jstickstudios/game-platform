@@ -41,7 +41,7 @@ export default function CheckoutForm({
         window.location.href = data.url; // Stripe-hosted page: card / bank / iDEAL
         return;
       }
-      router.push(`/?payment=success&game=${slug}`);
+      router.push(`/store?payment=success&game=${slug}`);
       router.refresh();
     } catch {
       setError("Network error. Try again.");

@@ -58,7 +58,7 @@ export function Promo() {
                 Every JStick game runs in your browser. Download, open it in Chrome, and start playing in seconds.
               </p>
               <a
-                href="#games"
+                href="/store#games"
                 className="btn-shine mt-8 inline-flex h-12 items-center rounded-full bg-white px-8 text-sm font-extrabold uppercase tracking-wider text-black transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_14px_40px_rgba(0,0,0,.3)] active:scale-95"
               >
                 Browse games
@@ -215,7 +215,7 @@ export function Footer() {
               <ul className="mt-4 space-y-2.5">
                 {c.l.map((x) => (
                   <li key={x}>
-                    <a href="#games" className="text-sm text-white/45 transition-all duration-300 hover:pl-1 hover:text-white">
+                    <a href="/store#games" className="text-sm text-white/45 transition-all duration-300 hover:pl-1 hover:text-white">
                       {x}
                     </a>
                   </li>
