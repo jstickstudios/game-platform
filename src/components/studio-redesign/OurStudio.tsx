@@ -50,14 +50,14 @@ const icons: Record<string, ReactNode> = {
 const beliefs = [
   { icon: "play", title: "Play comes first", text: "Every system we build has to earn its place by making the game more fun to play." },
   { icon: "craft", title: "Craft in the details", text: "Animation, sound, and feel are never an afterthought. We polish until it feels right." },
-  { icon: "team", title: "Small team, clear vision", text: "Fewer people means faster decisions and a game that stays true to its original idea." },
+  { icon: "team", title: "Solo creator, clear vision", text: "Fewer people means faster decisions and a game that stays true to its original idea." },
 ];
 
 const steps = [
-  { n: "01", title: "Prototype", text: "We test the core idea early with rough, playable builds." },
-  { n: "02", title: "Playtest", text: "Real feedback shapes what we keep, change, or cut." },
-  { n: "03", title: "Polish", text: "We refine visuals, audio, and feel until everything clicks." },
-  { n: "04", title: "Release", text: "We ship, listen, and keep improving after launch." },
+  { n: "01", title: "Prototype", text: "I test the core idea early with rough, playable builds." },
+  { n: "02", title: "Playtest", text: "I use real feedback to decide what to keep, change, or cut." },
+  { n: "03", title: "Polish", text: "I refine visuals, audio, and feel until everything clicks." },
+  { n: "04", title: "Release", text: "I release, listen, and keep improving after launch." },
 ];
 
 export default function OurStudio() {
@@ -86,14 +86,14 @@ export default function OurStudio() {
             <span className="font-display text-xs font-medium uppercase tracking-[0.32em] text-ice">JStick Studios</span>
           </div>
           <div id="hero-title" className="mt-8" style={{ perspective: 800 }}>
-            <Title text="Our Studio" />
+            <Title text="My Studio" />
           </div>
           <p className="enter mx-auto mt-8 max-w-xl text-lg leading-relaxed text-slate-300 sm:text-xl" style={{ "--d": "1.1s" } as CSSProperties}>
-            An independent game studio focused on making games that are fun, polished, and made with care.
+            I am an independent game developer focused on making games that are fun, polished, and made with care.
           </p>
           <div className="enter mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row" style={{ "--d": "1.3s" } as CSSProperties}>
             <button type="button" className="btn btn-primary" onClick={() => scrollTo("who-we-are")}>
-              Who We Are <Arrow />
+              Who I Am <Arrow />
             </button>
             <a href="/store" className="btn btn-ghost">
               Visit the Store <Arrow />
@@ -113,18 +113,18 @@ export default function OurStudio() {
         <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-glow/30 to-transparent" aria-hidden="true" />
         <div className="mx-auto grid max-w-7xl items-center gap-16 lg:grid-cols-2 lg:gap-12">
           <div>
-            <SectionHeading eyebrow="Who We Are" id="who-heading">
+            <SectionHeading eyebrow="Who I Am" id="who-heading">
               <span className="block">Small studio.</span>
               <span className="text-shimmer block pb-1">Big ideas.</span>
             </SectionHeading>
             <Reveal delay={0.15}>
               <p className="mt-8 max-w-xl text-lg leading-relaxed text-slate-300">
-                JStick Studios is an independent game studio. We keep our team small so every idea can move quickly from a sketch to something you can play.
+                I am an independent game developer. Working solo lets me take ideas quickly from a sketch to something you can play.
               </p>
             </Reveal>
             <Reveal delay={0.25}>
               <p className="mt-5 max-w-xl text-lg leading-relaxed text-slate-400">
-                We care about tight controls, clear visuals, and the small details that make a game feel good in your hands.
+                I care about tight controls, clear visuals, and the small details that make a game feel good in your hands.
               </p>
             </Reveal>
             <Reveal delay={0.35}>
@@ -149,7 +149,7 @@ export default function OurStudio() {
       {/* ---------------------------- WHAT DRIVES US ---------------------------- */}
       <section className="relative px-5 py-24 sm:px-8 lg:py-32" aria-labelledby="drive-heading">
         <div className="mx-auto max-w-7xl">
-          <SectionHeading eyebrow="What Drives Us" id="drive-heading">
+          <SectionHeading eyebrow="What Drives Me" id="drive-heading">
             Built around <span className="text-shimmer">the player</span>
           </SectionHeading>
           <div className="mt-14 grid gap-6 md:grid-cols-3">
@@ -173,7 +173,7 @@ export default function OurStudio() {
       {/* ------------------------------ HOW WE WORK ------------------------------ */}
       <section className="relative px-5 py-24 sm:px-8 lg:py-32" aria-labelledby="work-heading">
         <div className="mx-auto max-w-7xl">
-          <SectionHeading eyebrow="How We Work" id="work-heading">
+          <SectionHeading eyebrow="How I Work" id="work-heading">
             From spark <span className="text-shimmer">to release</span>
           </SectionHeading>
           <Reveal className="relative mt-16">
@@ -200,7 +200,7 @@ export default function OurStudio() {
             <h2 id="cta-heading" className="relative font-display text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl">
               Ready to <span className="text-shimmer">play?</span>
             </h2>
-            <p className="relative mx-auto mt-5 max-w-md text-lg text-slate-300">Browse our games in the Store.</p>
+            <p className="relative mx-auto mt-5 max-w-md text-lg text-slate-300">Browse my games in the Store.</p>
             <div className="relative mt-9">
               <a href="/store" className="btn btn-primary">
                 Visit the Store <Arrow />

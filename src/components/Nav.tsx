@@ -21,7 +21,7 @@ export default async function Nav() {
             Store
           </Link>
           <Link href="/studio" className="hidden rounded-full px-3 py-2 text-white/70 transition-colors hover:text-white sm:block">
-            Our Studio
+            My Studio
           </Link>
           {user ? (
             <>

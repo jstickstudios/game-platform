@@ -74,7 +74,7 @@ export default function IntroScreen() {
             href="/studio"
             className="rounded-sm border border-white/25 bg-black/30 px-8 py-3.5 text-sm font-bold uppercase tracking-[0.2em] text-white backdrop-blur-sm transition duration-300 hover:border-blue-500 hover:text-blue-300"
           >
-            Our Studio
+            My Studio
           </a>
         </div>
       </div>
