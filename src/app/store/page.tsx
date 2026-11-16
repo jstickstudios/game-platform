@@ -1,6 +1,7 @@
 import Nav from "@/components/Nav";
 import Hero from "@/components/Hero";
 import GameCard from "@/components/GameCard";
+import GameCarousel from "@/components/GameCarousel";
 import Reveal from "@/components/Reveal";
 import Stickman from "@/components/Stickman";
 import { Marquee, Promo, Features, HowItWorks, Footer } from "@/components/Sections";
@@ -49,13 +50,15 @@ export default async function Store({
             </span>
           </div>
         </Reveal>
-        <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+        <GameCarousel>
           {GAMES.map((g, i) => (
-            <Reveal key={g.slug} delay={i * 100}>
-              <GameCard game={g} />
-            </Reveal>
+            <div key={g.slug} className="w-[min(84vw,360px)] shrink-0 snap-start">
+              <Reveal delay={i * 100}>
+                <GameCard game={g} />
+              </Reveal>
+            </div>
           ))}
-        </div>
+        </GameCarousel>
         <div className="mt-6 flex items-center justify-center gap-3 rounded-2xl border border-dashed border-white/15 bg-white/[0.02] p-6 text-center text-sm text-white/55">
           More games are in development. Stay tuned.
           <Stickman pose="idle" className="h-5 w-4 text-brand-2/70" stroke={8} />
