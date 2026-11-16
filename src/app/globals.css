@@ -2,12 +2,17 @@
 
 @theme {
   --font-sans: "Inter", "Segoe UI", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", "Inter", ui-sans-serif, system-ui, sans-serif;
   --color-ink: #101014;
+  --color-ink-2: #060a14;
   --color-panel: #1a1a1f;
   --color-panel-2: #202026;
   --color-line: rgba(255, 255, 255, 0.08);
   --color-brand: #0078f2;
   --color-brand-2: #26bbff;
+  --color-electric: #2f7bff;
+  --color-glow: #6cb4ff;
+  --color-ice: #e8f2ff;
 }
 
 html {
