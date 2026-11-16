@@ -31,7 +31,7 @@ export const GAMES: Game[] = [
     slug: "stick-fury",
     title: "Stick Fury",
     tagline: "Battle through Arcade, Versus, Survival and Training modes. Master combos, weapons and boss fights.",
-    image: "neon-stickman-art.jpg",
+    image: "stick-fury-poster.jpg",
     imageAspect: "landscape",
     priceCents: 0,
     currency: "eur",
