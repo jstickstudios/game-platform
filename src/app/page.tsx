@@ -1,5 +1,6 @@
 import Nav from "@/components/Nav";
 import Hero from "@/components/Hero";
+import IntroScreen from "@/components/IntroScreen";
 import GameCard from "@/components/GameCard";
 import Reveal from "@/components/Reveal";
 import Stickman from "@/components/Stickman";
@@ -18,6 +19,7 @@ export default async function Home({
   return (
     <div className="min-h-screen">
       <Nav />
+      <IntroScreen />
 
       {sp.payment === "success" && (
         <div className="bg-emerald-500/15 px-5 py-3 text-center text-sm font-semibold text-emerald-200">
