@@ -849,3 +849,9 @@ body {
     padding-right: 10px;
   }
 }
+
+
+/* Fullscreen control is desktop-only; mobile games remain playable normally. */
+@media (max-width: 767px) {
+  .game-player-bar .player-fullscreen { display: none !important; }
+}
