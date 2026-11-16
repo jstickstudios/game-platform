@@ -11,8 +11,22 @@ export default function GamePlayer({ slug, title }: { slug: string; title: strin
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") setFullscreen(false);
     };
+    const updateViewport = () => {
+      if (!shell.current) return;
+      const height = window.visualViewport?.height ?? window.innerHeight;
+      shell.current.style.setProperty("--game-viewport-height", `${height}px`);
+    };
+    updateViewport();
     window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
+    window.addEventListener("resize", updateViewport);
+    window.visualViewport?.addEventListener("resize", updateViewport);
+    window.visualViewport?.addEventListener("scroll", updateViewport);
+    return () => {
+      window.removeEventListener("keydown", onKeyDown);
+      window.removeEventListener("resize", updateViewport);
+      window.visualViewport?.removeEventListener("resize", updateViewport);
+      window.visualViewport?.removeEventListener("scroll", updateViewport);
+    };
   }, []);
 
   async function toggleFullscreen() {
