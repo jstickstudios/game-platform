@@ -21,37 +21,14 @@ Error generating stack: `+e.message+`
   </head>
   <body>
     <div id="root"></div>
-  <script type="module">if(location.protocol!=="file:"){import("/jstick-online.js?game=neon-stickman-ninja").catch(()=>{})}</script>    <button id="ninja-fullscreen-toggle" type="button" aria-label="Enter fullscreen" title="Fullscreen (F)" style="position:fixed;top:14px;right:14px;z-index:2147483000;display:flex;align-items:center;gap:8px;padding:10px 14px;border:1px solid rgba(255,255,255,.28);border-radius:12px;background:rgba(8,6,28,.82);color:#fff;font:800 11px/1 system-ui,sans-serif;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;backdrop-filter:blur(12px);box-shadow:0 6px 24px rgba(0,0,0,.35);transition:background .2s,transform .2s;">
-      <span aria-hidden="true" style="font-size:16px;line-height:1">⛶</span><span id="ninja-fullscreen-label">Fullscreen</span>
-    </button>
-    <script>
-      (() => {
-        const button = document.getElementById('ninja-fullscreen-toggle');
-        const label = document.getElementById('ninja-fullscreen-label');
-        if (!button || !label) return;
-        const update = () => {
-          const active = !!document.fullscreenElement;
-          label.textContent = active ? 'Exit fullscreen' : 'Fullscreen';
-          button.setAttribute('aria-label', active ? 'Exit fullscreen' : 'Enter fullscreen');
-          button.title = active ? 'Exit fullscreen (F)' : 'Fullscreen (F)';
-        };
-        const toggle = async () => {
-          try {
-            if (document.fullscreenElement) await document.exitFullscreen();
-            else await document.documentElement.requestFullscreen();
-          } catch (error) { console.warn('Fullscreen could not be changed:', error); }
-        };
-        button.addEventListener('click', toggle);
-        button.addEventListener('mouseenter', () => { button.style.background = 'rgba(255,77,125,.9)'; button.style.transform = 'translateY(-1px)'; });
-        button.addEventListener('mouseleave', () => { button.style.background = 'rgba(8,6,28,.82)'; button.style.transform = 'none'; });
-        document.addEventListener('fullscreenchange', update);
-        document.addEventListener('keydown', event => {
-          if (event.key.toLowerCase() === 'f' && !event.repeat && !event.ctrlKey && !event.altKey && !event.metaKey && !['INPUT','TEXTAREA'].includes(document.activeElement?.tagName)) {
-            event.preventDefault(); toggle();
-          }
-        });
-        update();
-      })();
+  <script type="module">if(location.protocol!=="file:"){import("/jstick-online.js?game=neon-stickman-ninja").catch(()=>{})}</script>    <script>
+      document.addEventListener('keydown', event => {
+        if (event.key.toLowerCase() === 'f' && !event.repeat && !event.ctrlKey && !event.altKey && !event.metaKey && !['INPUT', 'TEXTAREA'].includes(document.activeElement?.tagName)) {
+          event.preventDefault();
+          if (document.fullscreenElement) document.exitFullscreen();
+          else document.documentElement.requestFullscreen?.().catch(() => {});
+        }
+      });
     </script>
 </body>
 </html>
