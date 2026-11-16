@@ -48,7 +48,7 @@ export function Promo() {
           <div className="relative grid items-center gap-8 p-8 sm:p-12 lg:grid-cols-2 lg:p-16">
             <div>
               <span className="inline-flex items-center gap-2 rounded-full bg-black/25 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.2em] backdrop-blur">
-                🎁 Always free
+                🎮 Made for everyone
               </span>
               <h2 className="mt-5 text-4xl font-black leading-[0.98] tracking-tight sm:text-6xl">
                 Jump in.
