@@ -33,7 +33,7 @@ export const GAMES: Game[] = [
     tagline: "Battle through Arcade, Versus, Survival and Training modes. Master combos, weapons and boss fights.",
     image: "stick-fury-poster.jpg",
     imageAspect: "landscape",
-    priceCents: 0,
+    priceCents: 100,
     currency: "eur",
     file: "stick-fury.html",
     downloadName: "Stick-Fury.html",
