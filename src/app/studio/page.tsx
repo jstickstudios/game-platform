@@ -2,7 +2,7 @@ import Nav from "@/components/Nav";
 import ParticleField from "@/components/studio-redesign/components/ParticleField";
 import OurStudio from "@/components/studio-redesign/OurStudio";
 import { Footer } from "@/components/Sections";
-import "@/components/studio-redesign/studio-blue.css";
+import "@/components/studio-redesign/studio-redesign.css";
 
 export default function StudioPage() {
   return (
