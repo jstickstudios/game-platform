@@ -791,3 +791,55 @@ body {
   .jstick-mobile-action { display: inline-flex !important; }
   .jstick-desktop-action { display: none !important; }
 }
+
+
+/* Reliable in-page fullscreen fallback for mobile browsers without Fullscreen API */
+.game-player-shell.is-immersive {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  width: 100dvw;
+  height: 100vh;
+  height: 100dvh;
+  max-height: 100dvh;
+  overflow: hidden;
+  z-index: 2147483000;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+.game-player-shell.is-immersive .game-player-bar {
+  position: absolute;
+  top: max(8px, env(safe-area-inset-top));
+  right: max(8px, env(safe-area-inset-right));
+  z-index: 20;
+  width: auto;
+  height: auto;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  pointer-events: none;
+}
+.game-player-shell.is-immersive .player-back,
+.game-player-shell.is-immersive .player-title {
+  display: none;
+}
+.game-player-shell.is-immersive .player-fullscreen {
+  pointer-events: auto;
+  min-height: 42px;
+  border-color: rgba(255,255,255,.35);
+  background: rgba(0,0,0,.72);
+  box-shadow: 0 4px 24px rgba(0,0,0,.45);
+  backdrop-filter: blur(12px);
+}
+.game-player-shell.is-immersive .game-player-frame {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  flex: 1 1 100%;
+}
+@media (max-width: 767px) {
+  .game-player-shell.is-immersive .player-fullscreen {
+    font-size: 9px;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
