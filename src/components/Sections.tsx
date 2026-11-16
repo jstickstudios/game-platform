@@ -169,7 +169,7 @@ export function Footer() {
           ))}
         </div>
         <div className="mt-12 flex flex-col gap-2 border-t border-white/5 pt-6 text-xs text-white/35 sm:flex-row sm:items-center sm:justify-between">
-          <span>© {new Date().getFullYear()} JStick Studios. All rights reserved.</span>
+          <span>© {new Date().getFullYear()} JStick Studios. Created by JVO. All rights reserved.</span>
           <span>Payments are handled by a secure payment provider — JStick Studios never sees or stores your card or bank details.</span>
         </div>
       </div>
