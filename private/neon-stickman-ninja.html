@@ -20,6 +20,6 @@ Error generating stack: `+e.message+`
   </head>
   <body>
     <div id="root"></div>
-  <script type="module">if(location.protocol==="file:"){const n=document.createElement("div");n.textContent="ONLINE MODE: Open this game from JStick Studios → Play Online to use rooms and global rankings.";n.style.cssText="position:fixed;right:16px;bottom:16px;z-index:99999;background:#100812;color:#fff;border:1px solid #ff315d;padding:12px 16px;border-radius:12px;font:700 12px system-ui;max-width:320px";document.body.appendChild(n)}else{import("/jstick-online.js?game=neon-stickman-ninja").catch(()=>{})}</script></body>
+  <script type="module">if(location.protocol!=="file:"){import("/jstick-online.js?game=neon-stickman-ninja").catch(()=>{})}</script></body>
 </html>
 
