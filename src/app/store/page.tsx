@@ -32,7 +32,7 @@ export default async function Store({
       <Hero games={GAMES} />
       <Marquee />
 
-      <section id="games" className="mx-auto mt-12 w-full max-w-[1180px] scroll-mt-24 px-4 sm:px-6 lg:px-10">
+      <section id="games" className="mx-auto mt-12 w-full max-w-[1440px] scroll-mt-24 px-4 sm:px-6 lg:px-10">
         <Reveal>
           <div className="mb-5 flex items-center justify-between gap-3 border-b border-white/[0.08] pb-4">
             <div className="flex min-w-0 items-center gap-3">
@@ -49,7 +49,7 @@ export default async function Store({
             </span>
           </div>
         </Reveal>
-        <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+        <div className="grid grid-cols-2 gap-4 sm:gap-5 md:grid-cols-3 xl:grid-cols-4">
           {GAMES.map((g, i) => (
             <Reveal key={g.slug} delay={i * 100}>
               <GameCard game={g} />
