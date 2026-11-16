@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
 export default function GamePlayer({ slug, title }: { slug: string; title: string }) {
-  const shell = useRef<HTMLDivElement>(null);
+  const shell = useRef<HTMLElement>(null);
   const [fullscreen, setFullscreen] = useState(false);
 
   useEffect(() => {
@@ -19,25 +19,16 @@ export default function GamePlayer({ slug, title }: { slug: string; title: strin
     if (fullscreen) {
       setFullscreen(false);
       if (document.fullscreenElement) {
-        try {
-          await document.exitFullscreen();
-        } catch {
-          // The CSS fullscreen view still exits even if the browser API rejects.
-        }
+        try { await document.exitFullscreen(); } catch {}
       }
       return;
     }
 
-    // CSS fullscreen is the reliable fallback for iPhone/iPad browsers,
-    // which often do not implement the Fullscreen API for normal web pages.
     setFullscreen(true);
-
     try {
-      if (shell.current?.requestFullscreen) {
-        await shell.current.requestFullscreen();
-      }
+      if (shell.current?.requestFullscreen) await shell.current.requestFullscreen();
     } catch {
-      // Keep the immersive CSS view active when native fullscreen is blocked.
+      // CSS immersive mode remains available on mobile browsers.
     }
   }
 
