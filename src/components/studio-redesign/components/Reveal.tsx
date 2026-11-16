@@ -17,7 +17,8 @@ export default function Reveal({ children, delay = 0, dir = "up", className = ""
     const el = ref.current;
     if (!el) return;
     if (typeof IntersectionObserver === "undefined") {
-      setVisible(true);
+      // Synchronize the fallback class directly; this avoids a cascading render.
+      el.classList.add("is-visible");
       return;
     }
     const io = new IntersectionObserver(

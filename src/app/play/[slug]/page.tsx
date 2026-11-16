@@ -1,6 +1,7 @@
 import { notFound, redirect } from "next/navigation";
 import { getUser, hasAccess } from "@/lib/auth";
 import { getGame } from "@/lib/games";
+import GamePlayer from "@/components/GamePlayer";
 
 export const dynamic = "force-dynamic";
 
@@ -13,13 +14,13 @@ export default async function PlayPage({
   const game = getGame(slug);
   if (!game) notFound();
 
-  const downloadUrl = `/api/download/${slug}`;
-  const user = await getUser();
-  if (!user) redirect(`/login?next=${encodeURIComponent(downloadUrl)}`);
-  if (game.priceCents > 0 && !(await hasAccess(user, slug))) {
-    redirect(`/checkout/${slug}`);
+  // Free games can be played instantly in the browser. Paid games keep their
+  // existing account and ownership checks.
+  if (game.priceCents > 0) {
+    const user = await getUser();
+    if (!user) redirect(`/login?next=${encodeURIComponent("/play/" + slug)}`);
+    if (!(await hasAccess(user, slug))) redirect(`/checkout/${slug}`);
   }
 
-  // Legacy /play links now download the game instead of embedding it in the website.
-  redirect(downloadUrl);
+  return <GamePlayer slug={game.slug} title={game.title} />;
 }

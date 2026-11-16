@@ -744,3 +744,50 @@ body {
 @keyframes promo-debris-two{0%,48%,100%{opacity:0;transform:translate(0,0) scale(.2)}56%{opacity:1;transform:translate(18px,-36px) scale(1.6)}72%{opacity:0;transform:translate(30px,-52px) scale(.2)}}
 @keyframes promo-debris-three{0%,48%,100%{opacity:0;transform:translate(0,0) scale(.2)}57%{opacity:1;transform:translate(30px,-12px) scale(1.4)}73%{opacity:0;transform:translate(45px,-20px) scale(.2)}}
 @media(prefers-reduced-motion:reduce){.promo-parkour-runner,.promo-parkour-ghost,.promo-parkour-ring,.promo-parkour-dust,.promo-slice-attacker,.promo-slice-ghost,.promo-slice-target,.promo-slice-blade,.promo-slice-arc,.promo-slice-slash,.promo-slice-sparks,.promo-slice-spark-two,.promo-slice-spark-three,.promo-action-target,.promo-action-fighter,.promo-action-afterimage,.promo-action-impact,.promo-action-flash,.promo-action-shockwave,.promo-action-debris,.promo-action-debris-two,.promo-action-debris-three{animation:none!important}}
+
+/* JStick Studios responsive desktop + mobile pass */
+.site-nav-inner { min-width: 0; }
+.site-nav-brand { min-width: 0; }
+.site-nav-links { flex-shrink: 0; }
+.home-hero { min-height: max(620px, calc(100svh - 65px)); }
+.game-player-shell { height: 100dvh; padding-bottom: env(safe-area-inset-bottom); }
+.game-player-frame { display: block; touch-action: pan-x pan-y; }
+
+@media (max-width: 640px) {
+  html, body { max-width: 100%; overflow-x: clip; }
+  .site-nav-inner { gap: 8px; padding: 9px 12px; }
+  .site-nav-brand { gap: 8px; }
+  .site-nav-brand > span:first-child { width: 34px; height: 34px; border-radius: 10px; }
+  .site-nav-brand > span:last-child { font-size: 14px; letter-spacing: .08em; white-space: nowrap; }
+  .site-nav-links { gap: 3px; font-size: 11px; }
+  .site-nav-links a { padding-left: 9px; padding-right: 9px; }
+  .home-hero { min-height: calc(88svh - 56px); }
+  .home-hero-content { padding: 76px 20px 64px; }
+  .home-hero-title { font-size: clamp(2.65rem, 12vw, 4.2rem); line-height: .94; overflow-wrap: anywhere; }
+  .home-hero-content > p:first-child { margin-bottom: 18px; font-size: 10px; letter-spacing: .32em; }
+  .home-hero-content > p:nth-of-type(2) { max-width: 34rem; margin-top: 18px; font-size: 15px; }
+  .home-hero-content a { min-height: 48px; display: inline-flex; align-items: center; justify-content: center; }
+  .game-collection { margin-top: 2.5rem; padding-left: 14px; padding-right: 14px; }
+  .game-collection-rail { overflow-x: auto; overscroll-behavior-inline: contain; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; touch-action: pan-x pan-y; padding-bottom: 8px; }
+  .game-collection-rail > * { width: min(86vw, 350px); scroll-snap-align: start; }
+  .game-collection-rail article { min-height: 100%; }
+  .store-page button, .store-page a { -webkit-tap-highlight-color: transparent; }
+  .store-page .store-game-card { border-radius: 18px; }
+  .game-player-bar { height: calc(52px + env(safe-area-inset-top)); padding-top: env(safe-area-inset-top); }
+  .game-player-bar a, .game-player-bar button { min-height: 40px; }
+}
+@media (max-width: 360px) {
+  .site-nav-brand > span:last-child { font-size: 12px; letter-spacing: .05em; }
+  .site-nav-links a { padding-left: 7px; padding-right: 7px; }
+  .home-hero-title { font-size: clamp(2.35rem, 11.5vw, 3.2rem); }
+}
+@media (hover: none) and (pointer: coarse) {
+  .btn-shine::after, .spot::before { display: none; }
+  button, a { touch-action: manipulation; }
+}
+.jstick-mobile-action { display: none !important; }
+.jstick-desktop-action { display: inline-flex !important; }
+@media (max-width: 767px), (pointer: coarse) {
+  .jstick-mobile-action { display: inline-flex !important; }
+  .jstick-desktop-action { display: none !important; }
+}

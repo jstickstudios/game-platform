@@ -36,7 +36,7 @@ export default function GameCarousel({ children }: { children: React.ReactNode }
       </div>
       <div
         ref={railRef}
-        className="flex gap-5 overflow-x-hidden scroll-smooth"
+        className="game-collection-rail flex gap-5 overflow-x-hidden scroll-smooth"
         aria-label="Game collection"
       >
         {children}

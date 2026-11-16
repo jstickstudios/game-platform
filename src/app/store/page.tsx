@@ -17,7 +17,7 @@ export default async function Store({
   const sp = await searchParams;
 
   return (
-    <main className="min-h-screen overflow-hidden bg-ink text-white">
+    <main className="store-page min-h-screen overflow-hidden bg-ink text-white">
       <Nav />
       {sp.payment === "success" && (
         <div className="border-b border-emerald-400/20 bg-emerald-500/10 px-5 py-3 text-center text-sm font-semibold text-emerald-200">
@@ -33,7 +33,7 @@ export default async function Store({
       <Hero games={GAMES} />
       <Marquee />
 
-      <section id="games" className="mx-auto mt-12 w-full max-w-[1180px] scroll-mt-24 px-4 sm:px-6 lg:px-10">
+      <section id="games" className="game-collection mx-auto mt-12 w-full max-w-[1180px] scroll-mt-24 px-4 sm:px-6 lg:px-10">
         <Reveal>
           <div className="mb-5 flex items-center justify-between gap-3 border-b border-white/[0.08] pb-4">
             <div className="flex min-w-0 items-center gap-3">

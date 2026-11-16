@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
 
 type Props = {
   slug: string;
@@ -11,81 +10,72 @@ type Props = {
   username: string;
 };
 
-export default function GameActions({ slug, price, mode, downloadName, username }: Props) {
-  const [downloaded, setDownloaded] = useState(false);
-  const key = `downloaded-${username}-${slug}`;
-
-  useEffect(() => {
-    try {
-      if (localStorage.getItem(key) === "1") {
-        window.requestAnimationFrame(() => setDownloaded(true));
-      }
-    } catch {}
-  }, [key]);
-
-  function markDownloaded() {
-    setDownloaded(true);
-    try {
-      localStorage.setItem(key, "1");
-    } catch {}
-  }
-
-  const downloadNotice = (
-    <div className="min-h-[76px] rounded-xl border border-white/10 bg-white/[0.03] p-3.5 text-[13px] leading-relaxed text-white/65">
-      {downloaded ? (
-        <><b className="text-emerald-300">✓ Downloaded.</b> Open the HTML file in Chrome to play. You can download it again anytime.</>
-      ) : (
-        <>This game is <b className="text-white">download-only</b> on JStick Studios. Download the HTML file and open it in Chrome to play.</>
-      )}
-    </div>
+export default function GameActions({ slug, price, mode, downloadName }: Props) {
+  const mobilePlay = (
+    <Link
+      href={`/play/${slug}`}
+      className="jstick-mobile-action btn-primary inline-flex min-h-11 items-center justify-center gap-2 rounded-xl px-5 py-3 font-extrabold uppercase tracking-wider text-white"
+    >
+      <span aria-hidden="true">▶</span> Play now
+    </Link>
   );
+
+  const desktopDownload = (
+    <a
+      href={`/api/download/${slug}`}
+      download={downloadName}
+      className="jstick-desktop-action btn-primary inline-flex min-h-11 items-center justify-center rounded-xl px-5 py-3 text-sm font-extrabold uppercase tracking-wider text-white"
+    >
+      Download game
+    </a>
+  );
+
+  if (mode === "guest" && price === "FREE") {
+    return (
+      <div className="flex flex-wrap items-center gap-3">
+        {mobilePlay}
+        {desktopDownload}
+      </div>
+    );
+  }
 
   if (mode === "guest") {
     return (
-      <div className="space-y-4">
+      <div className="space-y-3">
         <div className="flex flex-wrap items-center gap-3">
           <Link
-            href={`/login?next=${encodeURIComponent("/api/download/" + slug)}`}
+            href={`/login?next=${encodeURIComponent("/play/" + slug)}`}
             className="btn-primary rounded-xl px-6 py-3 font-extrabold uppercase tracking-wider text-white"
           >
-            Log in to download
+            Log in to continue
           </Link>
-          <Link href={`/signup?next=${encodeURIComponent("/api/download/" + slug)}`} className="btn-ghost rounded-xl px-6 py-3 font-bold">
+          <Link href={`/signup?next=${encodeURIComponent("/play/" + slug)}`} className="btn-ghost rounded-xl px-4 py-3 font-bold">
             Create account
           </Link>
         </div>
-        {downloadNotice}
+        <p className="text-xs leading-relaxed text-white/50">This studio release needs an account and purchase before it can be played or downloaded.</p>
       </div>
     );
   }
 
   if (mode === "buyer" && price !== "FREE") {
     return (
-      <div className="space-y-4">
+      <div className="space-y-3">
         <Link
           href={`/checkout/${slug}`}
-          className="btn-primary inline-block rounded-xl px-7 py-3 font-extrabold uppercase tracking-wider text-white"
+          className="btn-primary inline-flex min-h-11 items-center rounded-xl px-7 py-3 font-extrabold uppercase tracking-wider text-white"
         >
-          Buy game · {price}
+          Unlock game · {price}
         </Link>
-        <div className="min-h-[76px] rounded-xl border border-yellow-400/30 bg-yellow-400/5 p-3.5 text-[13px] leading-relaxed text-yellow-100">
-          Purchase this game to unlock its download.
-        </div>
+        <p className="text-xs text-white/50">Purchase this game to unlock it.</p>
       </div>
     );
   }
 
   return (
-    <div className="space-y-4">
-      <a
-        href={`/api/download/${slug}`}
-        download={downloadName}
-        onClick={markDownloaded}
-        className="btn-primary inline-flex items-center gap-2 rounded-xl px-7 py-3 font-extrabold uppercase tracking-wider text-white"
-      >
-        {downloaded ? "Download again" : "Download game"}
-      </a>
-      {downloadNotice}
+    <div className="flex flex-wrap items-center gap-3">
+      {mobilePlay}
+      {desktopDownload}
     </div>
   );
 }

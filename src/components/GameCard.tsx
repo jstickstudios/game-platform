@@ -35,7 +35,8 @@ export default async function GameCard({ game }: { game: Game }) {
           {ratingLabel(game.rating)}
         </span>
         <span className="absolute right-3 top-3 rounded-md border border-white/15 bg-black/55 px-2.5 py-1 text-[8px] font-black uppercase tracking-[0.17em] text-white/75 backdrop-blur-xl">
-          {game.priceCents === 0 ? "Free download" : "Studio release"}
+          <span className="jstick-desktop-action">Free download</span>
+          <span className="jstick-mobile-action">Free to play</span>
         </span>
         <div className="absolute bottom-0 left-0 h-px w-full bg-gradient-to-r from-transparent via-brand-2/70 to-transparent" />
       </div>

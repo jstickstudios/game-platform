@@ -39,17 +39,17 @@ export default function IntroScreen() {
   return (
     <section
       aria-label="Welcome to JStick Studios"
-      className="relative isolate flex min-h-[calc(100svh-65px)] overflow-hidden border-b border-white/5 bg-black"
+      className="home-hero relative isolate flex min-h-[calc(100svh-65px)] overflow-hidden border-b border-white/5 bg-black"
     >
       <AnimatedBackground />
 
-      <div className="relative z-10 mx-auto flex w-full max-w-[1400px] flex-1 flex-col items-center justify-center px-6 py-20 text-center sm:px-10">
+      <div className="home-hero-content relative z-10 mx-auto flex w-full max-w-[1400px] flex-1 flex-col items-center justify-center px-6 py-20 text-center sm:px-10">
         <p className="mb-6 text-xs font-semibold uppercase tracking-[0.5em] text-blue-400 sm:text-sm">
           Enter the universe
         </p>
 
         <h1
-          className="max-w-5xl text-5xl font-black uppercase leading-[0.95] tracking-tight text-white sm:text-6xl md:text-8xl"
+          className="home-hero-title max-w-5xl text-5xl font-black uppercase leading-[0.95] tracking-tight text-white sm:text-6xl md:text-8xl"
           style={{ textShadow: "0 0 40px rgba(0,0,0,0.8), 0 2px 0 rgba(0,0,0,0.6)" }}
         >
           JStick Studios

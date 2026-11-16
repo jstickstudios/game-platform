@@ -13,10 +13,15 @@ export async function GET(
   const game = getGame(slug);
   if (!game) return Response.json({ error: "Game not found." }, { status: 404 });
 
-  const user = await getUser();
-  if (!user) return Response.json({ error: "Log in to download." }, { status: 401 });
-  if (game.priceCents !== 0 && !(await hasAccess(user, slug)))
-    return Response.json({ error: "Buy this game to download it." }, { status: 403 });
+  // Free releases can be downloaded without an account. Paid games still require
+  // a signed-in user with confirmed ownership.
+  if (game.priceCents !== 0) {
+    const user = await getUser();
+    if (!user) return Response.json({ error: "Log in to download." }, { status: 401 });
+    if (!(await hasAccess(user, slug))) {
+      return Response.json({ error: "Buy this game to download it." }, { status: 403 });
+    }
+  }
 
   const file = path.join(process.cwd(), "private", game.file);
   const data = await readFile(file);
@@ -25,6 +30,7 @@ export async function GET(
       "Content-Type": "text/html; charset=utf-8",
       "Content-Disposition": `attachment; filename="${game.downloadName}"`,
       "Cache-Control": "no-store",
+      "X-Content-Type-Options": "nosniff",
     },
   });
 }
