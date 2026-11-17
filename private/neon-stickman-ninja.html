@@ -20,5 +20,5 @@ Error generating stack: `+n.message+`
   </head>
   <body>
     <div id="root"></div>
-  <script type="module">if(location.protocol!=="file:"){import("/jstick-online.js?game=neon-stickman-ninja").catch(()=>{})}</script></body>
+  <script type="module">if(location.protocol!=="file:"){import("/jstick-online.js?game=neon-stickman-ninja").catch(()=>{})}</script><script id="jstick-auto-fullscreen">(()=>{const enter=()=>{if(document.fullscreenElement)return;const root=document.documentElement;if(root.requestFullscreen){try{const result=root.requestFullscreen();if(result&&typeof result.catch==="function")result.catch(()=>{});}catch(_){}}};if(document.readyState==="complete")enter();else window.addEventListener("load",enter,{once:true});window.addEventListener("pointerdown",enter,{once:true,capture:true});})();</script></body>
 </html>
