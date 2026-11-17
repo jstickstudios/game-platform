@@ -53,6 +53,19 @@ export const GAMES: Game[] = [
     gory: false,
     rating: "A",
   },
+  {
+    slug: "stickman-rush-racing",
+    title: "Stickman Rush: Ultimate Racing Championship",
+    tagline: "Race across Formula circuits, superbike tracks, rally roads, boats and more. Build your garage and compete in multiple racing events.",
+    image: "stickman-rush-racing-poster.jpg",
+    imageAspect: "landscape",
+    priceCents: 0,
+    currency: "eur",
+    file: "stickman-rush-racing.html",
+    downloadName: "Stickman-Rush-Racing.html",
+    gory: false,
+    rating: "A",
+  },
 ];
 export const getGame = (slug: string) => GAMES.find((g) => g.slug === slug);
 
