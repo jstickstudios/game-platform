@@ -112,7 +112,7 @@ export default function Hero({ games }: { games: Game[] }) {
 
             {current && (
               <div key={current.slug + "-spotlight"} className="group/spotlight relative flex min-h-0 flex-1 flex-col overflow-hidden rounded-2xl border border-brand-2/35 bg-[#0b1220] shadow-[0_18px_55px_rgba(0,0,0,.32)] animate-[fade-in_.55s_ease_both]">
-                <a href={`/play/${current.slug}`} className="relative block min-h-[210px] flex-1 overflow-hidden bg-black/50" aria-label={`Play ${current.title}`}>
+                <a href={`/games/${current.slug}`} className="relative block min-h-[210px] flex-1 overflow-hidden bg-black/50" aria-label={`Play ${current.title}`}>
                   <Image src={`/images/${current.image}`} alt={`${current.title} artwork`} fill sizes="(min-width:1024px) 300px, 100vw" className="object-cover transition-transform duration-700 group-hover/spotlight:scale-105" />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#080d17] via-transparent to-black/10" />
                   <span className="absolute left-3 top-3 rounded-full border border-white/20 bg-black/45 px-3 py-1 text-[9px] font-black uppercase tracking-[0.18em] text-white/80 backdrop-blur">Now featuring</span>

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import type { Game } from "@/lib/games";
 import GameActions from "@/components/GameActions";
 import { hasAccess, getUser } from "@/lib/auth";
@@ -48,7 +49,7 @@ export default async function GameCard({ game }: { game: Game }) {
               <Stickman pose="run" className="h-4 w-3" stroke={10} />
               JStick original
             </div>
-            <h3 className="text-base font-black leading-tight tracking-tight text-white">{game.title}</h3>
+            <h3 className="text-base font-black leading-tight tracking-tight text-white"><Link href={`/games/${game.slug}`} className="transition hover:text-brand-2">{game.title}</Link></h3>
           </div>
           <span className="shrink-0 rounded-lg border border-white/10 bg-white/[0.045] px-2.5 py-1.5 text-xs font-black text-white">
             {formatPrice(game.priceCents)}

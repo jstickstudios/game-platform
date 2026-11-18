@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Nav from "@/components/Nav";
 import Hero from "@/components/Hero";
 import GameCard from "@/components/GameCard";
@@ -8,6 +9,12 @@ import { Marquee, Promo, Features, HowItWorks, Footer } from "@/components/Secti
 import { GAMES, formatPrice } from "@/lib/games";
 
 export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  title: "Game Store",
+  description: "Browse and discover original games from JStick Studios.",
+  alternates: { canonical: "/store" },
+};
 
 export default async function Store({
   searchParams,

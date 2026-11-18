@@ -855,29 +855,3 @@ body {
 @media (max-width: 767px) {
   .game-player-bar .player-fullscreen { display: none !important; }
 }
-
-/* JStick Studios is desktop-only: replace the entire mobile experience with a clear notice. */
-@media (max-width: 767px), (hover: none) and (pointer: coarse) {
-  html, body { min-width: 100%; min-height: 100%; overflow: hidden !important; background: #07090f !important; }
-  body > * { visibility: hidden !important; }
-  body::before {
-    content: "JSTICK STUDIOS\\A\\A DESKTOP ONLY\\A\\A Please visit JStickStudios.com on a desktop or laptop to explore the website and play our games.";
-    white-space: pre-line;
-    visibility: visible;
-    position: fixed;
-    inset: 0;
-    z-index: 2147483647;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 32px;
-    text-align: center;
-    color: #fff;
-    background: radial-gradient(ellipse at 50% 35%, rgba(0,120,242,.2), transparent 55%), #07090f;
-    font-family: var(--font-display);
-    font-size: clamp(18px, 5vw, 28px);
-    line-height: 1.8;
-    font-weight: 800;
-    letter-spacing: .04em;
-  }
-}
