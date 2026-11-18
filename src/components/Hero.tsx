@@ -5,7 +5,6 @@ import Image from "next/image";
 import type { Game } from "@/lib/games";
 import { formatPrice } from "@/lib/games";
 import { cn } from "@/utils/cn";
-import Stickman from "./Stickman";
 
 export default function Hero({ games }: { games: Game[] }) {
   const [active, setActive] = useState(0);
@@ -14,9 +13,16 @@ export default function Hero({ games }: { games: Game[] }) {
 
   useEffect(() => {
     if (paused || games.length < 2) return;
-    const id = setInterval(() => setActive((value) => (value + 1) % games.length), 7000);
-    return () => clearInterval(id);
+    const id = window.setInterval(
+      () => setActive((value) => (value + 1) % games.length),
+      5000,
+    );
+    return () => window.clearInterval(id);
   }, [paused, games.length]);
+
+  const move = (direction: -1 | 1) => {
+    setActive((value) => (value + direction + games.length) % games.length);
+  };
 
   return (
     <section id="discover" className="relative isolate scroll-mt-20 overflow-hidden pt-10 sm:pt-14">
@@ -87,33 +93,53 @@ export default function Hero({ games }: { games: Game[] }) {
                   ))}
                 </div>
                 <div className="pointer-events-none absolute bottom-5 right-6 hidden text-[10px] font-bold uppercase tracking-[0.25em] text-white/35 sm:block">
-                  0{active + 1} <span className="text-white/20">/</span> 0{games.length}
+                  {String(active + 1).padStart(2, "0")} <span className="text-white/20">/</span> {String(games.length).padStart(2, "0")}
                 </div>
               </>
             )}
           </div>
 
-          <aside className="flex flex-col gap-3">
+          <aside
+            className="flex min-h-[420px] flex-col gap-3 lg:min-h-0"
+            onMouseEnter={() => setPaused(true)}
+            onMouseLeave={() => setPaused(false)}
+            aria-label="Automatically rotating featured games"
+          >
             <div className="flex items-center justify-between px-1 pb-1">
               <span className="text-[10px] font-black uppercase tracking-[0.25em] text-white/45">In the spotlight</span>
               <span className="text-[10px] font-bold text-brand-2">{games.length} TITLES</span>
             </div>
-            {games.map((game, index) => (
-              <button key={game.slug} onClick={() => setActive(index)} aria-pressed={index === active}
-                className={cn("group/item relative flex min-h-[112px] flex-1 items-center gap-4 overflow-hidden rounded-2xl border p-3 text-left transition-all duration-300",
-                  index === active ? "border-brand-2/55 bg-brand/15 shadow-[0_12px_35px_rgba(0,120,242,.16)]" : "border-white/[0.08] bg-white/[0.035] hover:border-white/20 hover:bg-white/[0.07]")}>
-                <span className="relative h-[82px] w-[68px] shrink-0 overflow-hidden rounded-xl bg-black/50">
-                  <Image src={`/images/${game.image}`} alt="" fill sizes="68px" className="object-cover object-center transition-transform duration-500 group-hover/item:scale-110" />
-                </span>
-                <span className="min-w-0 flex-1">
-                  <span className="block text-[10px] font-bold uppercase tracking-[0.18em] text-brand-2">{index === active ? "Now featured" : "Discover"}</span>
-                  <span className="mt-1 block text-sm font-extrabold leading-snug text-white">{game.title}</span>
-                  <span className="mt-2 block text-xs font-bold text-white/45">{formatPrice(game.priceCents)}</span>
-                </span>
-                <span className="pr-2 text-lg text-white/25 transition-all group-hover/item:translate-x-1 group-hover/item:text-brand-2">→</span>
-              </button>
-            ))}
-            <div className="mt-auto rounded-2xl border border-white/[0.08] bg-gradient-to-br from-white/[0.06] to-transparent p-5">
+
+            {current && (
+              <div key={current.slug + "-spotlight"} className="group/spotlight relative flex min-h-0 flex-1 flex-col overflow-hidden rounded-2xl border border-brand-2/35 bg-[#0b1220] shadow-[0_18px_55px_rgba(0,0,0,.32)] animate-[fade-in_.55s_ease_both]">
+                <a href={`/play/${current.slug}`} className="relative block min-h-[210px] flex-1 overflow-hidden bg-black/50" aria-label={`Play ${current.title}`}>
+                  <Image src={`/images/${current.image}`} alt={`${current.title} artwork`} fill sizes="(min-width:1024px) 300px, 100vw" className="object-cover transition-transform duration-700 group-hover/spotlight:scale-105" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#080d17] via-transparent to-black/10" />
+                  <span className="absolute left-3 top-3 rounded-full border border-white/20 bg-black/45 px-3 py-1 text-[9px] font-black uppercase tracking-[0.18em] text-white/80 backdrop-blur">Now featuring</span>
+                  <span className="absolute bottom-3 right-3 rounded-full border border-white/20 bg-black/55 px-3 py-1 text-[10px] font-bold text-white backdrop-blur">{formatPrice(current.priceCents)}</span>
+                </a>
+
+                <div className="p-4">
+                  <p className="text-[9px] font-black uppercase tracking-[0.2em] text-brand-2">Featured game</p>
+                  <h2 className="mt-2 text-lg font-black leading-tight text-white">{current.title}</h2>
+                  <p className="mt-2 line-clamp-3 text-xs leading-relaxed text-white/50">{current.tagline}</p>
+                  <a href={`/play/${current.slug}`} className="mt-4 flex h-10 items-center justify-center gap-2 rounded-xl border border-brand-2/35 bg-brand/15 text-[10px] font-black uppercase tracking-[0.16em] text-white transition hover:bg-brand/25">
+                    Play this game <span aria-hidden="true">→</span>
+                  </a>
+                </div>
+              </div>
+            )}
+
+            <div className="flex items-center justify-between rounded-xl border border-white/[0.08] bg-white/[0.035] p-3">
+              <span className="text-[9px] font-bold uppercase tracking-[0.15em] text-white/40">Auto-next · every 5 sec</span>
+              <div className="flex items-center gap-2">
+                <span className="mr-1 text-[10px] font-bold tabular-nums text-white/50">{String(active + 1).padStart(2, "0")} / {String(games.length).padStart(2, "0")}</span>
+                <button type="button" onClick={() => move(-1)} aria-label="Previous featured game" className="grid h-8 w-8 place-items-center rounded-lg border border-white/15 bg-white/[0.05] text-white transition hover:border-brand-2/60 hover:bg-brand/20">←</button>
+                <button type="button" onClick={() => move(1)} aria-label="Next featured game" className="grid h-8 w-8 place-items-center rounded-lg border border-white/15 bg-white/[0.05] text-white transition hover:border-brand-2/60 hover:bg-brand/20">→</button>
+              </div>
+            </div>
+
+            <div className="rounded-2xl border border-white/[0.08] bg-gradient-to-br from-white/[0.06] to-transparent p-4">
               <div className="flex items-center gap-3">
                 <span className="grid h-10 w-10 place-items-center rounded-xl bg-brand/20 text-xl">⚡</span>
                 <div>
