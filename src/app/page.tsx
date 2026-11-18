@@ -5,6 +5,7 @@ import Hero from "@/components/Hero";
 import Reveal from "@/components/Reveal";
 import Stickman from "@/components/Stickman";
 import { Features, Footer, Marquee, Promo } from "@/components/Sections";
+import StudioDashboard from "@/components/StudioDashboard";
 import { GAMES } from "@/lib/games";
 import Link from "next/link";
 
@@ -20,6 +21,7 @@ export default function Home() {
       <Nav />
       <Hero games={GAMES} />
       <Marquee />
+      <StudioDashboard />
 
       <section
         id="games"

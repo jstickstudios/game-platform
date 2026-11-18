@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
 import "./globals.css";
+import SiteEffects from "@/components/SiteEffects";
 
 const siteUrl = "https://jstickstudios.com";
 
@@ -86,6 +87,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <body className="min-h-screen antialiased">
+        <SiteEffects />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organization) }}
