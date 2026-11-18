@@ -124,7 +124,7 @@ export default function Hero({ games }: { games: Game[] }) {
                   <h2 className="mt-2 text-lg font-black leading-tight text-white">{current.title}</h2>
                   <p className="mt-2 line-clamp-3 text-xs leading-relaxed text-white/50">{current.tagline}</p>
                   <a href={`/api/download/${current.slug}`} className="mt-4 flex h-10 items-center justify-center gap-2 rounded-xl border border-brand-2/35 bg-brand/15 text-[10px] font-black uppercase tracking-[0.16em] text-white transition hover:bg-brand/25">
-                    Play this game <span aria-hidden="true">→</span>
+                    Download this game <span aria-hidden="true">→</span>
                   </a>
                 </div>
               </div>
