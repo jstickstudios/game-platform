@@ -66,6 +66,19 @@ export const GAMES: Game[] = [
     gory: false,
     rating: "A",
   },
+  {
+    slug: "stickman-archer",
+    title: "Stickman Archer – Defend the Line",
+    tagline: "Take aim, master your shots and defend the line in this stickman archery challenge.",
+    image: "stickman-archer-poster.jpg",
+    imageAspect: "landscape",
+    priceCents: 0,
+    currency: "eur",
+    file: "stickman-archer.html",
+    downloadName: "Stickman-Archer.html",
+    gory: false,
+    rating: "A",
+  },
 ];
 export const getGame = (slug: string) => GAMES.find((g) => g.slug === slug);
 
